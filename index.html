@@ -26,9 +26,12 @@ body{font-family:'Geist',sans-serif;background:var(--bg);color:var(--t1);-webkit
 
 /* ── layout ── */
 #app{height:100%;display:flex;flex-direction:column;padding-top:var(--safe-t)}
-.view{display:none;flex:1;flex-direction:column;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;align-items:center}
+#view-wrap{flex:1;display:flex;overflow:hidden;position:relative}
+.view{position:absolute;inset:0;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;align-items:center;transform:translateX(100%);transition:transform 0.32s cubic-bezier(0.4,0,0.2,1);will-change:transform;pointer-events:none}
 .view::-webkit-scrollbar{display:none}
-.view.active{display:flex}
+.view.active{transform:translateX(0);pointer-events:auto}
+.view.slide-left{transform:translateX(-30%)}
+.view.slide-right{transform:translateX(100%)}
 .page{width:100%;max-width:480px;padding:0 var(--pad) 28px;display:flex;flex-direction:column;gap:12px}
 
 /* ── nav ── */
@@ -216,9 +219,11 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 </head>
 <body>
 <div id="app">
-  <div id="view-home" class="view"></div>
-  <div id="view-calendar" class="view"></div>
-  <div id="view-settings" class="view"></div>
+  <div id="view-wrap">
+    <div id="view-home" class="view"></div>
+    <div id="view-calendar" class="view"></div>
+    <div id="view-settings" class="view"></div>
+  </div>
   <nav id="nav">
     <button class="nav-btn active" data-view="home" onclick="switchView('home')">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 9.5L10 3l7 6.5V17a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M7.5 18V12.5h5V18" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
@@ -669,18 +674,42 @@ function svgBin(color, size) {
 // ─────────────────────────────────────────────────────────
 // VIEWS
 // ─────────────────────────────────────────────────────────
-function switchView(v) {
+var TABS = ['home','calendar','settings'];
+
+function switchView(v, noHistory) {
+  var fromIdx = TABS.indexOf(currentView);
+  var toIdx   = TABS.indexOf(v);
+  var goingRight = toIdx > fromIdx;
   var prev = currentView;
   currentView = v;
-  document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active');});
+
   document.querySelectorAll('.nav-btn').forEach(function(el){el.classList.remove('active');});
-  document.getElementById('view-'+v).classList.add('active');
   document.querySelector('.nav-btn[data-view="'+v+'"]').classList.add('active');
+
+  // render the incoming view offscreen first
   if (v==='home') renderHome();
   if (v==='calendar') renderCalendar();
   if (v==='settings') renderSettings();
-  // push a history entry for non-home views so the Android back button works
-  if (v !== 'home') {
+
+  var views = document.querySelectorAll('.view');
+  views.forEach(function(el){
+    el.classList.remove('active','slide-left','slide-right');
+    if (el.id === 'view-'+v) {
+      // start offscreen in the direction we're coming from
+      el.style.transition = 'none';
+      el.classList.add(goingRight ? 'slide-right' : 'slide-left');
+      // force reflow then animate in
+      el.getBoundingClientRect();
+      el.style.transition = '';
+      el.classList.remove('slide-right','slide-left');
+      el.classList.add('active');
+    } else if (el.id === 'view-'+prev) {
+      // slide the old view out in the opposite direction
+      el.classList.add(goingRight ? 'slide-left' : 'slide-right');
+    }
+  });
+
+  if (!noHistory && v !== 'home') {
     history.pushState({ view: v }, '', '');
   }
 }
@@ -690,18 +719,11 @@ window.addEventListener('popstate', function(e) {
   var modals = document.querySelectorAll('.modal-overlay:not(.hidden)');
   if (modals.length) {
     modals.forEach(function(m){ m.classList.add('hidden'); });
-    // push another entry so the next back still goes home
     if (currentView !== 'home') history.pushState({ view: currentView }, '', '');
     return;
   }
-  // otherwise go home (no pushState — we're consuming the entry)
   if (currentView !== 'home') {
-    currentView = 'home';
-    document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active');});
-    document.querySelectorAll('.nav-btn').forEach(function(el){el.classList.remove('active');});
-    document.getElementById('view-home').classList.add('active');
-    document.querySelector('.nav-btn[data-view="home"]').classList.add('active');
-    renderHome();
+    switchView('home', true);
   }
 });
 
@@ -1106,11 +1128,52 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').ca
 // seed a base history entry so back from home exits the app naturally
 history.replaceState({ view: 'home' }, '', '');
 
+// ── swipe to change tab ──
+(function() {
+  var startX = 0, startY = 0, startTime = 0;
+  var SWIPE_MIN = 48;   // min horizontal px
+  var SWIPE_MAX_Y = 80; // max vertical drift
+  var SWIPE_MAX_T = 400; // max ms
+
+  document.getElementById('view-wrap').addEventListener('touchstart', function(e) {
+    // don't intercept if inside a scrollable element that has scrolled content
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    startTime = Date.now();
+  }, { passive: true });
+
+  document.getElementById('view-wrap').addEventListener('touchend', function(e) {
+    // ignore if a modal is open
+    if (document.querySelector('.modal-overlay:not(.hidden)')) return;
+
+    var dx = e.changedTouches[0].clientX - startX;
+    var dy = e.changedTouches[0].clientY - startY;
+    var dt = Date.now() - startTime;
+
+    if (dt > SWIPE_MAX_T) return;
+    if (Math.abs(dx) < SWIPE_MIN) return;
+    if (Math.abs(dy) > SWIPE_MAX_Y) return;
+    if (Math.abs(dy) > Math.abs(dx) * 0.8) return; // mostly vertical
+
+    var idx = TABS.indexOf(currentView);
+    if (dx < 0 && idx < TABS.length - 1) {
+      // swipe left → next tab
+      switchView(TABS[idx + 1]);
+    } else if (dx > 0 && idx > 0) {
+      // swipe right → previous tab
+      switchView(TABS[idx - 1]);
+    }
+  }, { passive: true });
+})();
+
 if (!config.setupDone) {
   initOnboarding();
 } else {
   document.getElementById('onboarding').classList.add('hidden');
-  switchView('home');
+  // set home active immediately with no slide animation
+  document.getElementById('view-home').classList.add('active');
+  document.querySelector('.nav-btn[data-view="home"]').classList.add('active');
+  renderHome();
 }
 </script>
 </body>
