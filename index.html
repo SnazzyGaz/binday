@@ -26,11 +26,12 @@ body{font-family:'Geist',sans-serif;background:var(--bg);color:var(--t1);-webkit
 
 /* ── layout ── */
 #app{height:100%;display:flex;flex-direction:column;padding-top:var(--safe-t)}
-#view-wrap{flex:1;display:flex;overflow:hidden;position:relative}
-.view{position:absolute;inset:0;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;align-items:center;transform:translateX(100%);transition:transform 0.32s cubic-bezier(0.4,0,0.2,1);will-change:transform;pointer-events:none}
+#view-wrap{flex:1;display:flex;overflow:hidden;position:relative;background:var(--bg)}
+.view{position:absolute;inset:0;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;align-items:center;background:var(--bg);transform:translateX(100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);will-change:transform;pointer-events:none;visibility:hidden}
 .view::-webkit-scrollbar{display:none}
-.view.active{transform:translateX(0);pointer-events:auto}
-.view.slide-left{transform:translateX(-30%)}
+.view.active{transform:translateX(0);pointer-events:auto;visibility:visible}
+.view.sliding{visibility:visible}
+.view.slide-left{transform:translateX(-28%)}
 .view.slide-right{transform:translateX(100%)}
 .page{width:100%;max-width:480px;padding:0 var(--pad) 28px;display:flex;flex-direction:column;gap:12px}
 
@@ -677,37 +678,54 @@ function svgBin(color, size) {
 var TABS = ['home','calendar','settings'];
 
 function switchView(v, noHistory) {
+  if (v === currentView) return;
   var fromIdx = TABS.indexOf(currentView);
   var toIdx   = TABS.indexOf(v);
   var goingRight = toIdx > fromIdx;
-  var prev = currentView;
+  var prevView = currentView;
   currentView = v;
 
   document.querySelectorAll('.nav-btn').forEach(function(el){el.classList.remove('active');});
   document.querySelector('.nav-btn[data-view="'+v+'"]').classList.add('active');
 
-  // render the incoming view offscreen first
+  // render incoming view before it animates in
   if (v==='home') renderHome();
   if (v==='calendar') renderCalendar();
   if (v==='settings') renderSettings();
 
-  var views = document.querySelectorAll('.view');
-  views.forEach(function(el){
-    el.classList.remove('active','slide-left','slide-right');
-    if (el.id === 'view-'+v) {
-      // start offscreen in the direction we're coming from
-      el.style.transition = 'none';
-      el.classList.add(goingRight ? 'slide-right' : 'slide-left');
-      // force reflow then animate in
-      el.getBoundingClientRect();
-      el.style.transition = '';
-      el.classList.remove('slide-right','slide-left');
-      el.classList.add('active');
-    } else if (el.id === 'view-'+prev) {
-      // slide the old view out in the opposite direction
-      el.classList.add(goingRight ? 'slide-left' : 'slide-right');
-    }
-  });
+  var inEl  = document.getElementById('view-'+v);
+  var outEl = document.getElementById('view-'+prevView);
+
+  // mark both as sliding so visibility:visible applies during transition
+  inEl.classList.add('sliding');
+  outEl.classList.add('sliding');
+
+  // position incoming view offscreen (no transition yet)
+  inEl.classList.remove('active','slide-left','slide-right');
+  inEl.style.transition = 'none';
+  inEl.classList.add(goingRight ? 'slide-right' : 'slide-left');
+
+  // force reflow
+  inEl.getBoundingClientRect();
+
+  // animate both
+  inEl.style.transition = '';
+  inEl.classList.remove('slide-right','slide-left');
+  inEl.classList.add('active');
+
+  outEl.classList.remove('active');
+  outEl.classList.add(goingRight ? 'slide-left' : 'slide-right');
+
+  // after transition ends, clean up the outgoing view
+  var done = false;
+  function cleanup() {
+    if (done) return; done = true;
+    outEl.classList.remove('sliding','slide-left','slide-right');
+    inEl.classList.remove('sliding');
+  }
+  inEl.addEventListener('transitionend', cleanup, { once: true });
+  // fallback in case transitionend doesn't fire
+  setTimeout(cleanup, 400);
 
   if (!noHistory && v !== 'home') {
     history.pushState({ view: v }, '', '');
