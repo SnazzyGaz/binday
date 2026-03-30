@@ -670,6 +670,7 @@ function svgBin(color, size) {
 // VIEWS
 // ─────────────────────────────────────────────────────────
 function switchView(v) {
+  var prev = currentView;
   currentView = v;
   document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active');});
   document.querySelectorAll('.nav-btn').forEach(function(el){el.classList.remove('active');});
@@ -678,7 +679,31 @@ function switchView(v) {
   if (v==='home') renderHome();
   if (v==='calendar') renderCalendar();
   if (v==='settings') renderSettings();
+  // push a history entry for non-home views so the Android back button works
+  if (v !== 'home') {
+    history.pushState({ view: v }, '', '');
+  }
 }
+
+window.addEventListener('popstate', function(e) {
+  // any modal open? close it first
+  var modals = document.querySelectorAll('.modal-overlay:not(.hidden)');
+  if (modals.length) {
+    modals.forEach(function(m){ m.classList.add('hidden'); });
+    // push another entry so the next back still goes home
+    if (currentView !== 'home') history.pushState({ view: currentView }, '', '');
+    return;
+  }
+  // otherwise go home (no pushState — we're consuming the entry)
+  if (currentView !== 'home') {
+    currentView = 'home';
+    document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active');});
+    document.querySelectorAll('.nav-btn').forEach(function(el){el.classList.remove('active');});
+    document.getElementById('view-home').classList.add('active');
+    document.querySelector('.nav-btn[data-view="home"]').classList.add('active');
+    renderHome();
+  }
+});
 
 function renderHome() {
   var el = document.getElementById('view-home');
@@ -851,6 +876,17 @@ function renderSettings() {
     '</div>'+
     '<div class="s-section-title" style="margin-top:24px;">Data</div>'+
     '<div class="s-card"><div class="s-row" onclick="resetApp()"><span class="s-row-label" style="color:#f87171">Reset all data</span><span class="s-row-chevron">›</span></div></div>'+
+    '<div class="s-section-title" style="margin-top:24px;">About</div>'+
+    '<div class="s-card">'+
+      '<div class="s-row" style="cursor:default;"><span class="s-row-label">Bin Day</span><span class="s-row-value">v1.0</span></div>'+
+      '<div class="s-row" onclick="window.open(\'https://instagram.com/snazzygaz\',\'_blank\')" style="cursor:pointer;">'+
+        '<span class="s-row-label">Made by snazzygaz</span>'+
+        '<span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2);">'+
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>'+
+          '@snazzygaz'+
+        '</span>'+
+      '</div>'+
+    '</div>'+
   '</div>';
 }
 
@@ -1066,6 +1102,9 @@ function resetApp(){
 // INIT
 // ─────────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(function(){});
+
+// seed a base history entry so back from home exits the app naturally
+history.replaceState({ view: 'home' }, '', '');
 
 if (!config.setupDone) {
   initOnboarding();
