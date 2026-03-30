@@ -24,17 +24,6 @@ Built for UK households with alternating or multi-bin collection schedules. Work
 
 ---
 
-## Getting Started
-
-### Install on your phone
-
-1. Host the three files on any web server (see [Hosting](#hosting) below)
-2. Open the URL in **Chrome** (Android) or **Safari** (iPhone/iPad)
-3. **Android:** tap the three-dot menu → *Add to Home screen*
-4. **iPhone:** tap the Share button → *Add to Home Screen*
-
-The app will install with its own icon and open full-screen with no browser chrome.
-
 ### First-time setup
 
 The app walks you through a short onboarding flow:
@@ -80,68 +69,6 @@ Week 1: Tuesday → General waste, Friday → Recycling
 ```
 
 Once your programme is set, pick any **Monday** that was the start of Week 1 — check a past council letter, bin calendar, or just look at a recent Tuesday and count back. The app handles everything from there.
-
----
-
-## File Structure
-
-```
-binday/
-├── index.html      # The entire app — all HTML, CSS and JS in one file
-├── manifest.json   # PWA manifest — name, icons, theme colour
-└── sw.js           # Service worker — offline caching
-```
-
-All three files must be in the same directory.
-
----
-
-## Hosting
-
-The simplest free option is **GitHub Pages**:
-
-1. Fork or clone this repo
-2. Go to **Settings → Pages**
-3. Set source to *Deploy from branch* → `main` → `/ (root)`
-4. Your app will be live at `https://yourusername.github.io/binday/`
-
-Other options that work fine: Netlify, Vercel, Cloudflare Pages, or any basic web host.
-
-> **Note:** The app must be served over **HTTPS** for the service worker (offline support) and home screen install to work. GitHub Pages, Netlify, and Vercel all provide HTTPS automatically.
-
----
-
-## Updating the App
-
-If you make changes and redeploy, users who have already installed the app will get the update automatically the next time they open it with an internet connection. The service worker handles cache invalidation — just bump the `CACHE` version in `sw.js` if you want to force an immediate refresh.
-
----
-
-## Browser Support
-
-| Platform | Browser | Install to home screen |
-|---|---|---|
-| Android | Chrome | ✅ |
-| iOS 16.4+ | Safari | ✅ |
-| iOS | Chrome | ✅ (via share sheet) |
-| Desktop | Chrome / Edge | ✅ |
-| Desktop | Firefox | ⚠️ No install, app works fine |
-| Desktop | Safari | ✅ macOS Sonoma+ |
-
----
-
-## Tech Stack
-
-No frameworks, no build tools, no dependencies.
-
-- Vanilla HTML, CSS and JavaScript — a single `index.html`
-- [Geist](https://vercel.com/font) — typeface by Vercel, loaded from Google Fonts
-- Web Storage API (`localStorage`) for config persistence
-- Service Worker API for offline caching
-- History API for back button / swipe navigation
-- CSS `transform` + `transition` for tab slide animations
-
----
 
 ## Customisation
 
