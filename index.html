@@ -677,7 +677,7 @@ function svgBin(color, size) {
 // ─────────────────────────────────────────────────────────
 var TABS = ['home','calendar','settings'];
 
-function switchView(v, noHistory) {
+function switchView(v, noHistory, fromSwipe) {
   if (v === currentView) return;
   var fromIdx = TABS.indexOf(currentView);
   var toIdx   = TABS.indexOf(v);
@@ -724,11 +724,19 @@ function switchView(v, noHistory) {
     inEl.classList.remove('sliding');
   }
   inEl.addEventListener('transitionend', cleanup, { once: true });
-  // fallback in case transitionend doesn't fire
   setTimeout(cleanup, 400);
 
-  if (!noHistory && v !== 'home') {
-    history.pushState({ view: v }, '', '');
+  if (!noHistory) {
+    if (v === 'home') {
+      // always replace back to home so stack stays at 1 deep
+      history.replaceState({ view: 'home' }, '', '');
+    } else if (fromSwipe) {
+      // swipe: push one entry so Android back goes home
+      history.pushState({ view: v }, '', '');
+    } else {
+      // tab tap: replace so clicking tabs never stacks history
+      history.replaceState({ view: v }, '', '');
+    }
   }
 }
 
@@ -1176,10 +1184,10 @@ history.replaceState({ view: 'home' }, '', '');
     var idx = TABS.indexOf(currentView);
     if (dx < 0 && idx < TABS.length - 1) {
       // swipe left → next tab
-      switchView(TABS[idx + 1]);
+      switchView(TABS[idx + 1], false, true);
     } else if (dx > 0 && idx > 0) {
       // swipe right → previous tab
-      switchView(TABS[idx - 1]);
+      switchView(TABS[idx - 1], false, true);
     }
   }, { passive: true });
 })();
