@@ -1,0 +1,22 @@
+{
+  "name": "Bin Day",
+  "short_name": "Bin Day",
+  "description": "Never forget which bin to put out",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#080a0f",
+  "theme_color": "#080a0f",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='40' fill='%23080a0f'/><rect x='72' y='28' width='48' height='10' rx='5' fill='%2322c55e'/><rect x='59' y='42' width='74' height='9' rx='4' fill='%2316a34a'/><rect x='63' y='54' width='66' height='88' rx='8' fill='%2316a34a'/><line x1='85' y1='70' x2='85' y2='126' stroke='%23104d26' stroke-width='5' stroke-linecap='round'/><line x1='107' y1='70' x2='107' y2='126' stroke='%23104d26' stroke-width='5' stroke-linecap='round'/><circle cx='80' cy='147' r='9' fill='%23104d26'/><circle cx='112' cy='147' r='9' fill='%23104d26'/></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='110' fill='%23080a0f'/><rect x='192' y='74' width='128' height='27' rx='13' fill='%2322c55e'/><rect x='157' y='111' width='198' height='24' rx='11' fill='%2316a34a'/><rect x='168' y='146' width='176' height='234' rx='20' fill='%2316a34a'/><line x1='226' y1='186' x2='226' y2='336' stroke='%23104d26' stroke-width='14' stroke-linecap='round'/><line x1='286' y1='186' x2='286' y2='336' stroke='%23104d26' stroke-width='14' stroke-linecap='round'/><circle cx='212' cy='395' r='24' fill='%23104d26'/><circle cx='300' cy='395' r='24' fill='%23104d26'/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

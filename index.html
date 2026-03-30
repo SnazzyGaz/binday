@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#080a0f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Bin Day">
+<title>Bin Day</title>
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080a0f;--s1:#0d1018;--s2:#131620;--s3:#191d2b;
+  --b1:rgba(255,255,255,0.05);--b2:rgba(255,255,255,0.09);--b3:rgba(255,255,255,0.18);
+  --t1:#eef0f8;--t2:#7a7f96;--t3:#3d4157;
+  --r:18px;--r-sm:11px;--r-xs:8px;
+  --pad:20px;
+  --safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px)
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Geist',sans-serif;background:var(--bg);color:var(--t1);-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+
+/* ── layout ── */
+#app{height:100%;display:flex;flex-direction:column;padding-top:var(--safe-t)}
+.view{display:none;flex:1;flex-direction:column;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;align-items:center}
+.view::-webkit-scrollbar{display:none}
+.view.active{display:flex}
+.page{width:100%;max-width:480px;padding:0 var(--pad) 28px;display:flex;flex-direction:column;gap:12px}
+
+/* ── nav ── */
+#nav{display:flex;background:var(--s1);border-top:1px solid var(--b1);padding:10px 0;flex-shrink:0;padding-bottom:max(10px,calc(var(--safe-b) + 2px))}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;cursor:pointer;color:var(--t3);font-family:'Geist',sans-serif;font-size:10px;letter-spacing:0.4px;padding:2px 0;transition:color 0.2s}
+.nav-btn svg{opacity:0.35;transition:opacity 0.2s}
+.nav-btn.active{color:var(--t1)}
+.nav-btn.active svg{opacity:1}
+
+/* ── onboarding ── */
+#onboarding{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;overflow-y:auto}
+#onboarding.hidden{display:none}
+.ob-inner{width:100%;max-width:480px;padding:calc(var(--safe-t)+44px) var(--pad) calc(var(--safe-b)+28px);display:flex;flex-direction:column;flex:1;min-height:100%}
+.ob-step{display:none;flex-direction:column;flex:1}
+.ob-step.active{display:flex}
+.ob-title{font-size:28px;font-weight:500;line-height:1.2;margin-bottom:10px;letter-spacing:-0.5px}
+.ob-sub{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:32px}
+.ob-progress{display:flex;gap:5px;margin-bottom:48px}
+.ob-dot{height:2px;border-radius:1px;flex:1;background:var(--b2);transition:background 0.3s}
+.ob-dot.done{background:var(--t3)}
+.ob-dot.current{background:var(--t1)}
+.ob-back{display:inline-flex;align-items:center;gap:5px;background:none;border:none;color:var(--t3);font-family:'Geist',sans-serif;font-size:13px;cursor:pointer;padding:0;transition:color 0.15s;justify-content:center;width:100%}
+.ob-back:active{color:var(--t1)}
+.ob-buttons{display:flex;flex-direction:column;gap:10px;margin-top:auto;padding-top:24px}
+
+/* ── inputs ── */
+.field{margin-bottom:18px}
+.field label{display:block;font-size:11px;color:var(--t3);margin-bottom:8px;letter-spacing:0.7px;text-transform:uppercase;font-weight:500}
+input[type=text],input[type=date],select,input[type=time]{
+  width:100%;padding:14px 16px;background:var(--s2);border:1px solid var(--b2);
+  border-radius:var(--r-sm);color:var(--t1);font-family:'Geist',sans-serif;font-size:15px;
+  outline:none;transition:border-color 0.15s;appearance:none;-webkit-appearance:none}
+input:focus,select:focus{border-color:var(--b3)}
+input[type=date]::-webkit-calendar-picker-indicator{filter:invert(1);opacity:0.25}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%233d4157' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
+
+/* ── buttons ── */
+.btn-primary{display:block;width:100%;padding:16px;background:var(--t1);color:var(--bg);border:none;border-radius:var(--r-sm);font-family:'Geist',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:opacity 0.15s,transform 0.1s;letter-spacing:-0.1px}
+.btn-primary:active{opacity:0.8;transform:scale(0.99)}
+.btn-secondary{display:inline-flex;align-items:center;gap:6px;padding:11px 16px;background:transparent;border:1px solid var(--b2);border-radius:var(--r-sm);color:var(--t2);font-family:'Geist',sans-serif;font-size:13px;cursor:pointer;transition:border-color 0.15s,color 0.15s}
+.btn-secondary:active{border-color:var(--b3);color:var(--t1)}
+
+/* ── bin option grid ── */
+.bin-option-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.bin-option{padding:16px 10px;border-radius:var(--r-sm);border:1px solid var(--b2);background:var(--s2);cursor:pointer;text-align:center;transition:border-color 0.15s,background 0.15s;display:flex;flex-direction:column;align-items:center;gap:6px}
+.bin-option.selected{border-color:var(--b3);background:var(--s3)}
+.bin-option .bin-name{font-size:12px;font-weight:500}
+.bin-option .bin-desc{font-size:11px;color:var(--t3)}
+
+/* ── home ── */
+.home-header{padding:24px 0 4px;display:flex;justify-content:space-between;align-items:flex-end}
+.home-header h1{font-size:22px;font-weight:500;letter-spacing:-0.4px}
+.home-header .date-chip{font-size:11px;color:var(--t3);font-family:'Geist Mono',monospace}
+
+/* hero — tall centred card */
+.hero-card{
+  border-radius:var(--r);padding:32px 24px 28px;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  position:relative;overflow:hidden;
+  animation:fadeUp 0.4s cubic-bezier(0.16,1,0.3,1) both
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero-urgency{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;opacity:0.6;margin-bottom:20px}
+.hero-bin-centre{margin-bottom:20px;filter:drop-shadow(0 12px 32px rgba(0,0,0,0.5))}
+.hero-name{font-size:28px;font-weight:500;letter-spacing:-0.6px;line-height:1.1;margin-bottom:5px}
+.hero-label-text{font-size:14px;opacity:0.5;margin-bottom:6px}
+.hero-date-text{font-size:12px;font-family:'Geist Mono',monospace;opacity:0.4}
+.hero-extras{display:flex;gap:7px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.hero-extra-chip{font-size:11px;padding:4px 12px;border-radius:20px;font-weight:500}
+
+/* stats */
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat-card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r-sm);padding:18px 18px 16px;text-align:center}
+.stat-label{font-size:10px;color:var(--t3);letter-spacing:0.6px;text-transform:uppercase;margin-bottom:8px;font-weight:500}
+.stat-value{font-size:26px;font-weight:500;font-family:'Geist Mono',monospace;letter-spacing:-0.8px;line-height:1}
+.stat-unit{font-size:11px;color:var(--t2);margin-top:4px}
+.stat-value-sm{font-size:14px;font-weight:500;margin-top:6px;line-height:1.3}
+
+/* bh banner */
+.bh-banner{display:flex;align-items:center;gap:8px;padding:12px 16px;background:rgba(234,179,8,0.06);border:1px solid rgba(234,179,8,0.15);border-radius:var(--r-sm);font-size:12px;color:#fbbf24}
+
+/* upcoming */
+.section-label{font-size:10px;color:var(--t3);letter-spacing:0.8px;text-transform:uppercase;padding:2px 2px 10px;font-weight:500}
+.upcoming-list{display:flex;flex-direction:column;gap:1px;background:var(--b1);border-radius:var(--r);overflow:hidden;border:1px solid var(--b1)}
+.upcoming-item{display:flex;align-items:center;gap:14px;padding:15px 16px;background:var(--s1);transition:background 0.1s}
+.upcoming-dots{display:flex;gap:4px;flex-shrink:0}
+.upcoming-dot{width:9px;height:9px;border-radius:50%}
+.upcoming-name{font-size:14px;flex:1;font-weight:400}
+.upcoming-date{font-size:11px;color:var(--t2);font-family:'Geist Mono',monospace}
+.upcoming-pill{font-size:10px;color:var(--t3);background:var(--s3);padding:3px 9px;border-radius:20px;white-space:nowrap}
+
+/* notif row */
+.notif-row{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r-sm)}
+.notif-label{font-size:13px;color:var(--t2)}
+.toggle{width:40px;height:23px;border-radius:12px;background:var(--s3);border:1px solid var(--b2);cursor:pointer;position:relative;transition:background 0.2s,border-color 0.2s;flex-shrink:0}
+.toggle.on{background:#22c55e;border-color:#16a34a}
+.toggle::after{content:'';position:absolute;width:17px;height:17px;border-radius:50%;background:var(--t1);top:2px;left:2px;transition:transform 0.18s;box-shadow:0 1px 4px rgba(0,0,0,0.4)}
+.toggle.on::after{transform:translateX(17px)}
+
+/* ── calendar ── */
+.cal-header-row{padding:24px 0 18px;display:flex;justify-content:space-between;align-items:center}
+.cal-header-row h2{font-size:20px;font-weight:500;letter-spacing:-0.3px}
+.cal-nav-btns{display:flex;gap:7px}
+.cal-nav-btn{width:32px;height:32px;border-radius:var(--r-xs);background:transparent;border:1px solid var(--b2);color:var(--t2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color 0.15s;font-family:inherit}
+.cal-nav-btn:active{border-color:var(--b3);color:var(--t1)}
+.cal-days-row{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:4px}
+.cal-day-lbl{text-align:center;font-size:10px;color:var(--t3);padding:4px 0;font-family:'Geist Mono',monospace;font-weight:500;letter-spacing:0.3px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-cell{aspect-ratio:1;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;color:var(--t2);position:relative;cursor:pointer;font-family:'Geist Mono',monospace;transition:background 0.1s}
+.cal-cell.other-month{color:var(--t3)}
+.cal-cell.today{background:var(--s2);color:var(--t1);font-weight:600}
+.cal-cell.bin-day{color:var(--t1)}
+.cal-cell .cal-dots{display:flex;gap:2px;position:absolute;bottom:4px}
+.cal-cell .cal-dot{width:4px;height:4px;border-radius:50%}
+.cal-cell.nudged .cal-date-num{opacity:0.3}
+.cal-cell .nudge-mark{font-size:8px;color:#fbbf24;position:absolute;top:2px;right:3px}
+.cal-legend{display:flex;flex-wrap:wrap;gap:12px;padding:16px 2px 6px}
+.cal-legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2)}
+.cal-legend-swatch{width:11px;height:11px;border-radius:3px}
+.cal-detail{margin-top:10px;padding:16px 18px;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r-sm);display:none}
+.cal-detail.visible{display:block}
+.cal-detail-date{font-size:11px;color:var(--t2);margin-bottom:10px;font-family:'Geist Mono',monospace}
+.cal-detail-row{display:flex;align-items:center;gap:12px;padding:5px 0}
+.cal-detail-name{font-size:14px;font-weight:500}
+
+/* ── settings ── */
+.settings-header{padding:24px 0 20px}
+.settings-header h2{font-size:22px;font-weight:500;letter-spacing:-0.4px}
+.settings-header p{font-size:13px;color:var(--t2);margin-top:5px}
+.s-section{display:flex;flex-direction:column;gap:0}
+.s-section-title{font-size:10px;color:var(--t3);letter-spacing:0.8px;text-transform:uppercase;padding:0 2px 9px;font-weight:500}
+.s-card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);overflow:hidden;margin-bottom:24px}
+.s-row{display:flex;justify-content:space-between;align-items:center;padding:15px 18px;border-bottom:1px solid var(--b1);cursor:pointer}
+.s-row:last-child{border-bottom:none}
+.s-row-label{font-size:14px}
+.s-row-value{font-size:12px;color:var(--t2);font-family:'Geist Mono',monospace;text-align:right;max-width:55%;word-break:break-word}
+.s-row-chevron{color:var(--t3);font-size:13px;margin-left:6px}
+.bin-type-list{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.bin-type-item{display:flex;align-items:center;gap:13px;padding:13px 15px;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r-sm)}
+.bin-type-color{width:26px;height:26px;border-radius:50%;flex-shrink:0}
+.bin-type-info{flex:1;min-width:0}
+.bin-type-name{font-size:14px;font-weight:500}
+.bin-type-sublabel{font-size:11px;color:var(--t3);margin-top:2px}
+.bin-type-actions{display:flex;gap:6px}
+.icon-btn{width:30px;height:30px;border-radius:8px;background:transparent;border:1px solid var(--b2);color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:border-color 0.15s}
+.icon-btn:active{border-color:var(--b3);color:var(--t1)}
+.icon-btn.del:active{border-color:rgba(220,50,50,0.4);color:#f87171}
+.nudge-list{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}
+.nudge-item{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r-sm);font-size:12px}
+.nudge-dates{color:var(--t2);font-family:'Geist Mono',monospace}
+
+/* ── week programme editor ── */
+.prog-cycle-info{font-size:13px;color:var(--t2);margin-bottom:16px;line-height:1.65}
+.week-block{background:var(--s2);border:1px solid var(--b2);border-radius:var(--r-sm);margin-bottom:10px;overflow:hidden}
+.week-block-header{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid var(--b2)}
+.week-block-title{font-size:12px;font-weight:600;color:var(--t1);letter-spacing:0.3px;text-transform:uppercase}
+.week-slot{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--b1)}
+.week-slot:last-child{border-bottom:none}
+.week-slot-day{font-size:11px;color:var(--t3);width:28px;flex-shrink:0;font-family:'Geist Mono',monospace}
+.week-slot select{flex:1;padding:7px 10px;font-size:12px;margin:0}
+.week-slot .icon-btn{flex-shrink:0}
+.add-day-btn{display:flex;align-items:center;gap:6px;padding:10px 14px;font-size:12px;color:var(--t3);cursor:pointer;background:none;border:none;font-family:'Geist',sans-serif;width:100%;transition:color 0.15s}
+.add-day-btn:active{color:var(--t2)}
+.prog-week-actions{display:flex;gap:8px;margin-top:10px}
+
+/* ── modal ── */
+.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.65);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center}
+.modal-overlay.hidden{display:none}
+.modal-sheet{background:var(--s1);border-radius:20px 20px 0 0;border-top:1px solid var(--b2);padding:22px var(--pad) calc(28px + var(--safe-b));width:100%;max-width:500px;animation:sheetUp 0.3s cubic-bezier(0.16,1,0.3,1) both;max-height:90vh;overflow-y:auto}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.sheet-handle{width:36px;height:4px;border-radius:2px;background:var(--b3);margin:0 auto 22px}
+.modal-title{font-size:18px;font-weight:500;margin-bottom:6px;letter-spacing:-0.3px}
+.modal-sub{font-size:13px;color:var(--t2);margin-bottom:20px;line-height:1.65}
+.modal-actions{display:flex;gap:10px;margin-top:20px}
+.modal-actions .btn-primary{margin-top:0}
+.color-grid{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 16px}
+.color-swatch{width:34px;height:34px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform 0.12s,border-color 0.12s}
+.color-swatch:active{transform:scale(0.88)}
+.color-swatch.selected{border-color:rgba(255,255,255,0.85)}
+
+.empty-state{padding:64px 24px;text-align:center;color:var(--t3);font-size:14px;line-height:1.8;width:100%}
+#toast{position:fixed;bottom:calc(76px + var(--safe-b));left:50%;transform:translateX(-50%) translateY(14px);background:var(--t1);color:var(--bg);padding:10px 20px;border-radius:22px;font-size:12px;font-weight:500;opacity:0;transition:opacity 0.2s,transform 0.2s;pointer-events:none;z-index:300;white-space:nowrap;box-shadow:0 4px 24px rgba(0,0,0,0.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="view-home" class="view"></div>
+  <div id="view-calendar" class="view"></div>
+  <div id="view-settings" class="view"></div>
+  <nav id="nav">
+    <button class="nav-btn active" data-view="home" onclick="switchView('home')">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 9.5L10 3l7 6.5V17a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M7.5 18V12.5h5V18" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      Home
+    </button>
+    <button class="nav-btn" data-view="calendar" onclick="switchView('calendar')">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2.5" y="4" width="15" height="13" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 2.5v3M13.5 2.5v3M2.5 8h15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      Calendar
+    </button>
+    <button class="nav-btn" data-view="settings" onclick="switchView('settings')">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="2.2" stroke="currentColor" stroke-width="1.4"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.6 4.6l1.4 1.4M14 14l1.4 1.4M4.6 15.4l1.4-1.4M14 6l1.4-1.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      Settings
+    </button>
+  </nav>
+</div>
+
+<!-- ONBOARDING -->
+<div id="onboarding">
+  <div class="ob-inner">
+  <div class="ob-progress" id="ob-progress"></div>
+  <div id="ob-step-0" class="ob-step active">
+    <div class="ob-title">Welcome to<br>Bin Day</div>
+    <div class="ob-sub">Never miss a collection. Takes about a minute to set up.</div>
+    <div class="field">
+      <label>Your area or street</label>
+      <input type="text" id="ob-area" placeholder="e.g. Woodsetts" maxlength="40">
+    </div>
+    <div class="ob-buttons"><button class="btn-primary" onclick="obNext()">Continue</button></div>
+  </div>
+
+  <div id="ob-step-1" class="ob-step">
+    <div class="ob-title">Bin types</div>
+    <div class="ob-sub">Add each bin your council collects. You can change these any time.</div>
+    <div id="ob-bin-list" class="bin-type-list"></div>
+    <button class="btn-secondary" onclick="openAddBinModal(null,true)" style="margin-bottom:18px;width:100%;justify-content:center;">+ Add bin type</button>
+    <div class="ob-buttons">
+      <button class="btn-primary" onclick="obNext()">Continue</button>
+      <button class="ob-back" onclick="obBack()">← Back</button>
+    </div>
+  </div>
+
+  <div id="ob-step-2" class="ob-step">
+    <div class="ob-title">Your schedule</div>
+    <div class="ob-sub">Define your collection programme. Each week in the cycle can have different days and bins.</div>
+    <div id="ob-programme-editor"></div>
+    <div class="ob-buttons">
+      <button class="btn-primary" onclick="obNext()">Continue</button>
+      <button class="ob-back" onclick="obBack()">← Back</button>
+    </div>
+  </div>
+
+  <div id="ob-step-3" class="ob-step">
+    <div class="ob-title">Anchor date</div>
+    <div class="ob-sub" id="ob-step3-sub">Pick a date you know was Week 1 of your cycle.</div>
+    <div class="field">
+      <label id="ob-anchor-date-label">Week 1 start date (any Monday)</label>
+      <input type="date" id="ob-anchor-date">
+    </div>
+    <div class="ob-buttons">
+      <button class="btn-primary" onclick="obNext()">Continue</button>
+      <button class="ob-back" onclick="obBack()">← Back</button>
+    </div>
+  </div>
+
+  <div id="ob-step-4" class="ob-step">
+    <div class="ob-title">Reminders</div>
+    <div class="ob-sub">Optional — get nudged the night before so you never forget.</div>
+    <div class="field">
+      <label>Evening reminder (night before)</label>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <div class="toggle" id="ob-notif-toggle" onclick="this.classList.toggle('on')"></div>
+        <input type="time" id="ob-notif-time" value="18:00" style="width:auto;flex:1;">
+      </div>
+    </div>
+    <div class="field">
+      <label>Morning reminder (day of collection)</label>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <div class="toggle" id="ob-notif-morning" onclick="this.classList.toggle('on')"></div>
+        <input type="time" id="ob-notif-morning-time" value="07:00" style="width:auto;flex:1;">
+      </div>
+    </div>
+    <div class="ob-buttons">
+      <button class="btn-primary" onclick="obFinish()">Done</button>
+      <button class="ob-back" onclick="obBack()">← Back</button>
+    </div>
+  </div>
+  </div><!-- /ob-inner -->
+</div>
+
+<!-- MODAL: Add/Edit Bin -->
+<div class="modal-overlay hidden" id="modal-bin">
+  <div class="modal-sheet">
+    <div class="sheet-handle"></div>
+    <div class="modal-title" id="modal-bin-title">Add bin type</div>
+    <div class="field"><label>Name</label><input type="text" id="modal-bin-name" placeholder="e.g. General waste" maxlength="30"></div>
+    <div class="field"><label>Short label</label><input type="text" id="modal-bin-label" placeholder="e.g. Green bin" maxlength="20"></div>
+    <div class="field"><label>Colour</label><div class="color-grid" id="modal-color-grid"></div></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" style="flex:1;" onclick="closeBinModal()">Cancel</button>
+      <button class="btn-primary" style="flex:2;margin-top:0;" onclick="saveBinModal()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Bank Holiday Override -->
+<div class="modal-overlay hidden" id="modal-nudge">
+  <div class="modal-sheet">
+    <div class="sheet-handle"></div>
+    <div class="modal-title">Bank holiday override</div>
+    <div class="modal-sub">Move a collection date when the council shifts it for a bank holiday.</div>
+    <div class="field"><label>Original date</label><input type="date" id="nudge-original"></div>
+    <div class="field"><label>Actual collection date</label><input type="date" id="nudge-actual"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" style="flex:1;" onclick="closeNudgeModal()">Cancel</button>
+      <button class="btn-primary" style="flex:2;margin-top:0;" onclick="saveNudge()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Schedule / Programme -->
+<div class="modal-overlay hidden" id="modal-schedule">
+  <div class="modal-sheet">
+    <div class="sheet-handle"></div>
+    <div class="modal-title">Collection programme</div>
+    <div class="modal-sub">Define each week in your cycle. The pattern repeats automatically.</div>
+    <div id="modal-programme-editor"></div>
+    <div class="field" style="margin-top:16px;">
+      <label>Anchor — week 1 starts on</label>
+      <input type="date" id="sched-anchor-date">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" style="flex:1;" onclick="closeScheduleModal()">Cancel</button>
+      <button class="btn-primary" style="flex:2;margin-top:0;" onclick="saveSchedule()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ─────────────────────────────────────────────────────────
+// COLOURS & DEFAULTS
+// ─────────────────────────────────────────────────────────
+var COLORS = [
+  '#22c55e','#16a34a','#3b82f6','#1d4ed8','#f59e0b','#ef4444',
+  '#8b5cf6','#ec4899','#06b6d4','#f97316','#64748b','#84cc16',
+  '#6b3a1f','#2d2d2d'
+];
+
+var DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+var DAY_NAMES_LONG = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+// schedule.programme = array of week objects:
+//   { slots: [ {day: 2, binId: 'general'}, {day: 5, binId: 'garden'} ] }
+// schedule.anchorMonday = ISO date string of the Monday that starts week index 0
+
+var DEFAULT_CONFIG = {
+  area: '',
+  binTypes: [
+    { id: 'general',   name: 'General waste', label: 'Green bin',  color: '#22c55e' },
+    { id: 'recycling', name: 'Recycling',      label: 'Blue bin',   color: '#3b82f6' }
+  ],
+  schedule: {
+    programme: [
+      { slots: [{ day: 2, binId: 'general'   }] },
+      { slots: [{ day: 2, binId: 'recycling' }] }
+    ],
+    anchorMonday: null
+  },
+  notifications: { evening: false, eveningTime: '18:00', morning: false, morningTime: '07:00' },
+  nudges: [],
+  setupDone: false
+};
+
+var config = loadConfig();
+var currentView = 'home';
+var calendarDate = new Date();
+var modalBinEditId = null;
+var modalBinIsOb = false;
+var selectedModalColor = COLORS[0];
+var obStep = 0;
+var OB_TOTAL = 5;
+
+function loadConfig() {
+  try {
+    var s = localStorage.getItem('binday-config');
+    if (s) {
+      var parsed = JSON.parse(s);
+      // backwards compat: old single-day schedule format
+      if (parsed.schedule && !parsed.schedule.programme) {
+        parsed.schedule.programme = DEFAULT_CONFIG.schedule.programme;
+        parsed.schedule.anchorMonday = parsed.schedule.anchorDate || null;
+      }
+      return Object.assign({}, DEFAULT_CONFIG, parsed);
+    }
+  } catch(e) {}
+  return JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+}
+
+function saveConfig() {
+  localStorage.setItem('binday-config', JSON.stringify(config));
+}
+
+// ─────────────────────────────────────────────────────────
+// SCHEDULE ENGINE
+// ─────────────────────────────────────────────────────────
+
+// Returns the Monday (week start) for a given date
+function getMondayOf(d) {
+  var day = d.getDay(); // 0=Sun
+  var diff = (day === 0) ? -6 : 1 - day;
+  var m = new Date(d);
+  m.setDate(d.getDate() + diff);
+  m.setHours(0,0,0,0);
+  return m;
+}
+
+// Given a date, return which week index (0-based, repeating) it falls in
+function getWeekIndex(d) {
+  var prog = config.schedule.programme;
+  if (!prog || !prog.length || !config.schedule.anchorMonday) return 0;
+  var anchor = new Date(config.schedule.anchorMonday + 'T00:00:00');
+  var monday = getMondayOf(d);
+  var weeksSinceAnchor = Math.round((monday - anchor) / (7 * 86400000));
+  var idx = ((weeksSinceAnchor % prog.length) + prog.length) % prog.length;
+  return idx;
+}
+
+// Get all collections on a given date (can be multiple bins same day)
+function getCollectionsOnDate(d) {
+  var prog = config.schedule.programme;
+  if (!prog || !prog.length || !config.schedule.anchorMonday) return [];
+  var iso = fmtISO(d);
+  var nudgeAsActual = config.nudges.find(function(n) { return n.actual === iso; });
+  var checkDate = nudgeAsActual ? new Date(nudgeAsActual.original + 'T00:00:00') : d;
+  var weekIdx = getWeekIndex(checkDate);
+  var week = prog[weekIdx];
+  if (!week) return [];
+  var dow = checkDate.getDay();
+  return week.slots
+    .filter(function(s) { return s.day === dow; })
+    .map(function(s) { return config.binTypes.find(function(b) { return b.id === s.binId; }); })
+    .filter(Boolean);
+}
+
+// Generate next N collection events from a date, in order
+function getNextCollections(count, fromDate) {
+  count = count || 10;
+  fromDate = fromDate || new Date();
+  var prog = config.schedule.programme;
+  if (!prog || !prog.length || !config.schedule.anchorMonday) return [];
+
+  var results = [];
+  var d = new Date(fromDate); d.setHours(0,0,0,0);
+  var maxDays = 366 * 3; // safety limit
+
+  for (var i = 0; i < maxDays && results.length < count; i++) {
+    var candidate = new Date(d); candidate.setDate(d.getDate() + i);
+    var bins = getCollectionsOnDate(candidate);
+    var iso = fmtISO(candidate);
+    var nudge = config.nudges.find(function(n) { return n.original === iso; });
+    if (bins.length > 0) {
+      var actualDate = nudge ? new Date(nudge.actual + 'T00:00:00') : candidate;
+      bins.forEach(function(bin) {
+        results.push({ date: actualDate, originalDate: candidate, bin: bin, isNudged: !!nudge });
+      });
+    }
+  }
+  // sort by actual date
+  results.sort(function(a,b) { return a.date - b.date; });
+  return results.slice(0, count);
+}
+
+// ─────────────────────────────────────────────────────────
+// PROGRAMME EDITOR
+// ─────────────────────────────────────────────────────────
+function renderProgrammeEditor(containerId, programme) {
+  var container = document.getElementById(containerId);
+  if (!container) return;
+  var prog = programme || config.schedule.programme;
+  var html = '';
+
+  html += '<div class="prog-cycle-info">Your cycle repeats every <strong>' + prog.length + ' week' + (prog.length > 1 ? 's' : '') + '</strong>. Each week can have collections on any day(s) with any bin(s).</div>';
+
+  prog.forEach(function(week, wi) {
+    html += '<div class="week-block" id="week-block-' + wi + '">';
+    html += '<div class="week-block-header"><span class="week-block-title">Week ' + (wi+1) + '</span>';
+    if (prog.length > 1) {
+      html += '<button class="icon-btn del" onclick="removeWeek(' + wi + ',\'' + containerId + '\')">✕</button>';
+    }
+    html += '</div>';
+    week.slots.forEach(function(slot, si) {
+      html += '<div class="week-slot">';
+      html += '<span class="week-slot-day">' + (DAY_NAMES[slot.day] || '?') + '</span>';
+      html += buildDaySelect(slot.day, 'slot-day-' + wi + '-' + si, 'onSlotChange(\'' + containerId + '\',' + wi + ',' + si + ',\'day\',this.value)');
+      html += buildBinSelect(slot.binId, 'slot-bin-' + wi + '-' + si, 'onSlotChange(\'' + containerId + '\',' + wi + ',' + si + ',\'bin\',this.value)');
+      html += '<button class="icon-btn del" onclick="removeSlot(\'' + containerId + '\',' + wi + ',' + si + ')">✕</button>';
+      html += '</div>';
+    });
+    html += '<button class="add-day-btn" onclick="addSlot(\'' + containerId + '\',' + wi + ')">+ Add collection day</button>';
+    html += '</div>';
+  });
+
+  html += '<div class="prog-week-actions">';
+  html += '<button class="btn-secondary" onclick="addWeek(\'' + containerId + '\')" style="flex:1;justify-content:center;">+ Add week to cycle</button>';
+  html += '</div>';
+
+  container.innerHTML = html;
+  // store the working programme on the container element
+  container._prog = JSON.parse(JSON.stringify(prog));
+}
+
+function buildDaySelect(selectedDay, id, onchange) {
+  var html = '<select id="' + id + '" onchange="' + onchange + '">';
+  [1,2,3,4,5].forEach(function(d) {
+    html += '<option value="' + d + '"' + (d === selectedDay ? ' selected' : '') + '>' + DAY_NAMES_LONG[d] + '</option>';
+  });
+  html += '</select>';
+  return html;
+}
+
+function buildBinSelect(selectedBinId, id, onchange) {
+  var html = '<select id="' + id + '" onchange="' + onchange + '">';
+  config.binTypes.forEach(function(b) {
+    html += '<option value="' + b.id + '"' + (b.id === selectedBinId ? ' selected' : '') + '>' + b.name + '</option>';
+  });
+  html += '</select>';
+  return html;
+}
+
+function getProg(containerId) {
+  var c = document.getElementById(containerId);
+  return c && c._prog ? c._prog : JSON.parse(JSON.stringify(config.schedule.programme));
+}
+
+function onSlotChange(containerId, wi, si, field, val) {
+  var prog = getProg(containerId);
+  if (field === 'day') prog[wi].slots[si].day = parseInt(val);
+  if (field === 'bin') prog[wi].slots[si].binId = val;
+  document.getElementById(containerId)._prog = prog;
+  // update the day label span
+  var span = document.querySelector('#week-block-' + wi + ' .week-slot:nth-child(' + (si+2) + ') .week-slot-day');
+  if (span && field === 'day') span.textContent = DAY_NAMES[parseInt(val)] || '';
+}
+
+function addSlot(containerId, wi) {
+  var prog = getProg(containerId);
+  var defaultBin = config.binTypes[0] ? config.binTypes[0].id : '';
+  prog[wi].slots.push({ day: 2, binId: defaultBin });
+  document.getElementById(containerId)._prog = prog;
+  renderProgrammeEditor(containerId, prog);
+}
+
+function removeSlot(containerId, wi, si) {
+  var prog = getProg(containerId);
+  if (prog[wi].slots.length <= 1) { showToast("Each week needs at least one collection"); return; }
+  prog[wi].slots.splice(si, 1);
+  document.getElementById(containerId)._prog = prog;
+  renderProgrammeEditor(containerId, prog);
+}
+
+function addWeek(containerId) {
+  var prog = getProg(containerId);
+  var defaultBin = config.binTypes[0] ? config.binTypes[0].id : '';
+  prog.push({ slots: [{ day: 2, binId: defaultBin }] });
+  document.getElementById(containerId)._prog = prog;
+  renderProgrammeEditor(containerId, prog);
+}
+
+function removeWeek(wi, containerId) {
+  var prog = getProg(containerId);
+  if (prog.length <= 1) { showToast("Need at least one week in the cycle"); return; }
+  prog.splice(wi, 1);
+  document.getElementById(containerId)._prog = prog;
+  renderProgrammeEditor(containerId, prog);
+}
+
+// ─────────────────────────────────────────────────────────
+// UTILS
+// ─────────────────────────────────────────────────────────
+function fmtISO(d) {
+  return d.getFullYear() + '-' +
+    String(d.getMonth()+1).padStart(2,'0') + '-' +
+    String(d.getDate()).padStart(2,'0');
+}
+
+function fmtDisplay(d) {
+  return d.toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' });
+}
+
+function fmtLong(d) {
+  return d.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+}
+
+function daysUntil(d) {
+  var today = new Date(); today.setHours(0,0,0,0);
+  var target = new Date(d); target.setHours(0,0,0,0);
+  return Math.round((target - today) / 86400000);
+}
+
+function colorBg(hex, a) {
+  var r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+  return 'rgba('+r+','+g+','+b+','+a+')';
+}
+
+function darkenHex(hex, amt) {
+  var r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+  r=Math.max(0,Math.round(r*(1-amt))); g=Math.max(0,Math.round(g*(1-amt))); b=Math.max(0,Math.round(b*(1-amt)));
+  return '#'+[r,g,b].map(function(x){return x.toString(16).padStart(2,'0');}).join('');
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');}, 2200);
+}
+
+function programmeSummary() {
+  var prog = config.schedule.programme;
+  if (!prog || !prog.length) return 'Not set';
+  if (prog.length === 1) {
+    return prog[0].slots.map(function(s) {
+      var b = config.binTypes.find(function(x){return x.id===s.binId;});
+      return DAY_NAMES[s.day] + (b ? ' · ' + b.name : '');
+    }).join(', ');
+  }
+  return prog.length + '-week cycle';
+}
+
+function svgBin(color, size) {
+  size = size || 72;
+  var dark = darkenHex(color, 0.28);
+  var bw=size*0.64, bh=size*0.58, bx=(size-bw)/2, by=size*0.3;
+  var lw=bw+5, lh=size*0.1, lx=bx-2.5, ly=size*0.18;
+  var hw=bw*0.32, hh=size*0.05, hx=bx+(bw-hw)/2, hy=ly-hh-2;
+  var wr=size*0.07, wy=by+bh+wr*0.3, wx1=bx+bw*0.2, wx2=bx+bw*0.8;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'" fill="none">'+
+    '<rect x="'+hx+'" y="'+hy+'" width="'+hw+'" height="'+hh+'" rx="2" fill="'+dark+'"/>'+
+    '<rect x="'+lx+'" y="'+ly+'" width="'+lw+'" height="'+lh+'" rx="3" fill="'+dark+'"/>'+
+    '<rect x="'+bx+'" y="'+by+'" width="'+bw+'" height="'+bh+'" rx="4" fill="'+color+'"/>'+
+    '<line x1="'+(bx+bw*0.32)+'" y1="'+(by+bh*0.18)+'" x2="'+(bx+bw*0.32)+'" y2="'+(by+bh*0.82)+'" stroke="'+dark+'" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>'+
+    '<line x1="'+(bx+bw*0.58)+'" y1="'+(by+bh*0.18)+'" x2="'+(bx+bw*0.58)+'" y2="'+(by+bh*0.82)+'" stroke="'+dark+'" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>'+
+    '<circle cx="'+wx1+'" cy="'+wy+'" r="'+wr+'" fill="'+dark+'"/>'+
+    '<circle cx="'+wx2+'" cy="'+wy+'" r="'+wr+'" fill="'+dark+'"/>'+
+    '</svg>';
+}
+
+// ─────────────────────────────────────────────────────────
+// VIEWS
+// ─────────────────────────────────────────────────────────
+function switchView(v) {
+  currentView = v;
+  document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active');});
+  document.querySelectorAll('.nav-btn').forEach(function(el){el.classList.remove('active');});
+  document.getElementById('view-'+v).classList.add('active');
+  document.querySelector('.nav-btn[data-view="'+v+'"]').classList.add('active');
+  if (v==='home') renderHome();
+  if (v==='calendar') renderCalendar();
+  if (v==='settings') renderSettings();
+}
+
+function renderHome() {
+  var el = document.getElementById('view-home');
+  var today = new Date(); today.setHours(0,0,0,0);
+  var upcoming = getNextCollections(8, today);
+  var next = upcoming[0];
+
+  if (!config.setupDone || !next) {
+    el.innerHTML = '<div class="empty-state">Set up your schedule in<br>Settings to get started.</div>';
+    return;
+  }
+
+  var du = daysUntil(next.date);
+  var urgency = du===0 ? 'Today' : du===1 ? 'Tomorrow' : 'In '+du+' days';
+  var bg = colorBg(next.bin.color, 0.12);
+  var border = colorBg(next.bin.color, 0.22);
+  var bhBanner = next.isNudged ? '<div class="bh-banner"><svg width="13" height="13" viewBox="0 0 13 13" fill="#fbbf24"><path d="M6.5 1L8 5h4.5L9 7.5 10.5 12 6.5 9.5 2.5 12 4 7.5.5 5H5z"/></svg>Collection moved — bank holiday</div>' : '';
+
+  var sameDay = upcoming.filter(function(c){ return fmtISO(c.date)===fmtISO(next.date); });
+  var extraBins = sameDay.length > 1
+    ? '<div class="hero-extras">' + sameDay.slice(1).map(function(c){
+        return '<span class="hero-extra-chip" style="background:'+colorBg(c.bin.color,0.18)+';color:'+c.bin.color+'">+'+c.bin.name+'</span>';
+      }).join('') + '</div>'
+    : '';
+
+  var afterNext = upcoming.filter(function(c){ return fmtISO(c.date) !== fmtISO(next.date); });
+  var grouped = [];
+  afterNext.forEach(function(c) {
+    var ex = grouped.find(function(g){ return fmtISO(g.date)===fmtISO(c.date); });
+    if (ex) { ex.bins.push(c.bin); } else { grouped.push({ date: c.date, bins: [c.bin], isNudged: c.isNudged }); }
+  });
+
+  var upcomingRows = grouped.slice(0,4).map(function(g) {
+    var du2 = daysUntil(g.date);
+    var pill = du2 <= 7 ? '<span class="upcoming-pill">This week</span>' : '';
+    var dots = g.bins.map(function(b){ return '<div class="upcoming-dot" style="background:'+b.color+'"></div>'; }).join('');
+    var names = g.bins.map(function(b){ return b.name; }).join(' + ');
+    return '<div class="upcoming-item"><div class="upcoming-dots">'+dots+'</div><span class="upcoming-name">'+names+'</span><span class="upcoming-date">'+fmtDisplay(g.date)+'</span>'+pill+'</div>';
+  }).join('');
+
+  var nextAfter = grouped[0];
+
+  el.innerHTML = '<div class="page">' +
+    '<div class="home-header"><h1>'+(config.area||'Bin Day')+'</h1><span class="date-chip">'+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})+'</span></div>'+
+    bhBanner+
+    '<div class="hero-card" style="background:'+bg+';border:1px solid '+border+';">'+
+      '<div class="hero-urgency">'+urgency+'</div>'+
+      '<div class="hero-bin-centre">'+svgBin(next.bin.color, 108)+'</div>'+
+      '<div class="hero-name" style="color:'+next.bin.color+'">'+next.bin.name+'</div>'+
+      '<div class="hero-label-text">'+next.bin.label+'</div>'+
+      '<div class="hero-date-text">'+fmtLong(next.date)+'</div>'+
+      extraBins+
+    '</div>'+
+    '<div class="stat-row">'+
+      '<div class="stat-card"><div class="stat-label">Days away</div><div class="stat-value">'+du+'</div><div class="stat-unit">'+(du===1?'day':'days')+'</div></div>'+
+      '<div class="stat-card"><div class="stat-label">Next after</div><div class="stat-value-sm">'+(nextAfter ? nextAfter.bins.map(function(b){return b.name;}).join(' + ') : '—')+'</div><div class="stat-unit">'+(nextAfter ? fmtDisplay(nextAfter.date) : '')+'</div></div>'+
+    '</div>'+
+    (upcomingRows ? '<div class="section-label">Coming up</div><div class="upcoming-list">'+upcomingRows+'</div>' : '')+
+    '<div class="notif-row"><span class="notif-label">Evening reminders'+(config.notifications.evening?' · '+config.notifications.eveningTime:'')+'</span><div class="toggle '+(config.notifications.evening?'on':'')+'" onclick="toggleNotifications()"></div></div>'+
+  '</div>';
+}
+
+function renderCalendar() {
+  var el = document.getElementById('view-calendar');
+  var y=calendarDate.getFullYear(), m=calendarDate.getMonth();
+  var monthName=calendarDate.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+  var firstDay=new Date(y,m,1), lastDay=new Date(y,m+1,0);
+  var startDow=firstDay.getDay(); startDow=startDow===0?6:startDow-1;
+  var today=new Date(); today.setHours(0,0,0,0);
+
+  var cells='';
+  for (var i=0;i<startDow;i++){var pd=new Date(y,m,-startDow+1+i);cells+='<div class="cal-cell other-month"><span class="cal-date-num">'+pd.getDate()+'</span></div>';}
+  for (var d=1;d<=lastDay.getDate();d++){
+    var date=new Date(y,m,d);
+    var iso=fmtISO(date);
+    var isToday=date.getTime()===today.getTime();
+    var bins=getCollectionsOnDate(date);
+    var isNudgeOrig=config.nudges.find(function(n){return n.original===iso;});
+    var cls='cal-cell'+(isToday?' today':'')+(bins.length&&!isNudgeOrig?' bin-day':'')+(isNudgeOrig?' nudged':'');
+    var bg2=(bins.length&&!isNudgeOrig)?'background:'+colorBg(bins[0].color,0.14)+';':'';
+    var dotsHtml='';
+    if (bins.length&&!isNudgeOrig) {
+      dotsHtml='<div class="cal-dots">'+bins.map(function(b){return '<div class="cal-dot" style="background:'+b.color+'"></div>';}).join('')+'</div>';
+    }
+    var nm=isNudgeOrig?'<span class="nudge-mark">↗</span>':'';
+    cells+='<div class="'+cls+'" style="'+bg2+'" onclick="calCellClick(\''+iso+'\')"><span class="cal-date-num">'+d+'</span>'+dotsHtml+nm+'</div>';
+  }
+  var rem=(startDow+lastDay.getDate())%7;
+  for (var j=1;j<=(rem?7-rem:0);j++){cells+='<div class="cal-cell other-month"><span class="cal-date-num">'+j+'</span></div>';}
+
+  var legend=config.binTypes.map(function(b){
+    return '<div class="cal-legend-item"><div class="cal-legend-swatch" style="background:'+colorBg(b.color,0.35)+';border:1px solid '+b.color+'"></div>'+b.name+'</div>';
+  }).join('');
+
+  el.innerHTML='<div class="page">'+
+    '<div class="cal-header-row"><h2>'+monthName+'</h2>'+
+      '<div class="cal-nav-btns"><button class="cal-nav-btn" onclick="calNav(-1)">‹</button><button class="cal-nav-btn" onclick="calNav(1)">›</button></div>'+
+    '</div>'+
+    '<div class="cal-days-row">'+['M','T','W','T','F','S','S'].map(function(d){return '<div class="cal-day-lbl">'+d+'</div>';}).join('')+'</div>'+
+    '<div class="cal-grid">'+cells+'</div>'+
+    '<div class="cal-legend">'+legend+'</div>'+
+    '<div class="cal-detail" id="cal-detail"></div>'+
+  '</div>';
+}
+
+function calNav(dir){calendarDate.setMonth(calendarDate.getMonth()+dir);renderCalendar();}
+
+function calCellClick(iso) {
+  var d=new Date(iso+'T00:00:00');
+  var bins=getCollectionsOnDate(d);
+  var detail=document.getElementById('cal-detail');
+  if (bins.length) {
+    detail.className='cal-detail visible';
+    detail.innerHTML='<div class="cal-detail-date">'+fmtLong(d)+'</div>'+
+      bins.map(function(b){return '<div class="cal-detail-row">'+svgBin(b.color,36)+'<div><div class="cal-detail-name">'+b.name+'</div><div style="font-size:11px;color:var(--t2)">'+b.label+'</div></div></div>';}).join('');
+  } else { detail.className='cal-detail'; }
+}
+
+function renderSettings() {
+  var el=document.getElementById('view-settings');
+  var sch=config.schedule, notif=config.notifications;
+
+  var binList=config.binTypes.map(function(b){
+    return '<div class="bin-type-item">'+
+      '<div class="bin-type-color" style="background:'+b.color+'"></div>'+
+      '<div class="bin-type-info"><div class="bin-type-name">'+b.name+'</div><div class="bin-type-sublabel">'+b.label+'</div></div>'+
+      '<div class="bin-type-actions">'+
+        '<button class="icon-btn" onclick="openAddBinModal(\''+b.id+'\',false)">✎</button>'+
+        '<button class="icon-btn del" onclick="deleteBin(\''+b.id+'\')">✕</button>'+
+      '</div></div>';
+  }).join('');
+
+  var nudgeList=config.nudges.length===0
+    ?'<div style="font-size:12px;color:var(--t3);padding:2px 0">No overrides set</div>'
+    :config.nudges.map(function(n,i){
+      return '<div class="nudge-item">'+
+        '<span>'+new Date(n.original+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})+'</span>'+
+        '<span class="nudge-dates">→ '+new Date(n.actual+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})+'</span>'+
+        '<button class="icon-btn del" onclick="deleteNudge('+i+')">✕</button>'+
+      '</div>';
+    }).join('');
+
+  var anchorDisplay=sch.anchorMonday?new Date(sch.anchorMonday+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'Not set';
+  var cycleLen=(sch.programme||[]).length;
+
+  el.innerHTML='<div class="page">'+
+    '<div class="settings-header"><h2>Settings</h2><p>Configure your collection</p></div>'+
+    '<div class="s-section-title">Location</div>'+
+    '<div class="s-card">'+
+      '<div class="s-row" onclick="editAreaName()"><span class="s-row-label">Area / street</span><span class="s-row-value">'+(config.area||'Not set')+'</span></div>'+
+    '</div>'+
+    '<div class="s-section-title">Bin types</div>'+
+    '<div class="bin-type-list">'+binList+'</div>'+
+    '<button class="btn-secondary" onclick="openAddBinModal(null,false)" style="width:100%;justify-content:center;margin-bottom:24px;">+ Add bin type</button>'+
+    '<div class="s-section-title">Collection programme</div>'+
+    '<div class="s-card">'+
+      '<div class="s-row" onclick="openScheduleModal()"><span class="s-row-label">Cycle length</span><span class="s-row-value">'+cycleLen+' week'+(cycleLen!==1?'s':'')+'</span></div>'+
+      '<div class="s-row" onclick="openScheduleModal()"><span class="s-row-label">Summary</span><span class="s-row-value">'+programmeSummary()+'</span></div>'+
+      '<div class="s-row" onclick="openScheduleModal()"><span class="s-row-label">Anchor (week 1 Monday)</span><span class="s-row-value">'+anchorDisplay+'</span></div>'+
+    '</div>'+
+    '<div class="s-section-title">Bank holiday overrides</div>'+
+    '<div class="nudge-list">'+nudgeList+'</div>'+
+    '<button class="btn-secondary" onclick="openNudgeModal()" style="width:100%;justify-content:center;margin-bottom:24px;">+ Add override</button>'+
+    '<div class="s-section-title">Notifications</div>'+
+    '<div class="s-card">'+
+      '<div class="s-row" style="cursor:default;"><span class="s-row-label">Evening reminder</span><div class="toggle '+(notif.evening?'on':'')+'" onclick="toggleSetting(\'evening\')"></div></div>'+
+      '<div class="s-row" style="cursor:default;"><span class="s-row-label">Evening time</span><input type="time" value="'+notif.eveningTime+'" onchange="config.notifications.eveningTime=this.value;saveConfig();" style="width:auto;background:none;border:none;color:var(--t2);font-family:\'Geist Mono\',monospace;font-size:12px;text-align:right;outline:none;"></div>'+
+      '<div class="s-row" style="cursor:default;"><span class="s-row-label">Morning reminder</span><div class="toggle '+(notif.morning?'on':'')+'" onclick="toggleSetting(\'morning\')"></div></div>'+
+      '<div class="s-row" style="cursor:default;"><span class="s-row-label">Morning time</span><input type="time" value="'+notif.morningTime+'" onchange="config.notifications.morningTime=this.value;saveConfig();" style="width:auto;background:none;border:none;color:var(--t2);font-family:\'Geist Mono\',monospace;font-size:12px;text-align:right;outline:none;"></div>'+
+    '</div>'+
+    '<div class="s-section-title" style="margin-top:24px;">Data</div>'+
+    '<div class="s-card"><div class="s-row" onclick="resetApp()"><span class="s-row-label" style="color:#f87171">Reset all data</span><span class="s-row-chevron">›</span></div></div>'+
+  '</div>';
+}
+
+// ─────────────────────────────────────────────────────────
+// ONBOARDING
+// ─────────────────────────────────────────────────────────
+function initOnboarding() {
+  obStep = 0;
+  renderObProgress();
+  renderObBinList();
+  renderProgrammeEditor('ob-programme-editor', config.schedule.programme);
+  // default anchor to most recent Monday
+  var monday = getMondayOf(new Date());
+  document.getElementById('ob-anchor-date').value = fmtISO(monday);
+  updateAnchorLabel();
+}
+
+function updateAnchorLabel() {
+  var prog = config.schedule.programme;
+  var n = prog ? prog.length : 1;
+  var sub = document.getElementById('ob-step3-sub');
+  if (sub) sub.textContent = 'Pick any Monday that was the start of Week 1 in your ' + n + '-week cycle. Check a recent bin calendar or letter from your council.';
+  var lbl = document.getElementById('ob-anchor-date-label');
+  if (lbl) lbl.textContent = 'A Monday that started Week 1';
+}
+
+function renderObProgress() {
+  document.getElementById('ob-progress').innerHTML =
+    Array.from({length:OB_TOTAL},function(_,i){
+      var cls=i<obStep?'done':i===obStep?'current':'';
+      return '<div class="ob-dot '+cls+'"></div>';
+    }).join('');
+}
+
+function renderObBinList() {
+  document.getElementById('ob-bin-list').innerHTML =
+    config.binTypes.map(function(b){
+      return '<div class="bin-type-item">'+
+        '<div class="bin-type-color" style="background:'+b.color+'"></div>'+
+        '<div class="bin-type-info"><div class="bin-type-name">'+b.name+'</div><div class="bin-type-sublabel">'+b.label+'</div></div>'+
+        '<div class="bin-type-actions">'+
+          '<button class="icon-btn" onclick="openAddBinModal(\''+b.id+'\',true)">✎</button>'+
+          '<button class="icon-btn del" onclick="deleteBinOb(\''+b.id+'\')">✕</button>'+
+        '</div></div>';
+    }).join('');
+}
+
+function deleteBinOb(id) {
+  config.binTypes=config.binTypes.filter(function(b){return b.id!==id;});
+  renderObBinList();
+}
+
+function obNext() {
+  if (obStep===0) {
+    config.area=document.getElementById('ob-area').value.trim()||'My area';
+    saveConfig();
+  }
+  if (obStep===1) {
+    if (!config.binTypes.length) { showToast('Add at least one bin type'); return; }
+    // seed programme editor with current bin types if default
+    renderProgrammeEditor('ob-programme-editor', config.schedule.programme);
+  }
+  if (obStep===2) {
+    var prog = getProg('ob-programme-editor');
+    if (!prog.length) { showToast('Add at least one week'); return; }
+    config.schedule.programme = prog;
+    saveConfig();
+    updateAnchorLabel();
+  }
+  if (obStep===3) {
+    var dateVal=document.getElementById('ob-anchor-date').value;
+    if (!dateVal) { showToast('Pick an anchor Monday'); return; }
+    // snap to Monday
+    var d=new Date(dateVal+'T00:00:00');
+    var monday=getMondayOf(d);
+    config.schedule.anchorMonday=fmtISO(monday);
+    saveConfig();
+  }
+  if (obStep===4) { obFinish(); return; }
+  document.getElementById('ob-step-'+obStep).classList.remove('active');
+  obStep++;
+  document.getElementById('ob-step-'+obStep).classList.add('active');
+  renderObProgress();
+}
+
+function obBack() {
+  if (obStep===0) return;
+  document.getElementById('ob-step-'+obStep).classList.remove('active');
+  obStep--;
+  document.getElementById('ob-step-'+obStep).classList.add('active');
+  renderObProgress();
+  if (obStep===0) document.getElementById('ob-area').value=config.area||'';
+  if (obStep===1) renderObBinList();
+  if (obStep===2) renderProgrammeEditor('ob-programme-editor', config.schedule.programme);
+  if (obStep===3) { document.getElementById('ob-anchor-date').value=config.schedule.anchorMonday||''; updateAnchorLabel(); }
+}
+
+function obFinish() {
+  config.notifications.evening=document.getElementById('ob-notif-toggle').classList.contains('on');
+  config.notifications.eveningTime=document.getElementById('ob-notif-time').value;
+  config.notifications.morning=document.getElementById('ob-notif-morning').classList.contains('on');
+  config.notifications.morningTime=document.getElementById('ob-notif-morning-time').value;
+  config.setupDone=true;
+  saveConfig();
+  document.getElementById('onboarding').classList.add('hidden');
+  switchView('home');
+}
+
+// ─────────────────────────────────────────────────────────
+// MODALS
+// ─────────────────────────────────────────────────────────
+function openAddBinModal(binId, isOb) {
+  modalBinEditId=binId; modalBinIsOb=isOb;
+  var bin=binId?config.binTypes.find(function(b){return b.id===binId;}):null;
+  document.getElementById('modal-bin-title').textContent=bin?'Edit bin type':'Add bin type';
+  document.getElementById('modal-bin-name').value=bin?bin.name:'';
+  document.getElementById('modal-bin-label').value=bin?bin.label:'';
+  selectedModalColor=bin?bin.color:COLORS[0];
+  document.getElementById('modal-color-grid').innerHTML=COLORS.map(function(c){
+    return '<div class="color-swatch '+(c===selectedModalColor?'selected':'')+'" style="background:'+c+'" onclick="selectColor(\''+c+'\')"></div>';
+  }).join('');
+  document.getElementById('modal-bin').classList.remove('hidden');
+}
+
+function selectColor(c) {
+  selectedModalColor=c;
+  document.querySelectorAll('.color-swatch').forEach(function(s){s.classList.toggle('selected',s.style.background===c);});
+}
+
+function closeBinModal(){document.getElementById('modal-bin').classList.add('hidden');}
+
+function saveBinModal() {
+  var name=document.getElementById('modal-bin-name').value.trim();
+  var label=document.getElementById('modal-bin-label').value.trim();
+  if (!name){showToast('Enter a name');return;}
+  if (modalBinEditId) {
+    var b=config.binTypes.find(function(x){return x.id===modalBinEditId;});
+    if (b){b.name=name;b.label=label||name;b.color=selectedModalColor;}
+  } else {
+    var id='bin_'+Date.now();
+    config.binTypes.push({id:id,name:name,label:label||name,color:selectedModalColor});
+  }
+  saveConfig(); closeBinModal();
+  if (modalBinIsOb){renderObBinList();renderProgrammeEditor('ob-programme-editor',config.schedule.programme);}
+  else{renderSettings();}
+  showToast(modalBinEditId?'Bin updated':'Bin added');
+}
+
+function deleteBin(id) {
+  if (config.binTypes.length<=1){showToast("Can't remove the only bin");return;}
+  config.binTypes=config.binTypes.filter(function(b){return b.id!==id;});
+  // clean up any programme slots pointing to this bin
+  config.schedule.programme.forEach(function(week){
+    week.slots=week.slots.filter(function(s){return s.binId!==id;});
+    if (!week.slots.length && config.binTypes.length) week.slots=[{day:2,binId:config.binTypes[0].id}];
+  });
+  saveConfig(); renderSettings();
+  showToast('Bin removed');
+}
+
+function openNudgeModal() {
+  document.getElementById('nudge-original').value='';
+  document.getElementById('nudge-actual').value='';
+  document.getElementById('modal-nudge').classList.remove('hidden');
+}
+function closeNudgeModal(){document.getElementById('modal-nudge').classList.add('hidden');}
+
+function saveNudge() {
+  var orig=document.getElementById('nudge-original').value;
+  var actual=document.getElementById('nudge-actual').value;
+  if (!orig||!actual){showToast('Fill in both dates');return;}
+  config.nudges.push({original:orig,actual:actual});
+  saveConfig(); closeNudgeModal(); renderSettings();
+  showToast('Override saved');
+}
+
+function deleteNudge(i){config.nudges.splice(i,1);saveConfig();renderSettings();}
+
+function openScheduleModal() {
+  document.getElementById('sched-anchor-date').value=config.schedule.anchorMonday||'';
+  renderProgrammeEditor('modal-programme-editor', config.schedule.programme);
+  document.getElementById('modal-schedule').classList.remove('hidden');
+}
+function closeScheduleModal(){document.getElementById('modal-schedule').classList.add('hidden');}
+
+function saveSchedule() {
+  var prog=getProg('modal-programme-editor');
+  if (!prog.length){showToast('Add at least one week');return;}
+  var anchor=document.getElementById('sched-anchor-date').value;
+  if (!anchor){showToast('Set an anchor Monday');return;}
+  var d=new Date(anchor+'T00:00:00');
+  config.schedule.anchorMonday=fmtISO(getMondayOf(d));
+  config.schedule.programme=prog;
+  saveConfig(); closeScheduleModal(); renderSettings();
+  showToast('Schedule saved');
+}
+
+function toggleSetting(key){config.notifications[key]=!config.notifications[key];saveConfig();renderSettings();}
+function toggleNotifications(){config.notifications.evening=!config.notifications.evening;saveConfig();renderHome();}
+
+function editAreaName(){
+  var v=prompt('Area or street name:',config.area);
+  if (v!==null){config.area=v.trim();saveConfig();renderSettings();}
+}
+
+function resetApp(){
+  if (confirm('Reset all data? This cannot be undone.')){
+    localStorage.removeItem('binday-config'); location.reload();
+  }
+}
+
+// ─────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(function(){});
+
+if (!config.setupDone) {
+  initOnboarding();
+} else {
+  document.getElementById('onboarding').classList.add('hidden');
+  switchView('home');
+}
+</script>
+</body>
+</html>
