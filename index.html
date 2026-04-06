@@ -311,7 +311,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <button class="ob-back" onclick="obBack()">← Back</button>
     </div>
   </div>
-  </div><!-- /ob-inner -->
+  </div>
 </div>
 
 <!-- MODAL: Add/Edit Bin -->
@@ -377,10 +377,6 @@ var COLORS = [
 var DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 var DAY_NAMES_LONG = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
-// schedule.programme = array of week objects:
-//   { slots: [ {day: 2, binId: 'general'}, {day: 5, binId: 'garden'} ] }
-// schedule.anchorMonday = ISO date string of the Monday that starts week index 0
-
 var DEFAULT_CONFIG = {
   area: '',
   binTypes: [
@@ -407,13 +403,13 @@ var modalBinIsOb = false;
 var selectedModalColor = COLORS[0];
 var obStep = 0;
 var OB_TOTAL = 5;
+var svgUidCounter = 0;
 
 function loadConfig() {
   try {
     var s = localStorage.getItem('binday-config');
     if (s) {
       var parsed = JSON.parse(s);
-      // backwards compat: old single-day schedule format
       if (parsed.schedule && !parsed.schedule.programme) {
         parsed.schedule.programme = DEFAULT_CONFIG.schedule.programme;
         parsed.schedule.anchorMonday = parsed.schedule.anchorDate || null;
@@ -431,10 +427,8 @@ function saveConfig() {
 // ─────────────────────────────────────────────────────────
 // SCHEDULE ENGINE
 // ─────────────────────────────────────────────────────────
-
-// Returns the Monday (week start) for a given date
 function getMondayOf(d) {
-  var day = d.getDay(); // 0=Sun
+  var day = d.getDay();
   var diff = (day === 0) ? -6 : 1 - day;
   var m = new Date(d);
   m.setDate(d.getDate() + diff);
@@ -442,7 +436,6 @@ function getMondayOf(d) {
   return m;
 }
 
-// Given a date, return which week index (0-based, repeating) it falls in
 function getWeekIndex(d) {
   var prog = config.schedule.programme;
   if (!prog || !prog.length || !config.schedule.anchorMonday) return 0;
@@ -453,7 +446,6 @@ function getWeekIndex(d) {
   return idx;
 }
 
-// Get all collections on a given date (can be multiple bins same day)
 function getCollectionsOnDate(d) {
   var prog = config.schedule.programme;
   if (!prog || !prog.length || !config.schedule.anchorMonday) return [];
@@ -470,7 +462,6 @@ function getCollectionsOnDate(d) {
     .filter(Boolean);
 }
 
-// Generate next N collection events from a date, in order
 function getNextCollections(count, fromDate) {
   count = count || 10;
   fromDate = fromDate || new Date();
@@ -479,7 +470,7 @@ function getNextCollections(count, fromDate) {
 
   var results = [];
   var d = new Date(fromDate); d.setHours(0,0,0,0);
-  var maxDays = 366 * 3; // safety limit
+  var maxDays = 366 * 3;
 
   for (var i = 0; i < maxDays && results.length < count; i++) {
     var candidate = new Date(d); candidate.setDate(d.getDate() + i);
@@ -493,7 +484,6 @@ function getNextCollections(count, fromDate) {
       });
     }
   }
-  // sort by actual date
   results.sort(function(a,b) { return a.date - b.date; });
   return results.slice(0, count);
 }
@@ -533,7 +523,6 @@ function renderProgrammeEditor(containerId, programme) {
   html += '</div>';
 
   container.innerHTML = html;
-  // store the working programme on the container element
   container._prog = JSON.parse(JSON.stringify(prog));
 }
 
@@ -565,7 +554,6 @@ function onSlotChange(containerId, wi, si, field, val) {
   if (field === 'day') prog[wi].slots[si].day = parseInt(val);
   if (field === 'bin') prog[wi].slots[si].binId = val;
   document.getElementById(containerId)._prog = prog;
-  // update the day label span
   var span = document.querySelector('#week-block-' + wi + ' .week-slot:nth-child(' + (si+2) + ') .week-slot-day');
   if (span && field === 'day') span.textContent = DAY_NAMES[parseInt(val)] || '';
 }
@@ -654,22 +642,66 @@ function programmeSummary() {
   return prog.length + '-week cycle';
 }
 
+function hexToRgb(hex) {
+  hex = (hex || '').replace('#', '');
+  if (hex.length === 3) hex = hex.split('').map(function(c){ return c + c; }).join('');
+  return {
+    r: parseInt(hex.slice(0,2), 16),
+    g: parseInt(hex.slice(2,4), 16),
+    b: parseInt(hex.slice(4,6), 16)
+  };
+}
+
+function mix(hex, amt, target) {
+  var c = hexToRgb(hex);
+  var t = target === 'white' ? 255 : 0;
+  var r = Math.round(c.r + (t - c.r) * amt);
+  var g = Math.round(c.g + (t - c.g) * amt);
+  var b = Math.round(c.b + (t - c.b) * amt);
+  return 'rgb(' + r + ',' + g + ',' + b + ')';
+}
+
+function makeSvgSafeId(prefix, color, size) {
+  svgUidCounter += 1;
+  return prefix + '-' + String(color || '').replace(/[^a-zA-Z0-9]/g, '') + '-' + size + '-' + svgUidCounter;
+}
+
 function svgBin(color, size) {
   size = size || 72;
-  var dark = darkenHex(color, 0.28);
-  var bw=size*0.64, bh=size*0.58, bx=(size-bw)/2, by=size*0.3;
-  var lw=bw+5, lh=size*0.1, lx=bx-2.5, ly=size*0.18;
-  var hw=bw*0.32, hh=size*0.05, hx=bx+(bw-hw)/2, hy=ly-hh-2;
-  var wr=size*0.07, wy=by+bh+wr*0.3, wx1=bx+bw*0.2, wx2=bx+bw*0.8;
-  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'" fill="none">'+
-    '<rect x="'+hx+'" y="'+hy+'" width="'+hw+'" height="'+hh+'" rx="2" fill="'+dark+'"/>'+
-    '<rect x="'+lx+'" y="'+ly+'" width="'+lw+'" height="'+lh+'" rx="3" fill="'+dark+'"/>'+
-    '<rect x="'+bx+'" y="'+by+'" width="'+bw+'" height="'+bh+'" rx="4" fill="'+color+'"/>'+
-    '<line x1="'+(bx+bw*0.32)+'" y1="'+(by+bh*0.18)+'" x2="'+(bx+bw*0.32)+'" y2="'+(by+bh*0.82)+'" stroke="'+dark+'" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>'+
-    '<line x1="'+(bx+bw*0.58)+'" y1="'+(by+bh*0.18)+'" x2="'+(bx+bw*0.58)+'" y2="'+(by+bh*0.82)+'" stroke="'+dark+'" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>'+
-    '<circle cx="'+wx1+'" cy="'+wy+'" r="'+wr+'" fill="'+dark+'"/>'+
-    '<circle cx="'+wx2+'" cy="'+wy+'" r="'+wr+'" fill="'+dark+'"/>'+
+
+  var lid = mix(color, 0.18, 'white');
+  var bodyDark = mix(color, 0.18, 'black');
+  var bodyLight = mix(color, 0.10, 'white');
+  var highlight = 'rgba(255,255,255,0.14)';
+  var gradId = makeSvgSafeId('binBody', color, size);
+
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'+
+      '<defs>'+
+        '<linearGradient id="'+gradId+'" x1="0" y1="0" x2="1" y2="1">'+
+          '<stop offset="0%" stop-color="'+bodyLight+'"/>'+
+          '<stop offset="100%" stop-color="'+bodyDark+'"/>'+
+        '</linearGradient>'+
+      '</defs>'+
+
+      '<path d="M150 150 L362 150 L340 420 L172 420 Z" fill="url(#'+gradId+')"/>'+
+
+      '<rect x="132" y="118" width="252" height="34" rx="8" fill="'+lid+'"/>'+
+      '<path d="M380 118 q10 0 10 10 v3 q0 10 -10 10" fill="'+lid+'"/>'+
+
+      '<rect x="190" y="98" width="52" height="16" rx="4" fill="'+lid+'"/>'+
+      '<rect x="286" y="98" width="44" height="16" rx="4" fill="'+lid+'"/>'+
+
+      '<rect x="255" y="154" width="22" height="262" fill="'+highlight+'"/>'+
+
+      '<circle cx="366" cy="365" r="38" fill="#2b2b31"/>'+
+      '<circle cx="366" cy="365" r="23" fill="#101014"/>'+
+      '<circle cx="366" cy="365" r="14" fill="#23232a" opacity="0.55"/>'+
     '</svg>';
+}
+
+function binThumb(bin, size) {
+  size = size || 32;
+  return '<div style="width:'+size+'px;height:'+size+'px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+svgBin(bin.color, size)+'</div>';
 }
 
 // ─────────────────────────────────────────────────────────
@@ -688,7 +720,6 @@ function switchView(v, noHistory, fromSwipe) {
   document.querySelectorAll('.nav-btn').forEach(function(el){el.classList.remove('active');});
   document.querySelector('.nav-btn[data-view="'+v+'"]').classList.add('active');
 
-  // render incoming view before it animates in
   if (v==='home') renderHome();
   if (v==='calendar') renderCalendar();
   if (v==='settings') renderSettings();
@@ -696,19 +727,15 @@ function switchView(v, noHistory, fromSwipe) {
   var inEl  = document.getElementById('view-'+v);
   var outEl = document.getElementById('view-'+prevView);
 
-  // mark both as sliding so visibility:visible applies during transition
   inEl.classList.add('sliding');
   outEl.classList.add('sliding');
 
-  // position incoming view offscreen (no transition yet)
   inEl.classList.remove('active','slide-left','slide-right');
   inEl.style.transition = 'none';
   inEl.classList.add(goingRight ? 'slide-right' : 'slide-left');
 
-  // force reflow
   inEl.getBoundingClientRect();
 
-  // animate both
   inEl.style.transition = '';
   inEl.classList.remove('slide-right','slide-left');
   inEl.classList.add('active');
@@ -716,7 +743,6 @@ function switchView(v, noHistory, fromSwipe) {
   outEl.classList.remove('active');
   outEl.classList.add(goingRight ? 'slide-left' : 'slide-right');
 
-  // after transition ends, clean up the outgoing view
   var done = false;
   function cleanup() {
     if (done) return; done = true;
@@ -728,20 +754,16 @@ function switchView(v, noHistory, fromSwipe) {
 
   if (!noHistory) {
     if (v === 'home') {
-      // always replace back to home so stack stays at 1 deep
       history.replaceState({ view: 'home' }, '', '');
     } else if (fromSwipe) {
-      // swipe: push one entry so Android back goes home
       history.pushState({ view: v }, '', '');
     } else {
-      // tab tap: replace so clicking tabs never stacks history
       history.replaceState({ view: v }, '', '');
     }
   }
 }
 
 window.addEventListener('popstate', function(e) {
-  // any modal open? close it first
   var modals = document.querySelectorAll('.modal-overlay:not(.hidden)');
   if (modals.length) {
     modals.forEach(function(m){ m.classList.add('hidden'); });
@@ -876,7 +898,7 @@ function renderSettings() {
 
   var binList=config.binTypes.map(function(b){
     return '<div class="bin-type-item">'+
-      '<div class="bin-type-color" style="background:'+b.color+'"></div>'+
+      binThumb(b, 32)+
       '<div class="bin-type-info"><div class="bin-type-name">'+b.name+'</div><div class="bin-type-sublabel">'+b.label+'</div></div>'+
       '<div class="bin-type-actions">'+
         '<button class="icon-btn" onclick="openAddBinModal(\''+b.id+'\',false)">✎</button>'+
@@ -946,7 +968,6 @@ function initOnboarding() {
   renderObProgress();
   renderObBinList();
   renderProgrammeEditor('ob-programme-editor', config.schedule.programme);
-  // default anchor to most recent Monday
   var monday = getMondayOf(new Date());
   document.getElementById('ob-anchor-date').value = fmtISO(monday);
   updateAnchorLabel();
@@ -973,7 +994,7 @@ function renderObBinList() {
   document.getElementById('ob-bin-list').innerHTML =
     config.binTypes.map(function(b){
       return '<div class="bin-type-item">'+
-        '<div class="bin-type-color" style="background:'+b.color+'"></div>'+
+        binThumb(b, 32)+
         '<div class="bin-type-info"><div class="bin-type-name">'+b.name+'</div><div class="bin-type-sublabel">'+b.label+'</div></div>'+
         '<div class="bin-type-actions">'+
           '<button class="icon-btn" onclick="openAddBinModal(\''+b.id+'\',true)">✎</button>'+
@@ -994,7 +1015,6 @@ function obNext() {
   }
   if (obStep===1) {
     if (!config.binTypes.length) { showToast('Add at least one bin type'); return; }
-    // seed programme editor with current bin types if default
     renderProgrammeEditor('ob-programme-editor', config.schedule.programme);
   }
   if (obStep===2) {
@@ -1007,7 +1027,6 @@ function obNext() {
   if (obStep===3) {
     var dateVal=document.getElementById('ob-anchor-date').value;
     if (!dateVal) { showToast('Pick an anchor Monday'); return; }
-    // snap to Monday
     var d=new Date(dateVal+'T00:00:00');
     var monday=getMondayOf(d);
     config.schedule.anchorMonday=fmtISO(monday);
@@ -1086,7 +1105,6 @@ function saveBinModal() {
 function deleteBin(id) {
   if (config.binTypes.length<=1){showToast("Can't remove the only bin");return;}
   config.binTypes=config.binTypes.filter(function(b){return b.id!==id;});
-  // clean up any programme slots pointing to this bin
   config.schedule.programme.forEach(function(week){
     week.slots=week.slots.filter(function(s){return s.binId!==id;});
     if (!week.slots.length && config.binTypes.length) week.slots=[{day:2,binId:config.binTypes[0].id}];
@@ -1151,25 +1169,21 @@ function resetApp(){
 // ─────────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(function(){});
 
-// seed a base history entry so back from home exits the app naturally
 history.replaceState({ view: 'home' }, '', '');
 
-// ── swipe to change tab ──
 (function() {
   var startX = 0, startY = 0, startTime = 0;
-  var SWIPE_MIN = 48;   // min horizontal px
-  var SWIPE_MAX_Y = 80; // max vertical drift
-  var SWIPE_MAX_T = 400; // max ms
+  var SWIPE_MIN = 48;
+  var SWIPE_MAX_Y = 80;
+  var SWIPE_MAX_T = 400;
 
   document.getElementById('view-wrap').addEventListener('touchstart', function(e) {
-    // don't intercept if inside a scrollable element that has scrolled content
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
     startTime = Date.now();
   }, { passive: true });
 
   document.getElementById('view-wrap').addEventListener('touchend', function(e) {
-    // ignore if a modal is open
     if (document.querySelector('.modal-overlay:not(.hidden)')) return;
 
     var dx = e.changedTouches[0].clientX - startX;
@@ -1179,14 +1193,12 @@ history.replaceState({ view: 'home' }, '', '');
     if (dt > SWIPE_MAX_T) return;
     if (Math.abs(dx) < SWIPE_MIN) return;
     if (Math.abs(dy) > SWIPE_MAX_Y) return;
-    if (Math.abs(dy) > Math.abs(dx) * 0.8) return; // mostly vertical
+    if (Math.abs(dy) > Math.abs(dx) * 0.8) return;
 
     var idx = TABS.indexOf(currentView);
     if (dx < 0 && idx < TABS.length - 1) {
-      // swipe left → next tab
       switchView(TABS[idx + 1], false, true);
     } else if (dx > 0 && idx > 0) {
-      // swipe right → previous tab
       switchView(TABS[idx - 1], false, true);
     }
   }, { passive: true });
@@ -1196,7 +1208,6 @@ if (!config.setupDone) {
   initOnboarding();
 } else {
   document.getElementById('onboarding').classList.add('hidden');
-  // set home active immediately with no slide animation
   document.getElementById('view-home').classList.add('active');
   document.querySelector('.nav-btn[data-view="home"]').classList.add('active');
   renderHome();
