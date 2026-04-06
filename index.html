@@ -57,6 +57,12 @@ body{font-family:'Geist',sans-serif;background:var(--bg);color:var(--t1);-webkit
 .ob-back{display:inline-flex;align-items:center;gap:5px;background:none;border:none;color:var(--t3);font-family:'Geist',sans-serif;font-size:13px;cursor:pointer;padding:0;transition:color 0.15s;justify-content:center;width:100%}
 .ob-back:active{color:var(--t1)}
 .ob-buttons{display:flex;flex-direction:column;gap:10px;margin-top:auto;padding-top:24px}
+.preview-card{padding:14px 16px;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r-sm);margin-top:4px}
+.preview-row{display:flex;justify-content:space-between;gap:16px;padding:8px 0}
+.preview-row:not(:last-child){border-bottom:1px solid var(--b1)}
+.preview-k{font-size:11px;color:var(--t3);letter-spacing:0.6px;text-transform:uppercase;font-weight:500}
+.preview-v{font-size:13px;text-align:right;color:var(--t2)}
+.preview-v strong{color:var(--t1);font-weight:500}
 
 /* ── inputs ── */
 .field{margin-bottom:18px}
@@ -75,19 +81,11 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .btn-secondary{display:inline-flex;align-items:center;gap:6px;padding:11px 16px;background:transparent;border:1px solid var(--b2);border-radius:var(--r-sm);color:var(--t2);font-family:'Geist',sans-serif;font-size:13px;cursor:pointer;transition:border-color 0.15s,color 0.15s}
 .btn-secondary:active{border-color:var(--b3);color:var(--t1)}
 
-/* ── bin option grid ── */
-.bin-option-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.bin-option{padding:16px 10px;border-radius:var(--r-sm);border:1px solid var(--b2);background:var(--s2);cursor:pointer;text-align:center;transition:border-color 0.15s,background 0.15s;display:flex;flex-direction:column;align-items:center;gap:6px}
-.bin-option.selected{border-color:var(--b3);background:var(--s3)}
-.bin-option .bin-name{font-size:12px;font-weight:500}
-.bin-option .bin-desc{font-size:11px;color:var(--t3)}
-
 /* ── home ── */
 .home-header{padding:24px 0 4px;display:flex;justify-content:space-between;align-items:flex-end}
 .home-header h1{font-size:22px;font-weight:500;letter-spacing:-0.4px}
 .home-header .date-chip{font-size:11px;color:var(--t3);font-family:'Geist Mono',monospace}
 
-/* hero — tall centred card */
 .hero-card{
   border-radius:var(--r);padding:32px 24px 28px;
   display:flex;flex-direction:column;align-items:center;text-align:center;
@@ -155,6 +153,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .cal-detail{margin-top:10px;padding:16px 18px;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r-sm);display:none}
 .cal-detail.visible{display:block}
 .cal-detail-date{font-size:11px;color:var(--t2);margin-bottom:10px;font-family:'Geist Mono',monospace}
+.cal-detail-note{font-size:12px;color:#fbbf24;margin:-2px 0 10px}
 .cal-detail-row{display:flex;align-items:center;gap:12px;padding:5px 0}
 .cal-detail-name{font-size:14px;font-weight:500}
 
@@ -244,73 +243,75 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 <!-- ONBOARDING -->
 <div id="onboarding">
   <div class="ob-inner">
-  <div class="ob-progress" id="ob-progress"></div>
-  <div id="ob-step-0" class="ob-step active">
-    <div class="ob-title">Welcome to<br>Bin Day</div>
-    <div class="ob-sub">Never miss a collection. Takes about a minute to set up.</div>
-    <div class="field">
-      <label>Your area or street</label>
-      <input type="text" id="ob-area" placeholder="e.g. Woodsetts" maxlength="40">
-    </div>
-    <div class="ob-buttons"><button class="btn-primary" onclick="obNext()">Continue</button></div>
-  </div>
+    <div class="ob-progress" id="ob-progress"></div>
 
-  <div id="ob-step-1" class="ob-step">
-    <div class="ob-title">Bin types</div>
-    <div class="ob-sub">Add each bin your council collects. You can change these any time.</div>
-    <div id="ob-bin-list" class="bin-type-list"></div>
-    <button class="btn-secondary" onclick="openAddBinModal(null,true)" style="margin-bottom:18px;width:100%;justify-content:center;">+ Add bin type</button>
-    <div class="ob-buttons">
-      <button class="btn-primary" onclick="obNext()">Continue</button>
-      <button class="ob-back" onclick="obBack()">← Back</button>
+    <div id="ob-step-0" class="ob-step active">
+      <div class="ob-title">Welcome to<br>Bin Day</div>
+      <div class="ob-sub">Never miss a collection. Takes about a minute to set up.</div>
+      <div class="field">
+        <label>Your area or street</label>
+        <input type="text" id="ob-area" placeholder="e.g. Woodsetts" maxlength="40">
+      </div>
+      <div class="ob-buttons"><button class="btn-primary" onclick="obNext()">Continue</button></div>
     </div>
-  </div>
 
-  <div id="ob-step-2" class="ob-step">
-    <div class="ob-title">Your schedule</div>
-    <div class="ob-sub">Define your collection programme. Each week in the cycle can have different days and bins.</div>
-    <div id="ob-programme-editor"></div>
-    <div class="ob-buttons">
-      <button class="btn-primary" onclick="obNext()">Continue</button>
-      <button class="ob-back" onclick="obBack()">← Back</button>
-    </div>
-  </div>
-
-  <div id="ob-step-3" class="ob-step">
-    <div class="ob-title">Anchor date</div>
-    <div class="ob-sub" id="ob-step3-sub">Pick a date you know was Week 1 of your cycle.</div>
-    <div class="field">
-      <label id="ob-anchor-date-label">Week 1 start date (any Monday)</label>
-      <input type="date" id="ob-anchor-date">
-    </div>
-    <div class="ob-buttons">
-      <button class="btn-primary" onclick="obNext()">Continue</button>
-      <button class="ob-back" onclick="obBack()">← Back</button>
-    </div>
-  </div>
-
-  <div id="ob-step-4" class="ob-step">
-    <div class="ob-title">Reminders</div>
-    <div class="ob-sub">Optional — get nudged the night before so you never forget.</div>
-    <div class="field">
-      <label>Evening reminder (night before)</label>
-      <div style="display:flex;gap:12px;align-items:center;">
-        <div class="toggle" id="ob-notif-toggle" onclick="this.classList.toggle('on')"></div>
-        <input type="time" id="ob-notif-time" value="18:00" style="width:auto;flex:1;">
+    <div id="ob-step-1" class="ob-step">
+      <div class="ob-title">Bin types</div>
+      <div class="ob-sub">Add each bin your council collects. You can change these any time.</div>
+      <div id="ob-bin-list" class="bin-type-list"></div>
+      <button class="btn-secondary" onclick="openAddBinModal(null,true)" style="margin-bottom:18px;width:100%;justify-content:center;">+ Add bin type</button>
+      <div class="ob-buttons">
+        <button class="btn-primary" onclick="obNext()">Continue</button>
+        <button class="ob-back" onclick="obBack()">← Back</button>
       </div>
     </div>
-    <div class="field">
-      <label>Morning reminder (day of collection)</label>
-      <div style="display:flex;gap:12px;align-items:center;">
-        <div class="toggle" id="ob-notif-morning" onclick="this.classList.toggle('on')"></div>
-        <input type="time" id="ob-notif-morning-time" value="07:00" style="width:auto;flex:1;">
+
+    <div id="ob-step-2" class="ob-step">
+      <div class="ob-title">Your schedule</div>
+      <div class="ob-sub">Define your collection programme. Each week in the cycle can have different days and bins.</div>
+      <div id="ob-programme-editor"></div>
+      <div class="ob-buttons">
+        <button class="btn-primary" onclick="obNext()">Continue</button>
+        <button class="ob-back" onclick="obBack()">← Back</button>
       </div>
     </div>
-    <div class="ob-buttons">
-      <button class="btn-primary" onclick="obFinish()">Done</button>
-      <button class="ob-back" onclick="obBack()">← Back</button>
+
+    <div id="ob-step-3" class="ob-step">
+      <div class="ob-title">Anchor date</div>
+      <div class="ob-sub" id="ob-step3-sub">Pick a date you know was Week 1 of your cycle.</div>
+      <div class="field">
+        <label id="ob-anchor-date-label">Week 1 start date (any Monday)</label>
+        <input type="date" id="ob-anchor-date" onchange="updateAnchorPreview('ob-anchor-date','ob-anchor-preview')">
+      </div>
+      <div class="preview-card" id="ob-anchor-preview"></div>
+      <div class="ob-buttons">
+        <button class="btn-primary" onclick="obNext()">Continue</button>
+        <button class="ob-back" onclick="obBack()">← Back</button>
+      </div>
     </div>
-  </div>
+
+    <div id="ob-step-4" class="ob-step">
+      <div class="ob-title">Reminders</div>
+      <div class="ob-sub">Optional — get nudged the night before so you never forget.</div>
+      <div class="field">
+        <label>Evening reminder (night before)</label>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div class="toggle" id="ob-notif-toggle" onclick="this.classList.toggle('on')"></div>
+          <input type="time" id="ob-notif-time" value="18:00" style="width:auto;flex:1;">
+        </div>
+      </div>
+      <div class="field">
+        <label>Morning reminder (day of collection)</label>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div class="toggle" id="ob-notif-morning" onclick="this.classList.toggle('on')"></div>
+          <input type="time" id="ob-notif-morning-time" value="07:00" style="width:auto;flex:1;">
+        </div>
+      </div>
+      <div class="ob-buttons">
+        <button class="btn-primary" onclick="obFinish()">Done</button>
+        <button class="ob-back" onclick="obBack()">← Back</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -353,11 +354,39 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
     <div id="modal-programme-editor"></div>
     <div class="field" style="margin-top:16px;">
       <label>Anchor — week 1 starts on</label>
-      <input type="date" id="sched-anchor-date">
+      <input type="date" id="sched-anchor-date" onchange="updateAnchorPreview('sched-anchor-date','sched-anchor-preview','modal-programme-editor')">
     </div>
+    <div class="preview-card" id="sched-anchor-preview"></div>
     <div class="modal-actions">
       <button class="btn-secondary" style="flex:1;" onclick="closeScheduleModal()">Cancel</button>
       <button class="btn-primary" style="flex:2;margin-top:0;" onclick="saveSchedule()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Edit Area -->
+<div class="modal-overlay hidden" id="modal-area">
+  <div class="modal-sheet">
+    <div class="sheet-handle"></div>
+    <div class="modal-title">Area / street</div>
+    <div class="modal-sub">Choose the label shown on the home screen.</div>
+    <div class="field"><label>Name</label><input type="text" id="modal-area-input" maxlength="40" placeholder="e.g. Woodsetts"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" style="flex:1;" onclick="closeAreaModal()">Cancel</button>
+      <button class="btn-primary" style="flex:2;margin-top:0;" onclick="saveAreaModal()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Reset -->
+<div class="modal-overlay hidden" id="modal-reset">
+  <div class="modal-sheet">
+    <div class="sheet-handle"></div>
+    <div class="modal-title">Reset all data</div>
+    <div class="modal-sub">This will remove your bins, schedule, notifications, and overrides from this device.</div>
+    <div class="modal-actions">
+      <button class="btn-secondary" style="flex:1;" onclick="closeResetModal()">Cancel</button>
+      <button class="btn-primary" style="flex:2;margin-top:0;background:#ef4444;color:#fff;" onclick="confirmReset()">Reset</button>
     </div>
   </div>
 </div>
@@ -446,44 +475,105 @@ function getWeekIndex(d) {
   return idx;
 }
 
-function getCollectionsOnDate(d) {
+function getNudgeByOriginal(iso) {
+  return config.nudges.find(function(n) { return n.original === iso; }) || null;
+}
+
+function getNudgeByActual(iso) {
+  return config.nudges.find(function(n) { return n.actual === iso; }) || null;
+}
+
+function getScheduledBinsOnDate(d) {
   var prog = config.schedule.programme;
   if (!prog || !prog.length || !config.schedule.anchorMonday) return [];
-  var iso = fmtISO(d);
-  var nudgeAsActual = config.nudges.find(function(n) { return n.actual === iso; });
-  var checkDate = nudgeAsActual ? new Date(nudgeAsActual.original + 'T00:00:00') : d;
-  var weekIdx = getWeekIndex(checkDate);
+  var weekIdx = getWeekIndex(d);
   var week = prog[weekIdx];
   if (!week) return [];
-  var dow = checkDate.getDay();
+  var dow = d.getDay();
+
   return week.slots
     .filter(function(s) { return s.day === dow; })
     .map(function(s) { return config.binTypes.find(function(b) { return b.id === s.binId; }); })
     .filter(Boolean);
 }
 
+function getCollectionsOnDate(d) {
+  var iso = fmtISO(d);
+
+  // Original date that has been moved away: show nothing on the original day.
+  if (getNudgeByOriginal(iso)) return [];
+
+  // Actual moved-to date: derive bins from the original scheduled date.
+  var incoming = getNudgeByActual(iso);
+  if (incoming) {
+    return getScheduledBinsOnDate(new Date(incoming.original + 'T00:00:00'));
+  }
+
+  return getScheduledBinsOnDate(d);
+}
+
+function getCollectionDetailForDate(d) {
+  var iso = fmtISO(d);
+  var origNudge = getNudgeByOriginal(iso);
+  var actualNudge = getNudgeByActual(iso);
+
+  if (origNudge) {
+    return {
+      kind: 'original-moved',
+      date: d,
+      originalDate: d,
+      actualDate: new Date(origNudge.actual + 'T00:00:00'),
+      bins: getScheduledBinsOnDate(d)
+    };
+  }
+
+  if (actualNudge) {
+    var originalDate = new Date(actualNudge.original + 'T00:00:00');
+    return {
+      kind: 'actual-moved',
+      date: d,
+      originalDate: originalDate,
+      actualDate: d,
+      bins: getScheduledBinsOnDate(originalDate)
+    };
+  }
+
+  return {
+    kind: 'normal',
+    date: d,
+    originalDate: d,
+    actualDate: d,
+    bins: getScheduledBinsOnDate(d)
+  };
+}
+
 function getNextCollections(count, fromDate) {
   count = count || 10;
   fromDate = fromDate || new Date();
-  var prog = config.schedule.programme;
-  if (!prog || !prog.length || !config.schedule.anchorMonday) return [];
 
   var results = [];
-  var d = new Date(fromDate); d.setHours(0,0,0,0);
+  var d = new Date(fromDate);
+  d.setHours(0,0,0,0);
   var maxDays = 366 * 3;
 
   for (var i = 0; i < maxDays && results.length < count; i++) {
-    var candidate = new Date(d); candidate.setDate(d.getDate() + i);
+    var candidate = new Date(d);
+    candidate.setDate(d.getDate() + i);
+
     var bins = getCollectionsOnDate(candidate);
-    var iso = fmtISO(candidate);
-    var nudge = config.nudges.find(function(n) { return n.original === iso; });
-    if (bins.length > 0) {
-      var actualDate = nudge ? new Date(nudge.actual + 'T00:00:00') : candidate;
-      bins.forEach(function(bin) {
-        results.push({ date: actualDate, originalDate: candidate, bin: bin, isNudged: !!nudge });
+    if (!bins.length) continue;
+
+    var detail = getCollectionDetailForDate(candidate);
+    bins.forEach(function(bin) {
+      results.push({
+        date: new Date(detail.actualDate),
+        originalDate: new Date(detail.originalDate),
+        bin: bin,
+        isNudged: detail.kind === 'actual-moved'
       });
-    }
+    });
   }
+
   results.sort(function(a,b) { return a.date - b.date; });
   return results.slice(0, count);
 }
@@ -500,20 +590,22 @@ function renderProgrammeEditor(containerId, programme) {
   html += '<div class="prog-cycle-info">Your cycle repeats every <strong>' + prog.length + ' week' + (prog.length > 1 ? 's' : '') + '</strong>. Each week can have collections on any day(s) with any bin(s).</div>';
 
   prog.forEach(function(week, wi) {
-    html += '<div class="week-block" id="week-block-' + wi + '">';
+    html += '<div class="week-block" id="week-block-' + containerId + '-' + wi + '">';
     html += '<div class="week-block-header"><span class="week-block-title">Week ' + (wi+1) + '</span>';
     if (prog.length > 1) {
       html += '<button class="icon-btn del" onclick="removeWeek(' + wi + ',\'' + containerId + '\')">✕</button>';
     }
     html += '</div>';
+
     week.slots.forEach(function(slot, si) {
       html += '<div class="week-slot">';
       html += '<span class="week-slot-day">' + (DAY_NAMES[slot.day] || '?') + '</span>';
-      html += buildDaySelect(slot.day, 'slot-day-' + wi + '-' + si, 'onSlotChange(\'' + containerId + '\',' + wi + ',' + si + ',\'day\',this.value)');
-      html += buildBinSelect(slot.binId, 'slot-bin-' + wi + '-' + si, 'onSlotChange(\'' + containerId + '\',' + wi + ',' + si + ',\'bin\',this.value)');
+      html += buildDaySelect(slot.day, 'slot-day-' + containerId + '-' + wi + '-' + si, 'onSlotChange(\'' + containerId + '\',' + wi + ',' + si + ',\'day\',this.value)');
+      html += buildBinSelect(slot.binId, 'slot-bin-' + containerId + '-' + wi + '-' + si, 'onSlotChange(\'' + containerId + '\',' + wi + ',' + si + ',\'bin\',this.value)');
       html += '<button class="icon-btn del" onclick="removeSlot(\'' + containerId + '\',' + wi + ',' + si + ')">✕</button>';
       html += '</div>';
     });
+
     html += '<button class="add-day-btn" onclick="addSlot(\'' + containerId + '\',' + wi + ')">+ Add collection day</button>';
     html += '</div>';
   });
@@ -551,11 +643,12 @@ function getProg(containerId) {
 
 function onSlotChange(containerId, wi, si, field, val) {
   var prog = getProg(containerId);
-  if (field === 'day') prog[wi].slots[si].day = parseInt(val);
+  if (field === 'day') prog[wi].slots[si].day = parseInt(val, 10);
   if (field === 'bin') prog[wi].slots[si].binId = val;
   document.getElementById(containerId)._prog = prog;
-  var span = document.querySelector('#week-block-' + wi + ' .week-slot:nth-child(' + (si+2) + ') .week-slot-day');
-  if (span && field === 'day') span.textContent = DAY_NAMES[parseInt(val)] || '';
+
+  var span = document.querySelector('#week-block-' + containerId + '-' + wi + ' .week-slot:nth-child(' + (si + 2) + ') .week-slot-day');
+  if (span && field === 'day') span.textContent = DAY_NAMES[parseInt(val, 10)] || '';
 }
 
 function addSlot(containerId, wi) {
@@ -696,6 +789,48 @@ function svgBin(color, size) {
 function binThumb(bin, size) {
   size = size || 32;
   return '<div style="width:'+size+'px;height:'+size+'px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+svgBin(bin.color, size)+'</div>';
+}
+
+function makeAnchorPreviewHTML(anchorIso, programme) {
+  if (!anchorIso) {
+    return '<div class="preview-row"><span class="preview-k">Preview</span><span class="preview-v">Select a Monday</span></div>';
+  }
+
+  var monday = getMondayOf(new Date(anchorIso + 'T00:00:00'));
+  var today = new Date();
+  today.setHours(0,0,0,0);
+
+  var previewProg = programme || config.schedule.programme;
+  var tempConfig = {
+    schedule: { programme: previewProg, anchorMonday: fmtISO(monday) },
+    binTypes: config.binTypes,
+    nudges: config.nudges
+  };
+
+  var upcomingText = 'No collections found';
+  var originalConfig = config;
+
+  // Temporarily swap in a safe subset so preview respects the chosen programme + date.
+  config = Object.assign({}, config, tempConfig);
+  var previewCollections = getNextCollections(1, today);
+  config = originalConfig;
+
+  if (previewCollections[0]) {
+    upcomingText = '<strong>' + previewCollections[0].bin.name + '</strong> · ' + fmtDisplay(previewCollections[0].date);
+  }
+
+  return '' +
+    '<div class="preview-row"><span class="preview-k">Week 1 Monday</span><span class="preview-v"><strong>' + fmtLong(monday) + '</strong></span></div>' +
+    '<div class="preview-row"><span class="preview-k">Next prediction</span><span class="preview-v">' + upcomingText + '</span></div>';
+}
+
+function updateAnchorPreview(inputId, previewId, programmeContainerId) {
+  var input = document.getElementById(inputId);
+  var preview = document.getElementById(previewId);
+  if (!input || !preview) return;
+
+  var programme = programmeContainerId ? getProg(programmeContainerId) : config.schedule.programme;
+  preview.innerHTML = makeAnchorPreviewHTML(input.value, programme);
 }
 
 // ─────────────────────────────────────────────────────────
@@ -839,24 +974,33 @@ function renderCalendar() {
   var today=new Date(); today.setHours(0,0,0,0);
 
   var cells='';
-  for (var i=0;i<startDow;i++){var pd=new Date(y,m,-startDow+1+i);cells+='<div class="cal-cell other-month"><span class="cal-date-num">'+pd.getDate()+'</span></div>';}
+  for (var i=0;i<startDow;i++){
+    var pd=new Date(y,m,-startDow+1+i);
+    cells+='<div class="cal-cell other-month"><span class="cal-date-num">'+pd.getDate()+'</span></div>';
+  }
+
   for (var d=1;d<=lastDay.getDate();d++){
     var date=new Date(y,m,d);
     var iso=fmtISO(date);
     var isToday=date.getTime()===today.getTime();
     var bins=getCollectionsOnDate(date);
-    var isNudgeOrig=config.nudges.find(function(n){return n.original===iso;});
-    var cls='cal-cell'+(isToday?' today':'')+(bins.length&&!isNudgeOrig?' bin-day':'')+(isNudgeOrig?' nudged':'');
-    var bg2=(bins.length&&!isNudgeOrig)?'background:'+colorBg(bins[0].color,0.14)+';':'';
+    var isNudgeOrig=!!getNudgeByOriginal(iso);
+    var cls='cal-cell'+(isToday?' today':'')+(bins.length?' bin-day':'')+(isNudgeOrig?' nudged':'');
+    var bg2=(bins.length)?'background:'+colorBg(bins[0].color,0.14)+';':'';
     var dotsHtml='';
-    if (bins.length&&!isNudgeOrig) {
+
+    if (bins.length) {
       dotsHtml='<div class="cal-dots">'+bins.map(function(b){return '<div class="cal-dot" style="background:'+b.color+'"></div>';}).join('')+'</div>';
     }
+
     var nm=isNudgeOrig?'<span class="nudge-mark">↗</span>':'';
     cells+='<div class="'+cls+'" style="'+bg2+'" onclick="calCellClick(\''+iso+'\')"><span class="cal-date-num">'+d+'</span>'+dotsHtml+nm+'</div>';
   }
+
   var rem=(startDow+lastDay.getDate())%7;
-  for (var j=1;j<=(rem?7-rem:0);j++){cells+='<div class="cal-cell other-month"><span class="cal-date-num">'+j+'</span></div>';}
+  for (var j=1;j<=(rem?7-rem:0);j++){
+    cells+='<div class="cal-cell other-month"><span class="cal-date-num">'+j+'</span></div>';
+  }
 
   var legend=config.binTypes.map(function(b){
     return '<div class="cal-legend-item"><div class="cal-legend-swatch" style="background:'+colorBg(b.color,0.35)+';border:1px solid '+b.color+'"></div>'+b.name+'</div>';
@@ -877,13 +1021,28 @@ function calNav(dir){calendarDate.setMonth(calendarDate.getMonth()+dir);renderCa
 
 function calCellClick(iso) {
   var d=new Date(iso+'T00:00:00');
-  var bins=getCollectionsOnDate(d);
+  var detailData=getCollectionDetailForDate(d);
   var detail=document.getElementById('cal-detail');
-  if (bins.length) {
-    detail.className='cal-detail visible';
-    detail.innerHTML='<div class="cal-detail-date">'+fmtLong(d)+'</div>'+
-      bins.map(function(b){return '<div class="cal-detail-row">'+svgBin(b.color,36)+'<div><div class="cal-detail-name">'+b.name+'</div><div style="font-size:11px;color:var(--t2)">'+b.label+'</div></div></div>';}).join('');
-  } else { detail.className='cal-detail'; }
+
+  if (!detailData.bins.length) {
+    detail.className='cal-detail';
+    return;
+  }
+
+  var note = '';
+  if (detailData.kind === 'original-moved') {
+    note = '<div class="cal-detail-note">Moved to ' + fmtLong(detailData.actualDate) + '</div>';
+  } else if (detailData.kind === 'actual-moved') {
+    note = '<div class="cal-detail-note">Moved from ' + fmtLong(detailData.originalDate) + '</div>';
+  }
+
+  detail.className='cal-detail visible';
+  detail.innerHTML =
+    '<div class="cal-detail-date">'+fmtLong(d)+'</div>'+
+    note+
+    detailData.bins.map(function(b){
+      return '<div class="cal-detail-row">'+svgBin(b.color,36)+'<div><div class="cal-detail-name">'+b.name+'</div><div style="font-size:11px;color:var(--t2)">'+b.label+'</div></div></div>';
+    }).join('');
 }
 
 function renderSettings() {
@@ -917,7 +1076,7 @@ function renderSettings() {
     '<div class="settings-header"><h2>Settings</h2><p>Configure your collection</p></div>'+
     '<div class="s-section-title">Location</div>'+
     '<div class="s-card">'+
-      '<div class="s-row" onclick="editAreaName()"><span class="s-row-label">Area / street</span><span class="s-row-value">'+(config.area||'Not set')+'</span></div>'+
+      '<div class="s-row" onclick="openAreaModal()"><span class="s-row-label">Area / street</span><span class="s-row-value">'+(config.area||'Not set')+'</span></div>'+
     '</div>'+
     '<div class="s-section-title">Bin types</div>'+
     '<div class="bin-type-list">'+binList+'</div>'+
@@ -939,10 +1098,10 @@ function renderSettings() {
       '<div class="s-row" style="cursor:default;"><span class="s-row-label">Morning time</span><input type="time" value="'+notif.morningTime+'" onchange="config.notifications.morningTime=this.value;saveConfig();" style="width:auto;background:none;border:none;color:var(--t2);font-family:\'Geist Mono\',monospace;font-size:12px;text-align:right;outline:none;"></div>'+
     '</div>'+
     '<div class="s-section-title" style="margin-top:24px;">Data</div>'+
-    '<div class="s-card"><div class="s-row" onclick="resetApp()"><span class="s-row-label" style="color:#f87171">Reset all data</span><span class="s-row-chevron">›</span></div></div>'+
+    '<div class="s-card"><div class="s-row" onclick="openResetModal()"><span class="s-row-label" style="color:#f87171">Reset all data</span><span class="s-row-chevron">›</span></div></div>'+
     '<div class="s-section-title" style="margin-top:24px;">About</div>'+
     '<div class="s-card">'+
-      '<div class="s-row" style="cursor:default;"><span class="s-row-label">Bin Day</span><span class="s-row-value">v1.0</span></div>'+
+      '<div class="s-row" style="cursor:default;"><span class="s-row-label">Bin Day</span><span class="s-row-value">v1.1</span></div>'+
       '<div class="s-row" onclick="window.open(\'https://instagram.com/snazzygaz\',\'_blank\')" style="cursor:pointer;">'+
         '<span class="s-row-label">Made by snazzygaz</span>'+
         '<span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2);">'+
@@ -962,13 +1121,16 @@ function initOnboarding() {
   renderObProgress();
   renderObBinList();
   renderProgrammeEditor('ob-programme-editor', config.schedule.programme);
+
   var monday = getMondayOf(new Date());
   document.getElementById('ob-anchor-date').value = fmtISO(monday);
+
   updateAnchorLabel();
+  updateAnchorPreview('ob-anchor-date', 'ob-anchor-preview');
 }
 
 function updateAnchorLabel() {
-  var prog = config.schedule.programme;
+  var prog = getProg('ob-programme-editor');
   var n = prog ? prog.length : 1;
   var sub = document.getElementById('ob-step3-sub');
   if (sub) sub.textContent = 'Pick any Monday that was the start of Week 1 in your ' + n + '-week cycle. Check a recent bin calendar or letter from your council.';
@@ -998,8 +1160,29 @@ function renderObBinList() {
 }
 
 function deleteBinOb(id) {
-  config.binTypes=config.binTypes.filter(function(b){return b.id!==id;});
+  if (config.binTypes.length <= 1) {
+    showToast("Can't remove the only bin");
+    return;
+  }
+
+  var remainingBins = config.binTypes.filter(function(b){ return b.id !== id; });
+  var fallbackBinId = remainingBins[0].id;
+
+  config.schedule.programme.forEach(function(week){
+    week.slots = week.slots
+      .filter(function(s){ return s.binId !== id; })
+      .map(function(s){
+        return remainingBins.some(function(b){ return b.id === s.binId; })
+          ? s
+          : { day: s.day, binId: fallbackBinId };
+      });
+
+    if (!week.slots.length) week.slots = [{ day: 2, binId: fallbackBinId }];
+  });
+
+  config.binTypes = remainingBins;
   renderObBinList();
+  renderProgrammeEditor('ob-programme-editor', config.schedule.programme);
 }
 
 function obNext() {
@@ -1017,6 +1200,7 @@ function obNext() {
     config.schedule.programme = prog;
     saveConfig();
     updateAnchorLabel();
+    updateAnchorPreview('ob-anchor-date', 'ob-anchor-preview');
   }
   if (obStep===3) {
     var dateVal=document.getElementById('ob-anchor-date').value;
@@ -1042,7 +1226,11 @@ function obBack() {
   if (obStep===0) document.getElementById('ob-area').value=config.area||'';
   if (obStep===1) renderObBinList();
   if (obStep===2) renderProgrammeEditor('ob-programme-editor', config.schedule.programme);
-  if (obStep===3) { document.getElementById('ob-anchor-date').value=config.schedule.anchorMonday||''; updateAnchorLabel(); }
+  if (obStep===3) {
+    document.getElementById('ob-anchor-date').value=config.schedule.anchorMonday||fmtISO(getMondayOf(new Date()));
+    updateAnchorLabel();
+    updateAnchorPreview('ob-anchor-date', 'ob-anchor-preview');
+  }
 }
 
 function obFinish() {
@@ -1070,21 +1258,26 @@ function obFinish() {
 // MODALS
 // ─────────────────────────────────────────────────────────
 function openAddBinModal(binId, isOb) {
-  modalBinEditId=binId; modalBinIsOb=isOb;
+  modalBinEditId=binId;
+  modalBinIsOb=isOb;
   var bin=binId?config.binTypes.find(function(b){return b.id===binId;}):null;
   document.getElementById('modal-bin-title').textContent=bin?'Edit bin type':'Add bin type';
   document.getElementById('modal-bin-name').value=bin?bin.name:'';
   document.getElementById('modal-bin-label').value=bin?bin.label:'';
   selectedModalColor=bin?bin.color:COLORS[0];
+
   document.getElementById('modal-color-grid').innerHTML=COLORS.map(function(c){
-    return '<div class="color-swatch '+(c===selectedModalColor?'selected':'')+'" style="background:'+c+'" onclick="selectColor(\''+c+'\')"></div>';
+    return '<div class="color-swatch '+(c===selectedModalColor?'selected':'')+'" data-color="'+c+'" style="background:'+c+'" onclick="selectColor(\''+c+'\')"></div>';
   }).join('');
+
   document.getElementById('modal-bin').classList.remove('hidden');
 }
 
 function selectColor(c) {
-  selectedModalColor=c;
-  document.querySelectorAll('.color-swatch').forEach(function(s){s.classList.toggle('selected',s.style.background===c);});
+  selectedModalColor = c;
+  document.querySelectorAll('.color-swatch').forEach(function(s){
+    s.classList.toggle('selected', s.getAttribute('data-color') === c);
+  });
 }
 
 function closeBinModal(){document.getElementById('modal-bin').classList.add('hidden');}
@@ -1093,6 +1286,7 @@ function saveBinModal() {
   var name=document.getElementById('modal-bin-name').value.trim();
   var label=document.getElementById('modal-bin-label').value.trim();
   if (!name){showToast('Enter a name');return;}
+
   if (modalBinEditId) {
     var b=config.binTypes.find(function(x){return x.id===modalBinEditId;});
     if (b){b.name=name;b.label=label||name;b.color=selectedModalColor;}
@@ -1100,20 +1294,46 @@ function saveBinModal() {
     var id='bin_'+Date.now();
     config.binTypes.push({id:id,name:name,label:label||name,color:selectedModalColor});
   }
-  saveConfig(); closeBinModal();
-  if (modalBinIsOb){renderObBinList();renderProgrammeEditor('ob-programme-editor',config.schedule.programme);}
-  else{renderSettings();}
+
+  saveConfig();
+  closeBinModal();
+
+  if (modalBinIsOb){
+    renderObBinList();
+    renderProgrammeEditor('ob-programme-editor',config.schedule.programme);
+  } else {
+    renderSettings();
+  }
+
   showToast(modalBinEditId?'Bin updated':'Bin added');
 }
 
 function deleteBin(id) {
-  if (config.binTypes.length<=1){showToast("Can't remove the only bin");return;}
-  config.binTypes=config.binTypes.filter(function(b){return b.id!==id;});
+  if (config.binTypes.length <= 1) {
+    showToast("Can't remove the only bin");
+    return;
+  }
+
+  var remainingBins = config.binTypes.filter(function(b){ return b.id !== id; });
+  var fallbackBinId = remainingBins[0].id;
+
   config.schedule.programme.forEach(function(week){
-    week.slots=week.slots.filter(function(s){return s.binId!==id;});
-    if (!week.slots.length && config.binTypes.length) week.slots=[{day:2,binId:config.binTypes[0].id}];
+    week.slots = week.slots
+      .filter(function(s){ return s.binId !== id; })
+      .map(function(s){
+        return remainingBins.some(function(b){ return b.id === s.binId; })
+          ? s
+          : { day: s.day, binId: fallbackBinId };
+      });
+
+    if (!week.slots.length) {
+      week.slots = [{ day: 2, binId: fallbackBinId }];
+    }
   });
-  saveConfig(); renderSettings();
+
+  config.binTypes = remainingBins;
+  saveConfig();
+  renderSettings();
   showToast('Bin removed');
 }
 
@@ -1128,16 +1348,31 @@ function saveNudge() {
   var orig=document.getElementById('nudge-original').value;
   var actual=document.getElementById('nudge-actual').value;
   if (!orig||!actual){showToast('Fill in both dates');return;}
-  config.nudges.push({original:orig,actual:actual});
-  saveConfig(); closeNudgeModal(); renderSettings();
+  if (actual === orig){showToast('Choose a different actual date');return;}
+
+  var existingIdx = config.nudges.findIndex(function(n){ return n.original === orig; });
+  if (existingIdx >= 0) {
+    config.nudges[existingIdx] = {original:orig,actual:actual};
+  } else {
+    config.nudges.push({original:orig,actual:actual});
+  }
+
+  saveConfig();
+  closeNudgeModal();
+  renderSettings();
   showToast('Override saved');
 }
 
-function deleteNudge(i){config.nudges.splice(i,1);saveConfig();renderSettings();}
+function deleteNudge(i){
+  config.nudges.splice(i,1);
+  saveConfig();
+  renderSettings();
+}
 
 function openScheduleModal() {
   document.getElementById('sched-anchor-date').value=config.schedule.anchorMonday||'';
   renderProgrammeEditor('modal-programme-editor', config.schedule.programme);
+  updateAnchorPreview('sched-anchor-date','sched-anchor-preview','modal-programme-editor');
   document.getElementById('modal-schedule').classList.remove('hidden');
 }
 function closeScheduleModal(){document.getElementById('modal-schedule').classList.add('hidden');}
@@ -1150,28 +1385,54 @@ function saveSchedule() {
   var d=new Date(anchor+'T00:00:00');
   config.schedule.anchorMonday=fmtISO(getMondayOf(d));
   config.schedule.programme=prog;
-  saveConfig(); closeScheduleModal(); renderSettings();
+  saveConfig();
+  closeScheduleModal();
+  renderSettings();
   showToast('Schedule saved');
 }
 
-function toggleSetting(key){config.notifications[key]=!config.notifications[key];saveConfig();renderSettings();}
-function toggleNotifications(){config.notifications.evening=!config.notifications.evening;saveConfig();renderHome();}
-
-function editAreaName(){
-  var v=prompt('Area or street name:',config.area);
-  if (v!==null){config.area=v.trim();saveConfig();renderSettings();}
+function toggleSetting(key){
+  config.notifications[key]=!config.notifications[key];
+  saveConfig();
+  renderSettings();
 }
 
-function resetApp(){
-  if (confirm('Reset all data? This cannot be undone.')){
-    localStorage.removeItem('binday-config'); location.reload();
-  }
+function toggleNotifications(){
+  config.notifications.evening=!config.notifications.evening;
+  saveConfig();
+  renderHome();
+}
+
+function openAreaModal() {
+  document.getElementById('modal-area-input').value = config.area || '';
+  document.getElementById('modal-area').classList.remove('hidden');
+}
+function closeAreaModal(){document.getElementById('modal-area').classList.add('hidden');}
+
+function saveAreaModal() {
+  config.area = document.getElementById('modal-area-input').value.trim();
+  saveConfig();
+  closeAreaModal();
+  renderSettings();
+  showToast('Area updated');
+}
+
+function openResetModal(){document.getElementById('modal-reset').classList.remove('hidden');}
+function closeResetModal(){document.getElementById('modal-reset').classList.add('hidden');}
+
+function confirmReset(){
+  localStorage.removeItem('binday-config');
+  location.reload();
 }
 
 // ─────────────────────────────────────────────────────────
 // INIT
 // ─────────────────────────────────────────────────────────
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(function(){});
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(function(err){
+    console.error('SW registration failed:', err);
+  });
+}
 
 history.replaceState({ view: 'home' }, '', '');
 
