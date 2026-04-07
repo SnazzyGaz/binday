@@ -302,7 +302,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <button class="btn-secondary" onclick="openAddBinModal(null,true)" style="margin-bottom:18px;width:100%;justify-content:center;">+ Add bin type</button>
       <div class="ob-buttons">
         <button class="btn-primary" onclick="obNext()">Continue</button>
-        <button class="ob-back" onclick="obBack()">â† Back</button>
+        <button class="ob-back" onclick="obBack()">< Back</button>
       </div>
     </div>
 
@@ -312,7 +312,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div id="ob-programme-editor"></div>
       <div class="ob-buttons">
         <button class="btn-primary" onclick="obNext()">Continue</button>
-        <button class="ob-back" onclick="obBack()">â† Back</button>
+        <button class="ob-back" onclick="obBack()">< Back</button>
       </div>
     </div>
 
@@ -323,17 +323,17 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <label id="ob-anchor-date-label">Week 1 start date (any Monday)</label>
         <input type="date" id="ob-anchor-date" onchange="onAnchorDateChange('ob-anchor-date','ob-anchor-preview','ob-anchor-warning')">
       </div>
-      <div class="anchor-warning" id="ob-anchor-warning">That's not a Monday â€” it's been snapped to the nearest Monday.</div>
+      <div class="anchor-warning" id="ob-anchor-warning">That's not a Monday - it's been snapped to the nearest Monday.</div>
       <div class="preview-card" id="ob-anchor-preview"></div>
       <div class="ob-buttons">
         <button class="btn-primary" onclick="obNext()">Continue</button>
-        <button class="ob-back" onclick="obBack()">â† Back</button>
+        <button class="ob-back" onclick="obBack()">< Back</button>
       </div>
     </div>
 
     <div id="ob-step-4" class="ob-step">
       <div class="ob-title">Reminders</div>
-      <div class="ob-sub">Optional â€” get nudged the night before so you never forget.</div>
+      <div class="ob-sub">Optional - get nudged the night before so you never forget.</div>
       <div class="field">
         <label>Evening reminder (night before)</label>
         <div style="display:flex;gap:12px;align-items:center;">
@@ -350,7 +350,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
       <div class="ob-buttons">
         <button class="btn-primary" onclick="obFinish()">Done</button>
-        <button class="ob-back" onclick="obBack()">â† Back</button>
+        <button class="ob-back" onclick="obBack()">< Back</button>
       </div>
     </div>
   </div>
@@ -395,10 +395,10 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
     <div class="modal-sub">Define each week in your cycle. The pattern repeats automatically.</div>
     <div id="modal-programme-editor"></div>
     <div class="field" style="margin-top:16px;">
-      <label>Anchor â€” week 1 starts on</label>
+      <label>Anchor - week 1 starts on</label>
       <input type="date" id="sched-anchor-date" onchange="onAnchorDateChange('sched-anchor-date','sched-anchor-preview','sched-anchor-warning','modal-programme-editor')">
     </div>
-    <div class="anchor-warning" id="sched-anchor-warning">That's not a Monday â€” it's been snapped to the nearest Monday.</div>
+    <div class="anchor-warning" id="sched-anchor-warning">That's not a Monday - it's been snapped to the nearest Monday.</div>
     <div class="preview-card" id="sched-anchor-preview"></div>
     <div class="modal-actions">
       <button class="btn-secondary" style="flex:1;" onclick="closeScheduleModal()">Cancel</button>
