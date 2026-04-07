@@ -25,7 +25,7 @@
 html,body{height:100%;overflow:hidden}
 body{font-family:'Geist',sans-serif;background:var(--bg);color:var(--t1);-webkit-font-smoothing:antialiased;overscroll-behavior:none}
 
-/* ── layout ── */
+/* â”€â”€ layout â”€â”€ */
 #app{height:100%;display:flex;flex-direction:column;padding-top:var(--safe-t)}
 #view-wrap{flex:1;display:flex;overflow:hidden;position:relative;background:var(--bg)}
 .view{position:absolute;inset:0;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;align-items:center;background:var(--bg);transform:translateX(100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);will-change:transform;pointer-events:none;visibility:hidden}
@@ -36,14 +36,14 @@ body{font-family:'Geist',sans-serif;background:var(--bg);color:var(--t1);-webkit
 .view.slide-right{transform:translateX(100%)}
 .page{width:100%;max-width:480px;padding:0 var(--pad) 28px;display:flex;flex-direction:column;gap:12px}
 
-/* ── nav ── */
+/* â”€â”€ nav â”€â”€ */
 #nav{display:flex;background:var(--s1);border-top:1px solid var(--b1);padding:10px 0;flex-shrink:0;padding-bottom:max(10px,calc(var(--safe-b) + 2px))}
 .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;cursor:pointer;color:var(--t3);font-family:'Geist',sans-serif;font-size:10px;letter-spacing:0.4px;padding:2px 0;transition:color 0.2s}
 .nav-btn svg{opacity:0.35;transition:opacity 0.2s}
 .nav-btn.active{color:var(--t1)}
 .nav-btn.active svg{opacity:1}
 
-/* ── onboarding ── */
+/* â”€â”€ onboarding â”€â”€ */
 #onboarding{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;overflow-y:auto}
 #onboarding.hidden{display:none}
 .ob-inner{width:100%;max-width:480px;padding:calc(var(--safe-t)+44px) var(--pad) calc(var(--safe-b)+28px);display:flex;flex-direction:column;flex:1;min-height:100%}
@@ -65,7 +65,7 @@ body{font-family:'Geist',sans-serif;background:var(--bg);color:var(--t1);-webkit
 .preview-v{font-size:13px;text-align:right;color:var(--t2)}
 .preview-v strong{color:var(--t1);font-weight:500}
 
-/* ── inputs ── */
+/* â”€â”€ inputs â”€â”€ */
 .field{margin-bottom:18px}
 .field label{display:block;font-size:11px;color:var(--t3);margin-bottom:8px;letter-spacing:0.7px;text-transform:uppercase;font-weight:500}
 input[type=text],input[type=date],select,input[type=time],textarea{
@@ -77,13 +77,13 @@ input:focus,select:focus,textarea:focus{border-color:var(--b3)}
 input[type=date]::-webkit-calendar-picker-indicator{filter:invert(1);opacity:0.25}
 select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%233d4157' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
 
-/* ── buttons ── */
+/* â”€â”€ buttons â”€â”€ */
 .btn-primary{display:block;width:100%;padding:16px;background:var(--t1);color:var(--bg);border:none;border-radius:var(--r-sm);font-family:'Geist',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:opacity 0.15s,transform 0.1s;letter-spacing:-0.1px}
 .btn-primary:active{opacity:0.8;transform:scale(0.99)}
 .btn-secondary{display:inline-flex;align-items:center;gap:6px;padding:11px 16px;background:transparent;border:1px solid var(--b2);border-radius:var(--r-sm);color:var(--t2);font-family:'Geist',sans-serif;font-size:13px;cursor:pointer;transition:border-color 0.15s,color 0.15s}
 .btn-secondary:active{border-color:var(--b3);color:var(--t1)}
 
-/* ── home ── */
+/* â”€â”€ home â”€â”€ */
 .home-header{padding:24px 0 4px;display:flex;justify-content:space-between;align-items:flex-end}
 .home-header h1{font-size:22px;font-weight:500;letter-spacing:-0.4px}
 .home-header .date-chip{font-size:11px;color:var(--t3);font-family:'Geist Mono',monospace}
@@ -138,7 +138,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .toggle::after{content:'';position:absolute;width:17px;height:17px;border-radius:50%;background:var(--t1);top:2px;left:2px;transition:transform 0.18s;box-shadow:0 1px 4px rgba(0,0,0,0.4)}
 .toggle.on::after{transform:translateX(17px)}
 
-/* ── calendar ── */
+/* â”€â”€ calendar â”€â”€ */
 .cal-header-row{padding:24px 0 18px;display:flex;justify-content:space-between;align-items:center}
 .cal-header-row h2{font-size:20px;font-weight:500;letter-spacing:-0.3px}
 .cal-nav-btns{display:flex;gap:7px}
@@ -166,7 +166,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .cal-detail-name{font-size:14px;font-weight:500}
 .cal-detail-contents{font-size:11px;color:var(--t3);margin-top:2px;white-space:pre-wrap}
 
-/* ── settings ── */
+/* â”€â”€ settings â”€â”€ */
 .settings-header{padding:24px 0 20px}
 .settings-header h2{font-size:22px;font-weight:500;letter-spacing:-0.4px}
 .settings-header p{font-size:13px;color:var(--t2);margin-top:5px}
@@ -192,21 +192,42 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .nudge-item{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r-sm);font-size:12px}
 .nudge-dates{color:var(--t2);font-family:'Geist Mono',monospace}
 
-/* ── week programme editor ── */
+/* â”€â”€ week programme editor â”€â”€ */
 .prog-cycle-info{font-size:13px;color:var(--t2);margin-bottom:16px;line-height:1.65}
+.prog-cycle-tip{margin-top:10px;padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:var(--r-xs);font-size:12px;color:var(--t2);line-height:1.65}
+.prog-cycle-tip strong{color:var(--t1);font-weight:500}
 .week-block{background:var(--s2);border:1px solid var(--b2);border-radius:var(--r-sm);margin-bottom:10px;overflow:hidden}
 .week-block-header{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid var(--b2)}
 .week-block-title{font-size:12px;font-weight:600;color:var(--t1);letter-spacing:0.3px;text-transform:uppercase}
 .week-slot{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--b1)}
 .week-slot:last-child{border-bottom:none}
+.week-empty{padding:12px 14px;border-bottom:1px solid var(--b1);font-size:12px;color:var(--t3);font-style:italic}
 .week-slot-day{font-size:11px;color:var(--t3);width:28px;flex-shrink:0;font-family:'Geist Mono',monospace}
 .week-slot select{flex:1;padding:7px 10px;font-size:12px;margin:0}
 .week-slot .icon-btn{flex-shrink:0}
 .add-day-btn{display:flex;align-items:center;gap:6px;padding:10px 14px;font-size:12px;color:var(--t3);cursor:pointer;background:none;border:none;font-family:'Geist',sans-serif;width:100%;transition:color 0.15s}
 .add-day-btn:active{color:var(--t2)}
 .prog-week-actions{display:flex;gap:8px;margin-top:10px}
+.helper-card{background:var(--s2);border:1px solid var(--b2);border-radius:var(--r-sm);padding:14px 14px 12px;margin-bottom:12px}
+.helper-card.off{opacity:0.65}
+.helper-card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.helper-card-title{font-size:12px;font-weight:600;letter-spacing:0.3px;text-transform:uppercase}
+.helper-enabled{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--t2)}
+.helper-enabled input{accent-color:#eef0f8}
+.helper-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.helper-grid .field{margin-bottom:10px}
+.helper-grid input[type=number]{padding-right:10px}
+.helper-seq{margin-top:4px}
+.helper-week-row{display:flex;align-items:center;gap:10px;padding:8px 0}
+.helper-week-label{width:52px;flex-shrink:0;font-size:11px;color:var(--t3);font-family:'Geist Mono',monospace}
+.helper-week-row select{flex:1}
+.helper-summary{margin-top:6px}
 
-/* ── modal ── */
+@media (max-width:420px){
+  .helper-grid{grid-template-columns:1fr}
+}
+
+/* â”€â”€ modal â”€â”€ */
 .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.65);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center}
 .modal-overlay.hidden{display:none}
 .modal-sheet{background:var(--s1);border-radius:20px 20px 0 0;border-top:1px solid var(--b2);padding:22px var(--pad) calc(28px + var(--safe-b));width:100%;max-width:500px;animation:sheetUp 0.3s cubic-bezier(0.16,1,0.3,1) both;max-height:90vh;overflow-y:auto}
@@ -281,7 +302,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <button class="btn-secondary" onclick="openAddBinModal(null,true)" style="margin-bottom:18px;width:100%;justify-content:center;">+ Add bin type</button>
       <div class="ob-buttons">
         <button class="btn-primary" onclick="obNext()">Continue</button>
-        <button class="ob-back" onclick="obBack()">← Back</button>
+        <button class="ob-back" onclick="obBack()">â† Back</button>
       </div>
     </div>
 
@@ -291,7 +312,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div id="ob-programme-editor"></div>
       <div class="ob-buttons">
         <button class="btn-primary" onclick="obNext()">Continue</button>
-        <button class="ob-back" onclick="obBack()">← Back</button>
+        <button class="ob-back" onclick="obBack()">â† Back</button>
       </div>
     </div>
 
@@ -302,17 +323,17 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <label id="ob-anchor-date-label">Week 1 start date (any Monday)</label>
         <input type="date" id="ob-anchor-date" onchange="onAnchorDateChange('ob-anchor-date','ob-anchor-preview','ob-anchor-warning')">
       </div>
-      <div class="anchor-warning" id="ob-anchor-warning">That's not a Monday — it's been snapped to the nearest Monday.</div>
+      <div class="anchor-warning" id="ob-anchor-warning">That's not a Monday â€” it's been snapped to the nearest Monday.</div>
       <div class="preview-card" id="ob-anchor-preview"></div>
       <div class="ob-buttons">
         <button class="btn-primary" onclick="obNext()">Continue</button>
-        <button class="ob-back" onclick="obBack()">← Back</button>
+        <button class="ob-back" onclick="obBack()">â† Back</button>
       </div>
     </div>
 
     <div id="ob-step-4" class="ob-step">
       <div class="ob-title">Reminders</div>
-      <div class="ob-sub">Optional — get nudged the night before so you never forget.</div>
+      <div class="ob-sub">Optional â€” get nudged the night before so you never forget.</div>
       <div class="field">
         <label>Evening reminder (night before)</label>
         <div style="display:flex;gap:12px;align-items:center;">
@@ -329,7 +350,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
       <div class="ob-buttons">
         <button class="btn-primary" onclick="obFinish()">Done</button>
-        <button class="ob-back" onclick="obBack()">← Back</button>
+        <button class="ob-back" onclick="obBack()">â† Back</button>
       </div>
     </div>
   </div>
@@ -374,14 +395,29 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
     <div class="modal-sub">Define each week in your cycle. The pattern repeats automatically.</div>
     <div id="modal-programme-editor"></div>
     <div class="field" style="margin-top:16px;">
-      <label>Anchor — week 1 starts on</label>
+      <label>Anchor â€” week 1 starts on</label>
       <input type="date" id="sched-anchor-date" onchange="onAnchorDateChange('sched-anchor-date','sched-anchor-preview','sched-anchor-warning','modal-programme-editor')">
     </div>
-    <div class="anchor-warning" id="sched-anchor-warning">That's not a Monday — it's been snapped to the nearest Monday.</div>
+    <div class="anchor-warning" id="sched-anchor-warning">That's not a Monday â€” it's been snapped to the nearest Monday.</div>
     <div class="preview-card" id="sched-anchor-preview"></div>
     <div class="modal-actions">
       <button class="btn-secondary" style="flex:1;" onclick="closeScheduleModal()">Cancel</button>
       <button class="btn-primary" style="flex:2;margin-top:0;" onclick="saveSchedule()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Cycle Helper -->
+<div class="modal-overlay hidden" id="modal-cycle-helper">
+  <div class="modal-sheet">
+    <div class="sheet-handle"></div>
+    <div class="modal-title">Cycle helper</div>
+    <div class="modal-sub">Build one full programme from separate repeating patterns. Useful when different collections repeat on different days or different week lengths.</div>
+    <div id="cycle-helper-editor"></div>
+    <div class="preview-card helper-summary" id="cycle-helper-preview"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" style="flex:1;" onclick="closeCycleHelper()">Cancel</button>
+      <button class="btn-primary" style="flex:2;margin-top:0;" onclick="applyCycleHelper()">Use this programme</button>
     </div>
   </div>
 </div>
@@ -447,9 +483,9 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 <div id="toast"></div>
 
 <script>
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // COLOURS & DEFAULTS
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 var COLORS = [
   {hex:'#22c55e',name:'Green'},
   {hex:'#16a34a',name:'Dark green'},
@@ -501,6 +537,8 @@ var svgUidCounter = 0;
 var pendingDeleteBinId = null;
 var pendingDeleteIsOb = false;
 var notifTimers = [];
+var cycleHelperTargetContainerId = null;
+var cycleHelperState = null;
 
 function loadConfig() {
   try {
@@ -525,9 +563,9 @@ function saveConfig() {
   localStorage.setItem('binday-config', JSON.stringify(config));
 }
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // NOTIFICATION SYSTEM
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function requestNotifPermission(callback) {
   if (!('Notification' in window)) {
     showToast('Notifications not supported on this browser');
@@ -539,7 +577,7 @@ function requestNotifPermission(callback) {
     return;
   }
   if (Notification.permission === 'denied') {
-    showToast('Notifications blocked — check browser settings');
+    showToast('Notifications blocked â€” check browser settings');
     if (callback) callback(false);
     return;
   }
@@ -568,7 +606,7 @@ function scheduleNotifications() {
     var collDate = new Date(collection.date);
     collDate.setHours(0,0,0,0);
 
-    // Evening reminder — night before
+    // Evening reminder â€” night before
     if (config.notifications.evening) {
       var eveParts = config.notifications.eveningTime.split(':');
       var eveDate = new Date(collDate);
@@ -587,7 +625,7 @@ function scheduleNotifications() {
       }
     }
 
-    // Morning reminder — day of
+    // Morning reminder â€” day of
     if (config.notifications.morning) {
       var mornParts = config.notifications.morningTime.split(':');
       var mornDate = new Date(collDate);
@@ -627,9 +665,9 @@ function fireNotification(title, body) {
 // Re-schedule every 6 hours to cover long-running tabs
 setInterval(scheduleNotifications, 6 * 3600000);
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // SCHEDULE ENGINE
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function getMondayOf(d) {
   var day = d.getDay();
   var diff = (day === 0) ? -6 : 1 - day;
@@ -754,46 +792,52 @@ function getNextCollections(count, fromDate) {
   return results.slice(0, count);
 }
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // PROGRAMME EDITOR (now with all 7 days)
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function renderProgrammeEditor(containerId, programme) {
   var container = document.getElementById(containerId);
   if (!container) return;
   var prog = programme || config.schedule.programme;
   var html = '';
 
-  html += '<div class="prog-cycle-info">Your cycle repeats every <strong>' + prog.length + ' week' + (prog.length > 1 ? 's' : '') + '</strong>. Each week can have collections on any day(s) with any bin(s).</div>';
+  html += '<div class="prog-cycle-info">Your cycle repeats every <strong>' + prog.length + ' week' + (prog.length > 1 ? 's' : '') + '</strong>. Each week can have collections on any day(s) with any bin(s).';
+  html += '<div class="prog-cycle-tip"><strong>Mixing different repeats?</strong> Use the shortest full repeat for the whole plan. Example: a 3-week Thursday rota plus a 2-week Wednesday rota becomes a <strong>6-week cycle</strong>.</div>';
+  html += '</div>';
 
   prog.forEach(function(week, wi) {
     html += '<div class="week-block" id="week-block-' + containerId + '-' + wi + '">';
-    html += '<div class="week-block-header"><span class="week-block-title">Week ' + (wi+1) + '</span>';
+    html += '<div class="week-block-header"><span class="week-block-title">Week ' + (wi + 1) + '</span>';
     if (prog.length > 1) {
-      html += '<button class="icon-btn del" onclick="removeWeek(' + wi + ',\'' + containerId + '\')">✕</button>';
+      html += '<button class="icon-btn del" onclick="removeWeek(' + wi + ',\'' + containerId + '\')">&times;</button>';
     }
     html += '</div>';
 
-    week.slots.forEach(function(slot, si) {
-      html += '<div class="week-slot">';
-      html += '<span class="week-slot-day">' + (DAY_NAMES[slot.day] || '?') + '</span>';
-      html += buildDaySelect(slot.day, 'slot-day-' + containerId + '-' + wi + '-' + si, 'onSlotChange(\'' + containerId + '\',' + wi + ',' + si + ',\'day\',this.value)');
-      html += buildBinSelect(slot.binId, 'slot-bin-' + containerId + '-' + wi + '-' + si, 'onSlotChange(\'' + containerId + '\',' + wi + ',' + si + ',\'bin\',this.value)');
-      html += '<button class="icon-btn del" onclick="removeSlot(\'' + containerId + '\',' + wi + ',' + si + ')">✕</button>';
-      html += '</div>';
-    });
+    if (!week.slots.length) {
+      html += '<div class="week-empty">No collections this week</div>';
+    } else {
+      week.slots.forEach(function(slot, si) {
+        html += '<div class="week-slot">';
+        html += '<span class="week-slot-day">' + (DAY_NAMES[slot.day] || '?') + '</span>';
+        html += buildDaySelect(slot.day, 'slot-day-' + containerId + '-' + wi + '-' + si, 'onSlotChange(\'' + containerId + '\',' + wi + ',' + si + ',\'day\',this.value)');
+        html += buildBinSelect(slot.binId, 'slot-bin-' + containerId + '-' + wi + '-' + si, 'onSlotChange(\'' + containerId + '\',' + wi + ',' + si + ',\'bin\',this.value)');
+        html += '<button class="icon-btn del" onclick="removeSlot(\'' + containerId + '\',' + wi + ',' + si + ')">&times;</button>';
+        html += '</div>';
+      });
+    }
 
     html += '<button class="add-day-btn" onclick="addSlot(\'' + containerId + '\',' + wi + ')">+ Add collection day</button>';
     html += '</div>';
   });
 
   html += '<div class="prog-week-actions">';
+  html += '<button class="btn-secondary" onclick="openCycleHelper(\'' + containerId + '\')" style="flex:1;justify-content:center;">Cycle helper</button>';
   html += '<button class="btn-secondary" onclick="addWeek(\'' + containerId + '\')" style="flex:1;justify-content:center;">+ Add week to cycle</button>';
   html += '</div>';
 
   container.innerHTML = html;
   container._prog = JSON.parse(JSON.stringify(prog));
 }
-
 function buildDaySelect(selectedDay, id, onchange) {
   var html = '<select id="' + id + '" onchange="' + onchange + '">';
   // All 7 days now available
@@ -838,7 +882,6 @@ function addSlot(containerId, wi) {
 
 function removeSlot(containerId, wi, si) {
   var prog = getProg(containerId);
-  if (prog[wi].slots.length <= 1) { showToast("Each week needs at least one collection"); return; }
   prog[wi].slots.splice(si, 1);
   document.getElementById(containerId)._prog = prog;
   renderProgrammeEditor(containerId, prog);
@@ -860,9 +903,239 @@ function removeWeek(wi, containerId) {
   renderProgrammeEditor(containerId, prog);
 }
 
-// ─────────────────────────────────────────────────────────
+function makeCycleHelperPattern(enabled, length, day, phase, sequence) {
+  return {
+    enabled: !!enabled,
+    length: Math.max(1, parseInt(length, 10) || 1),
+    day: parseInt(day, 10) || 1,
+    phase: Math.max(1, parseInt(phase, 10) || 1),
+    sequence: Array.isArray(sequence) ? sequence.slice() : []
+  };
+}
+
+function makeDefaultCycleHelperState() {
+  var firstBin = config.binTypes[0] ? config.binTypes[0].id : '';
+  var secondBin = config.binTypes[1] ? config.binTypes[1].id : firstBin;
+  return {
+    patterns: [
+      makeCycleHelperPattern(true, 2, 2, 1, [firstBin, secondBin]),
+      makeCycleHelperPattern(false, 2, 3, 1, [firstBin, ''])
+    ]
+  };
+}
+
+function openCycleHelper(containerId) {
+  if (!config.binTypes.length) {
+    showToast('Add a bin type first');
+    return;
+  }
+  cycleHelperTargetContainerId = containerId;
+  cycleHelperState = makeDefaultCycleHelperState();
+  renderCycleHelper();
+  document.getElementById('modal-cycle-helper').classList.remove('hidden');
+}
+
+function closeCycleHelper() {
+  document.getElementById('modal-cycle-helper').classList.add('hidden');
+  cycleHelperTargetContainerId = null;
+  cycleHelperState = null;
+}
+
+function clampCycleLength(value) {
+  return Math.max(1, Math.min(12, parseInt(value, 10) || 1));
+}
+
+function clampCyclePhase(value, length) {
+  return Math.max(1, Math.min(length, parseInt(value, 10) || 1));
+}
+
+function ensureCyclePatternShape(pattern) {
+  pattern.length = clampCycleLength(pattern.length);
+  pattern.day = parseInt(pattern.day, 10);
+  if (isNaN(pattern.day)) pattern.day = 1;
+  pattern.phase = clampCyclePhase(pattern.phase, pattern.length);
+  while (pattern.sequence.length < pattern.length) {
+    pattern.sequence.push('');
+  }
+  pattern.sequence = pattern.sequence.slice(0, pattern.length);
+}
+
+function buildBinSelectWithNone(selectedBinId, id, onchange, noneLabel) {
+  var html = '<select id="' + id + '" onchange="' + onchange + '">';
+  html += '<option value="">' + (noneLabel || 'No collection') + '</option>';
+  config.binTypes.forEach(function(b) {
+    html += '<option value="' + b.id + '"' + (b.id === selectedBinId ? ' selected' : '') + '>' + b.name + '</option>';
+  });
+  html += '</select>';
+  return html;
+}
+
+function renderCycleHelper() {
+  if (!cycleHelperState) return;
+  var editor = document.getElementById('cycle-helper-editor');
+  var preview = document.getElementById('cycle-helper-preview');
+  if (!editor || !preview) return;
+
+  cycleHelperState.patterns.forEach(function(pattern) {
+    ensureCyclePatternShape(pattern);
+  });
+
+  var html = '';
+  cycleHelperState.patterns.forEach(function(pattern, pi) {
+    html += '<div class="helper-card' + (pattern.enabled ? '' : ' off') + '">';
+    html += '<div class="helper-card-head">';
+    html += '<div class="helper-card-title">Pattern ' + (pi + 1) + '</div>';
+    html += '<label class="helper-enabled"><input type="checkbox"' + (pattern.enabled ? ' checked' : '') + ' onchange="toggleCyclePattern(' + pi + ',this.checked)">Use pattern</label>';
+    html += '</div>';
+    html += '<div class="helper-grid">';
+    html += '<div class="field"><label>Collection day</label>' + buildDaySelect(pattern.day, 'helper-day-' + pi, 'onCyclePatternFieldChange(' + pi + ',\'day\',this.value)') + '</div>';
+    html += '<div class="field"><label>Cycle length (weeks)</label><input type="number" min="1" max="12" value="' + pattern.length + '" onchange="onCyclePatternLengthChange(' + pi + ',this.value)"></div>';
+    html += '<div class="field"><label>Starts on week</label><input type="number" min="1" max="' + pattern.length + '" value="' + pattern.phase + '" onchange="onCyclePatternFieldChange(' + pi + ',\'phase\',this.value)"></div>';
+    html += '<div class="field"><label>Pattern note</label><div class="preview-card" style="margin-top:0;padding:12px 14px;">Use <strong>No collection</strong> on weeks this pattern skips.</div></div>';
+    html += '</div>';
+    html += '<div class="helper-seq">';
+    for (var si = 0; si < pattern.length; si++) {
+      html += '<div class="helper-week-row">';
+      html += '<div class="helper-week-label">Week ' + (si + 1) + '</div>';
+      html += buildBinSelectWithNone(pattern.sequence[si], 'helper-bin-' + pi + '-' + si, 'onCyclePatternSequenceChange(' + pi + ',' + si + ',this.value)');
+      html += '</div>';
+    }
+    html += '</div>';
+    html += '</div>';
+  });
+
+  editor.innerHTML = html;
+  preview.innerHTML = makeCycleHelperPreviewHTML();
+}
+
+function toggleCyclePattern(index, enabled) {
+  if (!cycleHelperState || !cycleHelperState.patterns[index]) return;
+  cycleHelperState.patterns[index].enabled = !!enabled;
+  renderCycleHelper();
+}
+
+function onCyclePatternFieldChange(index, field, value) {
+  if (!cycleHelperState || !cycleHelperState.patterns[index]) return;
+  var pattern = cycleHelperState.patterns[index];
+  if (field === 'day') pattern.day = parseInt(value, 10);
+  if (field === 'phase') pattern.phase = clampCyclePhase(value, pattern.length);
+  renderCycleHelper();
+}
+
+function onCyclePatternLengthChange(index, value) {
+  if (!cycleHelperState || !cycleHelperState.patterns[index]) return;
+  var pattern = cycleHelperState.patterns[index];
+  var oldSequence = pattern.sequence.slice();
+  pattern.length = clampCycleLength(value);
+  pattern.phase = clampCyclePhase(pattern.phase, pattern.length);
+  pattern.sequence = [];
+  for (var i = 0; i < pattern.length; i++) {
+    pattern.sequence.push(i < oldSequence.length ? oldSequence[i] : '');
+  }
+  renderCycleHelper();
+}
+
+function onCyclePatternSequenceChange(index, sequenceIndex, value) {
+  if (!cycleHelperState || !cycleHelperState.patterns[index]) return;
+  cycleHelperState.patterns[index].sequence[sequenceIndex] = value;
+  renderCycleHelper();
+}
+
+function gcd(a, b) {
+  a = Math.abs(a);
+  b = Math.abs(b);
+  while (b) {
+    var temp = b;
+    b = a % b;
+    a = temp;
+  }
+  return a || 1;
+}
+
+function lcm(a, b) {
+  return Math.abs(a * b) / gcd(a, b);
+}
+
+function getCycleHelperProgramme() {
+  if (!cycleHelperState) return [];
+  var activePatterns = cycleHelperState.patterns.filter(function(pattern) {
+    return pattern.enabled;
+  });
+  if (!activePatterns.length) return [];
+
+  var fullLength = activePatterns.reduce(function(total, pattern) {
+    return lcm(total, pattern.length);
+  }, 1);
+
+  var programme = [];
+  for (var wi = 0; wi < fullLength; wi++) {
+    var slots = [];
+    activePatterns.forEach(function(pattern) {
+      var seqIndex = ((wi - (pattern.phase - 1)) % pattern.length + pattern.length) % pattern.length;
+      var binId = pattern.sequence[seqIndex];
+      if (binId) slots.push({ day: pattern.day, binId: binId });
+    });
+    slots.sort(function(a, b) { return a.day - b.day; });
+    programme.push({ slots: slots });
+  }
+  return programme;
+}
+
+function makeCycleHelperPreviewHTML() {
+  if (!cycleHelperState) return '';
+  var activePatterns = cycleHelperState.patterns.filter(function(pattern) { return pattern.enabled; });
+  if (!activePatterns.length) {
+    return '<div class="preview-row"><span class="preview-k">Programme</span><span class="preview-v">Enable at least one pattern</span></div>';
+  }
+
+  var programme = getCycleHelperProgramme();
+  var nextWeekSummary = programme[0] && programme[0].slots.length
+    ? programme[0].slots.map(function(slot) {
+        var bin = config.binTypes.find(function(b) { return b.id === slot.binId; });
+        return DAY_NAMES[slot.day] + ' · ' + (bin ? bin.name : 'Unknown');
+      }).join(', ')
+    : 'No collections';
+
+  return '' +
+    '<div class="preview-row"><span class="preview-k">Generated cycle</span><span class="preview-v"><strong>' + programme.length + ' week' + (programme.length !== 1 ? 's' : '') + '</strong></span></div>' +
+    '<div class="preview-row"><span class="preview-k">Week 1 preview</span><span class="preview-v">' + nextWeekSummary + '</span></div>';
+}
+
+function applyCycleHelper() {
+  if (!cycleHelperState || !cycleHelperTargetContainerId) return;
+  var activePatterns = cycleHelperState.patterns.filter(function(pattern) { return pattern.enabled; });
+  if (!activePatterns.length) {
+    showToast('Enable at least one pattern');
+    return;
+  }
+
+  var invalidPattern = activePatterns.some(function(pattern) {
+    ensureCyclePatternShape(pattern);
+    return !pattern.sequence.some(function(binId) { return !!binId; });
+  });
+  if (invalidPattern) {
+    showToast('Each active pattern needs at least one collection');
+    return;
+  }
+
+  var programme = getCycleHelperProgramme();
+  document.getElementById(cycleHelperTargetContainerId)._prog = programme;
+  renderProgrammeEditor(cycleHelperTargetContainerId, programme);
+
+  if (cycleHelperTargetContainerId === 'ob-programme-editor') {
+    updateAnchorLabel();
+    updateAnchorPreview('ob-anchor-date', 'ob-anchor-preview', 'ob-programme-editor');
+  }
+  if (cycleHelperTargetContainerId === 'modal-programme-editor') {
+    updateAnchorPreview('sched-anchor-date', 'sched-anchor-preview', 'modal-programme-editor');
+  }
+
+  closeCycleHelper();
+  showToast('Programme generated');
+}
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // UTILS
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function fmtISO(d) {
   return d.getFullYear() + '-' +
     String(d.getMonth()+1).padStart(2,'0') + '-' +
@@ -900,7 +1173,7 @@ function programmeSummary() {
   if (prog.length === 1) {
     return prog[0].slots.map(function(s) {
       var b = config.binTypes.find(function(x){return x.id===s.binId;});
-      return DAY_NAMES[s.day] + (b ? ' · ' + b.name : '');
+      return DAY_NAMES[s.day] + (b ? ' Â· ' + b.name : '');
     }).join(', ');
   }
   return prog.length + '-week cycle';
@@ -1007,7 +1280,7 @@ function makeAnchorPreviewHTML(anchorIso, programme) {
   config = originalConfig;
 
   if (previewCollections[0]) {
-    upcomingText = '<strong>' + previewCollections[0].bin.name + '</strong> · ' + fmtDisplay(previewCollections[0].date);
+    upcomingText = '<strong>' + previewCollections[0].bin.name + '</strong> Â· ' + fmtDisplay(previewCollections[0].date);
   }
 
   return '' +
@@ -1024,9 +1297,9 @@ function updateAnchorPreview(inputId, previewId, programmeContainerId) {
   preview.innerHTML = makeAnchorPreviewHTML(input.value, programme);
 }
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // EXPORT / IMPORT / SHARE
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function openExportModal() {
   document.getElementById('modal-export').classList.remove('hidden');
 }
@@ -1079,14 +1352,18 @@ function importConfig(event) {
 }
 
 function copyShareText() {
-  var lines = ['Bin Day Schedule — ' + (config.area || 'My area')];
+  var lines = ['Bin Day Schedule â€” ' + (config.area || 'My area')];
   var prog = config.schedule.programme;
   if (prog && prog.length) {
     prog.forEach(function(week, wi) {
       lines.push('Week ' + (wi+1) + ':');
+      if (!week.slots.length) {
+        lines.push('  No collections');
+        return;
+      }
       week.slots.forEach(function(s) {
         var bin = config.binTypes.find(function(b){ return b.id === s.binId; });
-        lines.push('  ' + DAY_NAMES_LONG[s.day] + ' → ' + (bin ? bin.name : 'Unknown'));
+        lines.push('  ' + DAY_NAMES_LONG[s.day] + ' â†’ ' + (bin ? bin.name : 'Unknown'));
       });
     });
   }
@@ -1107,9 +1384,9 @@ function copyShareText() {
   closeExportModal();
 }
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // VIEWS
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 var TABS = ['home','calendar','settings'];
 
 function switchView(v, noHistory, fromSwipe) {
@@ -1193,7 +1470,7 @@ function renderHome() {
   var urgency = du===0 ? 'Today' : du===1 ? 'Tomorrow' : 'In '+du+' days';
   var bg = colorBg(next.bin.color, 0.12);
   var border = colorBg(next.bin.color, 0.22);
-  var bhBanner = next.isNudged ? '<div class="bh-banner"><svg width="13" height="13" viewBox="0 0 13 13" fill="#fbbf24"><path d="M6.5 1L8 5h4.5L9 7.5 10.5 12 6.5 9.5 2.5 12 4 7.5.5 5H5z"/></svg>Collection moved — bank holiday</div>' : '';
+  var bhBanner = next.isNudged ? '<div class="bh-banner"><svg width="13" height="13" viewBox="0 0 13 13" fill="#fbbf24"><path d="M6.5 1L8 5h4.5L9 7.5 10.5 12 6.5 9.5 2.5 12 4 7.5.5 5H5z"/></svg>Collection moved â€” bank holiday</div>' : '';
 
   var sameDay = upcoming.filter(function(c){ return fmtISO(c.date)===fmtISO(next.date); });
   var extraBins = sameDay.length > 1
@@ -1252,10 +1529,10 @@ function renderHome() {
     '</div>'+
     '<div class="stat-row">'+
       '<div class="stat-card"><div class="stat-label">Days away</div><div class="stat-value">'+du+'</div><div class="stat-unit">'+(du===1?'day':'days')+'</div></div>'+
-      '<div class="stat-card"><div class="stat-label">Next after</div><div class="stat-value-sm">'+(nextAfter ? nextAfter.bins.map(function(b){return b.name;}).join(' + ') : '—')+'</div><div class="stat-unit">'+(nextAfter ? fmtDisplay(nextAfter.date) : '')+'</div></div>'+
+      '<div class="stat-card"><div class="stat-label">Next after</div><div class="stat-value-sm">'+(nextAfter ? nextAfter.bins.map(function(b){return b.name;}).join(' + ') : 'â€”')+'</div><div class="stat-unit">'+(nextAfter ? fmtDisplay(nextAfter.date) : '')+'</div></div>'+
     '</div>'+
     (upcomingRows ? '<div class="section-label">Coming up</div><div class="upcoming-list">'+upcomingRows+'</div>' : '')+
-    '<div class="notif-row"><span class="notif-label">Evening reminders'+(config.notifications.evening?' · '+config.notifications.eveningTime:'')+'</span><div class="toggle '+(config.notifications.evening?'on':'')+'" onclick="toggleNotifications()"></div></div>'+
+    '<div class="notif-row"><span class="notif-label">Evening reminders'+(config.notifications.evening?' Â· '+config.notifications.eveningTime:'')+'</span><div class="toggle '+(config.notifications.evening?'on':'')+'" onclick="toggleNotifications()"></div></div>'+
   '</div>';
 }
 
@@ -1305,7 +1582,7 @@ function renderCalendar() {
       dotsHtml='<div class="cal-dots">'+bins.map(function(b){return '<div class="cal-dot" style="background:'+b.color+'"></div>';}).join('')+'</div>';
     }
 
-    var nm=isNudgeOrig?'<span class="nudge-mark">↗</span>':'';
+    var nm=isNudgeOrig?'<span class="nudge-mark">â†—</span>':'';
     cells+='<div class="'+cls+'" style="'+bg2+'" onclick="calCellClick(\''+iso+'\')"><span class="cal-date-num">'+d+'</span>'+dotsHtml+nm+'</div>';
   }
 
@@ -1320,7 +1597,7 @@ function renderCalendar() {
 
   el.innerHTML='<div class="page">'+
     '<div class="cal-header-row"><h2>'+monthName+'</h2>'+
-      '<div class="cal-nav-btns"><button class="cal-nav-btn" onclick="calNav(-1)">‹</button><button class="cal-nav-btn" onclick="calNav(1)">›</button></div>'+
+      '<div class="cal-nav-btns"><button class="cal-nav-btn" onclick="calNav(-1)">â€¹</button><button class="cal-nav-btn" onclick="calNav(1)">â€º</button></div>'+
     '</div>'+
     '<div class="cal-days-row">'+['M','T','W','T','F','S','S'].map(function(d){return '<div class="cal-day-lbl">'+d+'</div>';}).join('')+'</div>'+
     '<div class="cal-grid">'+cells+'</div>'+
@@ -1365,13 +1642,13 @@ function renderSettings() {
   var sch=config.schedule, notif=config.notifications;
 
   var binList=config.binTypes.map(function(b){
-    var notesHint = (b.notes && b.notes.trim()) ? '<div style="font-size:10px;color:var(--t3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;">📝 '+escapeHtml(b.notes)+'</div>' : '';
+    var notesHint = (b.notes && b.notes.trim()) ? '<div style="font-size:10px;color:var(--t3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;">ðŸ“ '+escapeHtml(b.notes)+'</div>' : '';
     return '<div class="bin-type-item">'+
       binThumb(b, 32)+
       '<div class="bin-type-info"><div class="bin-type-name">'+b.name+'</div><div class="bin-type-sublabel">'+b.label+'</div>'+notesHint+'</div>'+
       '<div class="bin-type-actions">'+
-        '<button class="icon-btn" onclick="openAddBinModal(\''+b.id+'\',false)">✎</button>'+
-        '<button class="icon-btn del" onclick="promptDeleteBin(\''+b.id+'\',false)">✕</button>'+
+        '<button class="icon-btn" onclick="openAddBinModal(\''+b.id+'\',false)">âœŽ</button>'+
+        '<button class="icon-btn del" onclick="promptDeleteBin(\''+b.id+'\',false)">âœ•</button>'+
       '</div></div>';
   }).join('');
 
@@ -1380,8 +1657,8 @@ function renderSettings() {
     :config.nudges.map(function(n,i){
       return '<div class="nudge-item">'+
         '<span>'+new Date(n.original+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})+'</span>'+
-        '<span class="nudge-dates">→ '+new Date(n.actual+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})+'</span>'+
-        '<button class="icon-btn del" onclick="deleteNudge('+i+')">✕</button>'+
+        '<span class="nudge-dates">â†’ '+new Date(n.actual+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})+'</span>'+
+        '<button class="icon-btn del" onclick="deleteNudge('+i+')">âœ•</button>'+
       '</div>';
     }).join('');
 
@@ -1415,8 +1692,8 @@ function renderSettings() {
     '</div>'+
     '<div class="s-section-title" style="margin-top:24px;">Data</div>'+
     '<div class="s-card">'+
-      '<div class="s-row" onclick="openExportModal()"><span class="s-row-label">Export / Import</span><span class="s-row-chevron">›</span></div>'+
-      '<div class="s-row" onclick="openResetModal()"><span class="s-row-label" style="color:#f87171">Reset all data</span><span class="s-row-chevron">›</span></div>'+
+      '<div class="s-row" onclick="openExportModal()"><span class="s-row-label">Export / Import</span><span class="s-row-chevron">â€º</span></div>'+
+      '<div class="s-row" onclick="openResetModal()"><span class="s-row-label" style="color:#f87171">Reset all data</span><span class="s-row-chevron">â€º</span></div>'+
     '</div>'+
     '<div class="s-section-title" style="margin-top:24px;">About</div>'+
     '<div class="s-card">'+
@@ -1432,9 +1709,9 @@ function renderSettings() {
   '</div>';
 }
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // ONBOARDING
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initOnboarding() {
   obStep = 0;
   renderObProgress();
@@ -1472,8 +1749,8 @@ function renderObBinList() {
         binThumb(b, 32)+
         '<div class="bin-type-info"><div class="bin-type-name">'+b.name+'</div><div class="bin-type-sublabel">'+b.label+'</div></div>'+
         '<div class="bin-type-actions">'+
-          '<button class="icon-btn" onclick="openAddBinModal(\''+b.id+'\',true)">✎</button>'+
-          '<button class="icon-btn del" onclick="promptDeleteBin(\''+b.id+'\',true)">✕</button>'+
+          '<button class="icon-btn" onclick="openAddBinModal(\''+b.id+'\',true)">âœŽ</button>'+
+          '<button class="icon-btn del" onclick="promptDeleteBin(\''+b.id+'\',true)">âœ•</button>'+
         '</div></div>';
     }).join('');
 }
@@ -1618,9 +1895,9 @@ function obFinish() {
   history.replaceState({ view: 'home' }, '', '');
 }
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // MODALS
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function openAddBinModal(binId, isOb) {
   modalBinEditId=binId;
   modalBinIsOb=isOb;
@@ -1801,9 +2078,9 @@ function confirmReset(){
   location.reload();
 }
 
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // INIT
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js').catch(function(err){
     console.error('SW registration failed:', err);
@@ -1857,3 +2134,4 @@ if (!config.setupDone) {
 </script>
 </body>
 </html>
+
