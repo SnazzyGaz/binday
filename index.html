@@ -577,7 +577,7 @@ function requestNotifPermission(callback) {
     return;
   }
   if (Notification.permission === 'denied') {
-    showToast('Notifications blocked â€” check browser settings');
+    showToast('Notifications blocked - check browser settings');
     if (callback) callback(false);
     return;
   }
@@ -1173,7 +1173,7 @@ function programmeSummary() {
   if (prog.length === 1) {
     return prog[0].slots.map(function(s) {
       var b = config.binTypes.find(function(x){return x.id===s.binId;});
-      return DAY_NAMES[s.day] + (b ? ' Â· ' + b.name : '');
+return DAY_NAMES[s.day] + (b ? ' - ' + b.name : '');
     }).join(', ');
   }
   return prog.length + '-week cycle';
@@ -1280,7 +1280,7 @@ function makeAnchorPreviewHTML(anchorIso, programme) {
   config = originalConfig;
 
   if (previewCollections[0]) {
-    upcomingText = '<strong>' + previewCollections[0].bin.name + '</strong> Â· ' + fmtDisplay(previewCollections[0].date);
+    upcomingText = '<strong>' + previewCollections[0].bin.name + '</strong> - ' + fmtDisplay(previewCollections[0].date);
   }
 
   return '' +
@@ -1352,7 +1352,7 @@ function importConfig(event) {
 }
 
 function copyShareText() {
-  var lines = ['Bin Day Schedule â€” ' + (config.area || 'My area')];
+  var lines = ['Bin Day Schedule - ' + (config.area || 'My area')];
   var prog = config.schedule.programme;
   if (prog && prog.length) {
     prog.forEach(function(week, wi) {
@@ -1363,7 +1363,7 @@ function copyShareText() {
       }
       week.slots.forEach(function(s) {
         var bin = config.binTypes.find(function(b){ return b.id === s.binId; });
-        lines.push('  ' + DAY_NAMES_LONG[s.day] + ' â†’ ' + (bin ? bin.name : 'Unknown'));
+        lines.push('  ' + DAY_NAMES_LONG[s.day] + ' -> ' + (bin ? bin.name : 'Unknown'));
       });
     });
   }
@@ -1470,7 +1470,7 @@ function renderHome() {
   var urgency = du===0 ? 'Today' : du===1 ? 'Tomorrow' : 'In '+du+' days';
   var bg = colorBg(next.bin.color, 0.12);
   var border = colorBg(next.bin.color, 0.22);
-  var bhBanner = next.isNudged ? '<div class="bh-banner"><svg width="13" height="13" viewBox="0 0 13 13" fill="#fbbf24"><path d="M6.5 1L8 5h4.5L9 7.5 10.5 12 6.5 9.5 2.5 12 4 7.5.5 5H5z"/></svg>Collection moved â€” bank holiday</div>' : '';
+  var bhBanner = next.isNudged ? '<div class="bh-banner"><svg width="13" height="13" viewBox="0 0 13 13" fill="#fbbf24"><path d="M6.5 1L8 5h4.5L9 7.5 10.5 12 6.5 9.5 2.5 12 4 7.5.5 5H5z"/></svg>Collection moved - bank holiday</div>' : '';
 
   var sameDay = upcoming.filter(function(c){ return fmtISO(c.date)===fmtISO(next.date); });
   var extraBins = sameDay.length > 1
@@ -1529,10 +1529,10 @@ function renderHome() {
     '</div>'+
     '<div class="stat-row">'+
       '<div class="stat-card"><div class="stat-label">Days away</div><div class="stat-value">'+du+'</div><div class="stat-unit">'+(du===1?'day':'days')+'</div></div>'+
-      '<div class="stat-card"><div class="stat-label">Next after</div><div class="stat-value-sm">'+(nextAfter ? nextAfter.bins.map(function(b){return b.name;}).join(' + ') : 'â€”')+'</div><div class="stat-unit">'+(nextAfter ? fmtDisplay(nextAfter.date) : '')+'</div></div>'+
+      '<div class="stat-card"><div class="stat-label">Next after</div><div class="stat-value-sm">'+(nextAfter ? nextAfter.bins.map(function(b){return b.name;}).join(' + ') : '-')+'</div><div class="stat-unit">'+(nextAfter ? fmtDisplay(nextAfter.date) : '')+'</div></div>'+
     '</div>'+
     (upcomingRows ? '<div class="section-label">Coming up</div><div class="upcoming-list">'+upcomingRows+'</div>' : '')+
-    '<div class="notif-row"><span class="notif-label">Evening reminders'+(config.notifications.evening?' Â· '+config.notifications.eveningTime:'')+'</span><div class="toggle '+(config.notifications.evening?'on':'')+'" onclick="toggleNotifications()"></div></div>'+
+    '<div class="notif-row"><span class="notif-label">Evening reminders'+(config.notifications.evening?' - '+config.notifications.eveningTime:'')+'</span><div class="toggle '+(config.notifications.evening?'on':'')+'" onclick="toggleNotifications()"></div></div>'+
   '</div>';
 }
 
@@ -1582,7 +1582,7 @@ function renderCalendar() {
       dotsHtml='<div class="cal-dots">'+bins.map(function(b){return '<div class="cal-dot" style="background:'+b.color+'"></div>';}).join('')+'</div>';
     }
 
-    var nm=isNudgeOrig?'<span class="nudge-mark">â†—</span>':'';
+  var nm=isNudgeOrig?'<span class="nudge-mark">^</span>':'';
     cells+='<div class="'+cls+'" style="'+bg2+'" onclick="calCellClick(\''+iso+'\')"><span class="cal-date-num">'+d+'</span>'+dotsHtml+nm+'</div>';
   }
 
@@ -1597,7 +1597,7 @@ function renderCalendar() {
 
   el.innerHTML='<div class="page">'+
     '<div class="cal-header-row"><h2>'+monthName+'</h2>'+
-      '<div class="cal-nav-btns"><button class="cal-nav-btn" onclick="calNav(-1)">â€¹</button><button class="cal-nav-btn" onclick="calNav(1)">â€º</button></div>'+
+    '<div class="cal-nav-btns"><button class="cal-nav-btn" onclick="calNav(-1)"><</button><button class="cal-nav-btn" onclick="calNav(1)">></button></div>'+
     '</div>'+
     '<div class="cal-days-row">'+['M','T','W','T','F','S','S'].map(function(d){return '<div class="cal-day-lbl">'+d+'</div>';}).join('')+'</div>'+
     '<div class="cal-grid">'+cells+'</div>'+
@@ -1642,13 +1642,11 @@ function renderSettings() {
   var sch=config.schedule, notif=config.notifications;
 
   var binList=config.binTypes.map(function(b){
-    var notesHint = (b.notes && b.notes.trim()) ? '<div style="font-size:10px;color:var(--t3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;">ðŸ“ '+escapeHtml(b.notes)+'</div>' : '';
+var notesHint = (b.notes && b.notes.trim()) ? '<div style="font-size:10px;color:var(--t3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;">Notes: '+escapeHtml(b.notes)+'</div>' : '';
     return '<div class="bin-type-item">'+
       binThumb(b, 32)+
       '<div class="bin-type-info"><div class="bin-type-name">'+b.name+'</div><div class="bin-type-sublabel">'+b.label+'</div>'+notesHint+'</div>'+
-      '<div class="bin-type-actions">'+
-        '<button class="icon-btn" onclick="openAddBinModal(\''+b.id+'\',false)">âœŽ</button>'+
-        '<button class="icon-btn del" onclick="promptDeleteBin(\''+b.id+'\',false)">âœ•</button>'+
+      '<div class="bin-type-actions">'+        '<button class="icon-btn" onclick="openAddBinModal(\''+b.id+'\',false)">Edit</button>'+        '<button class="icon-btn del" onclick="promptDeleteBin(\''+b.id+'\',false)">X</button>'+
       '</div></div>';
   }).join('');
 
@@ -1656,9 +1654,7 @@ function renderSettings() {
     ?'<div style="font-size:12px;color:var(--t3);padding:2px 0">No overrides set</div>'
     :config.nudges.map(function(n,i){
       return '<div class="nudge-item">'+
-        '<span>'+new Date(n.original+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})+'</span>'+
-        '<span class="nudge-dates">â†’ '+new Date(n.actual+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})+'</span>'+
-        '<button class="icon-btn del" onclick="deleteNudge('+i+')">âœ•</button>'+
+        '<span>'+new Date(n.original+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})+'</span>'+        '<span class="nudge-dates">-> '+new Date(n.actual+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})+'</span>'+        '<button class="icon-btn del" onclick="deleteNudge('+i+')">X</button>'+
       '</div>';
     }).join('');
 
@@ -1692,8 +1688,8 @@ function renderSettings() {
     '</div>'+
     '<div class="s-section-title" style="margin-top:24px;">Data</div>'+
     '<div class="s-card">'+
-      '<div class="s-row" onclick="openExportModal()"><span class="s-row-label">Export / Import</span><span class="s-row-chevron">â€º</span></div>'+
-      '<div class="s-row" onclick="openResetModal()"><span class="s-row-label" style="color:#f87171">Reset all data</span><span class="s-row-chevron">â€º</span></div>'+
+      '<div class="s-row" onclick="openExportModal()"><span class="s-row-label">Export / Import</span><span class="s-row-chevron">></span></div>'+
+      '<div class="s-row" onclick="openResetModal()"><span class="s-row-label" style="color:#f87171">Reset all data</span><span class="s-row-chevron">></span></div>'+
     '</div>'+
     '<div class="s-section-title" style="margin-top:24px;">About</div>'+
     '<div class="s-card">'+
@@ -1748,9 +1744,7 @@ function renderObBinList() {
       return '<div class="bin-type-item">'+
         binThumb(b, 32)+
         '<div class="bin-type-info"><div class="bin-type-name">'+b.name+'</div><div class="bin-type-sublabel">'+b.label+'</div></div>'+
-        '<div class="bin-type-actions">'+
-          '<button class="icon-btn" onclick="openAddBinModal(\''+b.id+'\',true)">âœŽ</button>'+
-          '<button class="icon-btn del" onclick="promptDeleteBin(\''+b.id+'\',true)">âœ•</button>'+
+        '<div class="bin-type-actions">'+          '<button class="icon-btn" onclick="openAddBinModal(\''+b.id+'\',true)">Edit</button>'+          '<button class="icon-btn del" onclick="promptDeleteBin(\''+b.id+'\',true)">X</button>'+
         '</div></div>';
     }).join('');
 }
