@@ -26,10 +26,13 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
+  // Only handle GET requests over http/https — skip POST, extensions, etc.
+  if (e.request.method !== 'GET' || !e.request.url.startsWith('http')) return;
+
   e.respondWith(
     caches.match(e.request).then(cached => {
       return cached || fetch(e.request).then(res => {
-        if (res && res.status === 200) {
+        if (res && res.status === 200 && res.type === 'basic') {
           const clone = res.clone();
           caches.open(CACHE).then(cache => cache.put(e.request, clone));
         }
