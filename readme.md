@@ -53,6 +53,18 @@ Week 2: Tuesday → Recycling
 Week 3: Tuesday → Garden waste
 ```
 
+**Different cycle lengths at once:**
+```
+Week 1: Wednesday → Food waste, Thursday → General waste
+Week 2: Thursday → Recycling
+Week 3: Wednesday → Food waste, Thursday → Garden waste
+Week 4: Thursday → General waste
+Week 5: Wednesday → Food waste, Thursday → Recycling
+Week 6: Thursday → Garden waste
+```
+If one collection repeats every 3 weeks and another every 2, build the shortest full repeat for the whole programme. In that example, `3` and `2` line up every `6` weeks, so you make a 6-week cycle.
+You can now do this from the app with the built-in **Cycle helper**, which generates the full programme for you and then lets you tweak it manually if needed.
+
 **Mixed — collections on different days in different weeks:**
 ```
 Week 1: Tuesday → General waste
