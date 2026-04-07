@@ -1,9 +1,9 @@
-const CACHE = 'binday-v3';
+const CACHE = 'binday-v4';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
-  './icon-192.png',   // ← add these two
+  './icon-192.png',
   './icon-512.png'
 ];
 
@@ -29,7 +29,6 @@ self.addEventListener('fetch', e => {
   e.respondWith(
     caches.match(e.request).then(cached => {
       return cached || fetch(e.request).then(res => {
-        // Only cache successful responses
         if (res && res.status === 200) {
           const clone = res.clone();
           caches.open(CACHE).then(cache => cache.put(e.request, clone));
@@ -42,5 +41,16 @@ self.addEventListener('fetch', e => {
 
 self.addEventListener('notificationclick', e => {
   e.notification.close();
-  e.waitUntil(clients.openWindow('./'));
+  e.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(windowClients => {
+      // Focus existing window if available
+      for (let client of windowClients) {
+        if (client.url.includes('index.html') || client.url.endsWith('/')) {
+          return client.focus();
+        }
+      }
+      // Otherwise open a new window
+      return clients.openWindow('./');
+    })
+  );
 });
