@@ -1,10 +1,6 @@
 # 🗑️ Bin Day
 
-A lightweight Progressive Web App that tells you exactly which bin goes out next — and never lets you forget.
-
-Built for UK households with alternating or multi-bin collection schedules. Works offline, installs to your home screen, and fits any council's collection pattern no matter how unusual.
-
-
+Bin reminder app
 
 ## Features
 
@@ -78,7 +74,7 @@ If you want to change the default bin types that appear during onboarding, edit 
 
 ---
 
-## Made by
+## By
 
 **snazzygaz** — [@snazzygaz](https://instagram.com/snazzygaz) on Instagram
 
