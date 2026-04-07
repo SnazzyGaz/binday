@@ -67,11 +67,12 @@ body{font-family:'Geist',sans-serif;background:var(--bg);color:var(--t1);-webkit
 /* ── inputs ── */
 .field{margin-bottom:18px}
 .field label{display:block;font-size:11px;color:var(--t3);margin-bottom:8px;letter-spacing:0.7px;text-transform:uppercase;font-weight:500}
-input[type=text],input[type=date],select,input[type=time]{
+input[type=text],input[type=date],select,input[type=time],textarea{
   width:100%;padding:14px 16px;background:var(--s2);border:1px solid var(--b2);
   border-radius:var(--r-sm);color:var(--t1);font-family:'Geist',sans-serif;font-size:15px;
   outline:none;transition:border-color 0.15s;appearance:none;-webkit-appearance:none}
-input:focus,select:focus{border-color:var(--b3)}
+textarea{resize:vertical;min-height:60px;line-height:1.5;font-size:13px}
+input:focus,select:focus,textarea:focus{border-color:var(--b3)}
 input[type=date]::-webkit-calendar-picker-indicator{filter:invert(1);opacity:0.25}
 select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%233d4157' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
 
@@ -100,6 +101,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .hero-date-text{font-size:12px;font-family:'Geist Mono',monospace;opacity:0.4}
 .hero-extras{display:flex;gap:7px;justify-content:center;margin-top:12px;flex-wrap:wrap}
 .hero-extra-chip{font-size:11px;padding:4px 12px;border-radius:20px;font-weight:500}
+.hero-week-indicator{font-size:11px;color:var(--t2);font-family:'Geist Mono',monospace;margin-top:14px;padding:5px 14px;background:rgba(255,255,255,0.04);border-radius:20px;border:1px solid var(--b1)}
 
 /* stats */
 .stat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -121,6 +123,11 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .upcoming-name{font-size:14px;flex:1;font-weight:400}
 .upcoming-date{font-size:11px;color:var(--t2);font-family:'Geist Mono',monospace}
 .upcoming-pill{font-size:10px;color:var(--t3);background:var(--s3);padding:3px 9px;border-radius:20px;white-space:nowrap}
+
+/* bin contents info */
+.bin-contents-btn{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:11px;cursor:pointer;background:rgba(255,255,255,0.04);border:1px solid var(--b1);color:var(--t2);font-family:'Geist',sans-serif;margin-top:8px;transition:color 0.15s,border-color 0.15s}
+.bin-contents-btn:active{color:var(--t1);border-color:var(--b3)}
+.bin-contents-popover{margin-top:10px;padding:14px 18px;background:var(--s1);border:1px solid var(--b2);border-radius:var(--r-sm);font-size:13px;color:var(--t2);line-height:1.65;white-space:pre-wrap;animation:fadeUp 0.2s ease both}
 
 /* notif row */
 .notif-row{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r-sm)}
@@ -156,6 +163,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .cal-detail-note{font-size:12px;color:#fbbf24;margin:-2px 0 10px}
 .cal-detail-row{display:flex;align-items:center;gap:12px;padding:5px 0}
 .cal-detail-name{font-size:14px;font-weight:500}
+.cal-detail-contents{font-size:11px;color:var(--t3);margin-top:2px;white-space:pre-wrap}
 
 /* ── settings ── */
 .settings-header{padding:24px 0 20px}
@@ -208,13 +216,23 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .modal-actions{display:flex;gap:10px;margin-top:20px}
 .modal-actions .btn-primary{margin-top:0}
 .color-grid{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 16px}
-.color-swatch{width:34px;height:34px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform 0.12s,border-color 0.12s}
+.color-swatch{width:34px;height:34px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform 0.12s,border-color 0.12s;position:relative}
 .color-swatch:active{transform:scale(0.88)}
 .color-swatch.selected{border-color:rgba(255,255,255,0.85)}
+.color-swatch-label{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);font-size:8px;color:var(--t3);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity 0.15s}
+.color-swatch:hover .color-swatch-label,.color-swatch.selected .color-swatch-label{opacity:1}
+
+/* anchor warning */
+.anchor-warning{font-size:11px;color:#fbbf24;margin-top:6px;padding:8px 12px;background:rgba(234,179,8,0.06);border:1px solid rgba(234,179,8,0.15);border-radius:var(--r-xs);display:none}
+.anchor-warning.visible{display:block}
 
 .empty-state{padding:64px 24px;text-align:center;color:var(--t3);font-size:14px;line-height:1.8;width:100%}
 #toast{position:fixed;bottom:calc(76px + var(--safe-b));left:50%;transform:translateX(-50%) translateY(14px);background:var(--t1);color:var(--bg);padding:10px 20px;border-radius:22px;font-size:12px;font-weight:500;opacity:0;transition:opacity 0.2s,transform 0.2s;pointer-events:none;z-index:300;white-space:nowrap;box-shadow:0 4px 24px rgba(0,0,0,0.4)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* share schedule badge */
+.share-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--t3);cursor:pointer;padding:5px 12px;border-radius:20px;background:rgba(255,255,255,0.03);border:1px solid var(--b1);transition:color 0.15s}
+.share-badge:active{color:var(--t2)}
 </style>
 </head>
 <body>
@@ -281,8 +299,9 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div class="ob-sub" id="ob-step3-sub">Pick a date you know was Week 1 of your cycle.</div>
       <div class="field">
         <label id="ob-anchor-date-label">Week 1 start date (any Monday)</label>
-        <input type="date" id="ob-anchor-date" onchange="updateAnchorPreview('ob-anchor-date','ob-anchor-preview')">
+        <input type="date" id="ob-anchor-date" onchange="onAnchorDateChange('ob-anchor-date','ob-anchor-preview','ob-anchor-warning')">
       </div>
+      <div class="anchor-warning" id="ob-anchor-warning">That's not a Monday — it's been snapped to the nearest Monday.</div>
       <div class="preview-card" id="ob-anchor-preview"></div>
       <div class="ob-buttons">
         <button class="btn-primary" onclick="obNext()">Continue</button>
@@ -323,6 +342,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
     <div class="field"><label>Name</label><input type="text" id="modal-bin-name" placeholder="e.g. General waste" maxlength="30"></div>
     <div class="field"><label>Short label</label><input type="text" id="modal-bin-label" placeholder="e.g. Green bin" maxlength="20"></div>
     <div class="field"><label>Colour</label><div class="color-grid" id="modal-color-grid"></div></div>
+    <div class="field"><label>What goes in this bin? (optional)</label><textarea id="modal-bin-notes" placeholder="e.g. Food tins, cardboard, paper, plastic bottles" maxlength="200"></textarea></div>
     <div class="modal-actions">
       <button class="btn-secondary" style="flex:1;" onclick="closeBinModal()">Cancel</button>
       <button class="btn-primary" style="flex:2;margin-top:0;" onclick="saveBinModal()">Save</button>
@@ -354,8 +374,9 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
     <div id="modal-programme-editor"></div>
     <div class="field" style="margin-top:16px;">
       <label>Anchor — week 1 starts on</label>
-      <input type="date" id="sched-anchor-date" onchange="updateAnchorPreview('sched-anchor-date','sched-anchor-preview','modal-programme-editor')">
+      <input type="date" id="sched-anchor-date" onchange="onAnchorDateChange('sched-anchor-date','sched-anchor-preview','sched-anchor-warning','modal-programme-editor')">
     </div>
+    <div class="anchor-warning" id="sched-anchor-warning">That's not a Monday — it's been snapped to the nearest Monday.</div>
     <div class="preview-card" id="sched-anchor-preview"></div>
     <div class="modal-actions">
       <button class="btn-secondary" style="flex:1;" onclick="closeScheduleModal()">Cancel</button>
@@ -391,6 +412,37 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </div>
 </div>
 
+<!-- MODAL: Confirm delete bin -->
+<div class="modal-overlay hidden" id="modal-confirm-delete">
+  <div class="modal-sheet">
+    <div class="sheet-handle"></div>
+    <div class="modal-title">Remove bin type</div>
+    <div class="modal-sub" id="confirm-delete-msg">Are you sure you want to remove this bin?</div>
+    <div class="modal-actions">
+      <button class="btn-secondary" style="flex:1;" onclick="closeConfirmDelete()">Cancel</button>
+      <button class="btn-primary" style="flex:2;margin-top:0;background:#ef4444;color:#fff;" onclick="confirmDeleteBin()">Remove</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Share / Export -->
+<div class="modal-overlay hidden" id="modal-export">
+  <div class="modal-sheet">
+    <div class="sheet-handle"></div>
+    <div class="modal-title">Export / Import</div>
+    <div class="modal-sub">Back up your schedule or transfer it to another device.</div>
+    <div class="modal-actions" style="flex-direction:column;gap:10px;">
+      <button class="btn-primary" onclick="exportConfig()" style="margin-top:0;">Export schedule</button>
+      <label class="btn-secondary" style="width:100%;justify-content:center;cursor:pointer;">
+        Import schedule
+        <input type="file" accept=".json" onchange="importConfig(event)" style="display:none;">
+      </label>
+      <button class="btn-secondary" style="width:100%;justify-content:center;" onclick="copyShareText()">Copy share text</button>
+      <button class="btn-secondary" style="width:100%;justify-content:center;" onclick="closeExportModal()">Close</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
@@ -398,10 +450,22 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 // COLOURS & DEFAULTS
 // ─────────────────────────────────────────────────────────
 var COLORS = [
-  '#22c55e','#16a34a','#3b82f6','#1d4ed8','#f59e0b','#ef4444',
-  '#8b5cf6','#ec4899','#06b6d4','#f97316','#64748b','#84cc16',
-  '#6b3a1f','#2d2d2d'
+  {hex:'#22c55e',name:'Green'},
+  {hex:'#16a34a',name:'Dark green'},
+  {hex:'#3b82f6',name:'Blue'},
+  {hex:'#1d4ed8',name:'Dark blue'},
+  {hex:'#f59e0b',name:'Amber'},
+  {hex:'#ef4444',name:'Red'},
+  {hex:'#8b5cf6',name:'Purple'},
+  {hex:'#ec4899',name:'Pink'},
+  {hex:'#06b6d4',name:'Cyan'},
+  {hex:'#f97316',name:'Orange'},
+  {hex:'#64748b',name:'Grey'},
+  {hex:'#84cc16',name:'Lime'},
+  {hex:'#6b3a1f',name:'Brown'},
+  {hex:'#2d2d2d',name:'Black'}
 ];
+var COLOR_HEXES = COLORS.map(function(c){return c.hex;});
 
 var DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 var DAY_NAMES_LONG = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
@@ -409,8 +473,8 @@ var DAY_NAMES_LONG = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday
 var DEFAULT_CONFIG = {
   area: '',
   binTypes: [
-    { id: 'general',   name: 'General waste', label: 'Green bin',  color: '#22c55e' },
-    { id: 'recycling', name: 'Recycling',      label: 'Blue bin',   color: '#3b82f6' }
+    { id: 'general',   name: 'General waste', label: 'Green bin',  color: '#22c55e', notes: '' },
+    { id: 'recycling', name: 'Recycling',      label: 'Blue bin',   color: '#3b82f6', notes: '' }
   ],
   schedule: {
     programme: [
@@ -429,10 +493,13 @@ var currentView = 'home';
 var calendarDate = new Date();
 var modalBinEditId = null;
 var modalBinIsOb = false;
-var selectedModalColor = COLORS[0];
+var selectedModalColor = COLOR_HEXES[0];
 var obStep = 0;
 var OB_TOTAL = 5;
 var svgUidCounter = 0;
+var pendingDeleteBinId = null;
+var pendingDeleteIsOb = false;
+var notifTimers = [];
 
 function loadConfig() {
   try {
@@ -443,6 +510,10 @@ function loadConfig() {
         parsed.schedule.programme = DEFAULT_CONFIG.schedule.programme;
         parsed.schedule.anchorMonday = parsed.schedule.anchorDate || null;
       }
+      // Ensure notes field exists on all bin types
+      if (parsed.binTypes) {
+        parsed.binTypes.forEach(function(b){ if (b.notes === undefined) b.notes = ''; });
+      }
       return Object.assign({}, DEFAULT_CONFIG, parsed);
     }
   } catch(e) {}
@@ -452,6 +523,108 @@ function loadConfig() {
 function saveConfig() {
   localStorage.setItem('binday-config', JSON.stringify(config));
 }
+
+// ─────────────────────────────────────────────────────────
+// NOTIFICATION SYSTEM
+// ─────────────────────────────────────────────────────────
+function requestNotifPermission(callback) {
+  if (!('Notification' in window)) {
+    showToast('Notifications not supported on this browser');
+    if (callback) callback(false);
+    return;
+  }
+  if (Notification.permission === 'granted') {
+    if (callback) callback(true);
+    return;
+  }
+  if (Notification.permission === 'denied') {
+    showToast('Notifications blocked — check browser settings');
+    if (callback) callback(false);
+    return;
+  }
+  Notification.requestPermission().then(function(perm) {
+    if (perm === 'granted') {
+      if (callback) callback(true);
+    } else {
+      showToast('Notification permission denied');
+      if (callback) callback(false);
+    }
+  });
+}
+
+function scheduleNotifications() {
+  // Clear existing timers
+  notifTimers.forEach(function(t){ clearTimeout(t); });
+  notifTimers = [];
+
+  if (!config.notifications.evening && !config.notifications.morning) return;
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+  var now = new Date();
+  var upcoming = getNextCollections(6, now);
+
+  upcoming.forEach(function(collection) {
+    var collDate = new Date(collection.date);
+    collDate.setHours(0,0,0,0);
+
+    // Evening reminder — night before
+    if (config.notifications.evening) {
+      var eveParts = config.notifications.eveningTime.split(':');
+      var eveDate = new Date(collDate);
+      eveDate.setDate(eveDate.getDate() - 1);
+      eveDate.setHours(parseInt(eveParts[0],10), parseInt(eveParts[1],10), 0, 0);
+
+      var eveDelay = eveDate.getTime() - now.getTime();
+      if (eveDelay > 0 && eveDelay < 7 * 86400000) {
+        var t1 = setTimeout(function() {
+          fireNotification(
+            'Put the ' + collection.bin.label + ' out tonight',
+            collection.bin.name + ' collection tomorrow (' + fmtDisplay(collection.date) + ')'
+          );
+        }, eveDelay);
+        notifTimers.push(t1);
+      }
+    }
+
+    // Morning reminder — day of
+    if (config.notifications.morning) {
+      var mornParts = config.notifications.morningTime.split(':');
+      var mornDate = new Date(collDate);
+      mornDate.setHours(parseInt(mornParts[0],10), parseInt(mornParts[1],10), 0, 0);
+
+      var mornDelay = mornDate.getTime() - now.getTime();
+      if (mornDelay > 0 && mornDelay < 7 * 86400000) {
+        var t2 = setTimeout(function() {
+          fireNotification(
+            collection.bin.name + ' collection today',
+            'Make sure the ' + collection.bin.label + ' is out'
+          );
+        }, mornDelay);
+        notifTimers.push(t2);
+      }
+    }
+  });
+}
+
+function fireNotification(title, body) {
+  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+    navigator.serviceWorker.ready.then(function(reg) {
+      reg.showNotification(title, {
+        body: body,
+        icon: './icon-192.png',
+        badge: './icon-192.png',
+        tag: 'binday-' + Date.now(),
+        renotify: true,
+        vibrate: [200, 100, 200]
+      });
+    });
+  } else if ('Notification' in window) {
+    new Notification(title, { body: body });
+  }
+}
+
+// Re-schedule every 6 hours to cover long-running tabs
+setInterval(scheduleNotifications, 6 * 3600000);
 
 // ─────────────────────────────────────────────────────────
 // SCHEDULE ENGINE
@@ -473,6 +646,13 @@ function getWeekIndex(d) {
   var weeksSinceAnchor = Math.round((monday - anchor) / (7 * 86400000));
   var idx = ((weeksSinceAnchor % prog.length) + prog.length) % prog.length;
   return idx;
+}
+
+function getWeekLabel(d) {
+  var prog = config.schedule.programme;
+  if (!prog || prog.length <= 1 || !config.schedule.anchorMonday) return '';
+  var idx = getWeekIndex(d);
+  return 'Week ' + (idx + 1) + ' of ' + prog.length;
 }
 
 function getNudgeByOriginal(iso) {
@@ -499,16 +679,11 @@ function getScheduledBinsOnDate(d) {
 
 function getCollectionsOnDate(d) {
   var iso = fmtISO(d);
-
-  // Original date that has been moved away: show nothing on the original day.
   if (getNudgeByOriginal(iso)) return [];
-
-  // Actual moved-to date: derive bins from the original scheduled date.
   var incoming = getNudgeByActual(iso);
   if (incoming) {
     return getScheduledBinsOnDate(new Date(incoming.original + 'T00:00:00'));
   }
-
   return getScheduledBinsOnDate(d);
 }
 
@@ -579,7 +754,7 @@ function getNextCollections(count, fromDate) {
 }
 
 // ─────────────────────────────────────────────────────────
-// PROGRAMME EDITOR
+// PROGRAMME EDITOR (now with all 7 days)
 // ─────────────────────────────────────────────────────────
 function renderProgrammeEditor(containerId, programme) {
   var container = document.getElementById(containerId);
@@ -620,7 +795,8 @@ function renderProgrammeEditor(containerId, programme) {
 
 function buildDaySelect(selectedDay, id, onchange) {
   var html = '<select id="' + id + '" onchange="' + onchange + '">';
-  [1,2,3,4,5].forEach(function(d) {
+  // All 7 days now available
+  [1,2,3,4,5,6,0].forEach(function(d) {
     html += '<option value="' + d + '"' + (d === selectedDay ? ' selected' : '') + '>' + DAY_NAMES_LONG[d] + '</option>';
   });
   html += '</select>';
@@ -769,17 +945,12 @@ function svgBin(color, size) {
           '<stop offset="100%" stop-color="'+bodyDark+'"/>'+
         '</linearGradient>'+
       '</defs>'+
-
       '<path d="M150 150 L362 150 L340 420 L172 420 Z" fill="url(#'+gradId+')"/>'+
-
       '<rect x="132" y="118" width="252" height="34" rx="8" fill="'+lid+'"/>'+
       '<path d="M380 118 q10 0 10 10 v3 q0 10 -10 10" fill="'+lid+'"/>'+
-
       '<rect x="190" y="98" width="52" height="16" rx="4" fill="'+lid+'"/>'+
       '<rect x="286" y="98" width="44" height="16" rx="4" fill="'+lid+'"/>'+
-
       '<rect x="255" y="154" width="22" height="262" fill="'+highlight+'"/>'+
-
       '<circle cx="366" cy="365" r="38" fill="#2b2b31"/>'+
       '<circle cx="366" cy="365" r="23" fill="#101014"/>'+
       '<circle cx="366" cy="365" r="14" fill="#23232a" opacity="0.55"/>'+
@@ -789,6 +960,26 @@ function svgBin(color, size) {
 function binThumb(bin, size) {
   size = size || 32;
   return '<div style="width:'+size+'px;height:'+size+'px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+svgBin(bin.color, size)+'</div>';
+}
+
+function isMonday(dateStr) {
+  var d = new Date(dateStr + 'T00:00:00');
+  return d.getDay() === 1;
+}
+
+function onAnchorDateChange(inputId, previewId, warningId, programmeContainerId) {
+  var input = document.getElementById(inputId);
+  var warning = document.getElementById(warningId);
+  if (!input) return;
+
+  // Show warning if not a Monday
+  if (input.value && !isMonday(input.value)) {
+    if (warning) warning.classList.add('visible');
+  } else {
+    if (warning) warning.classList.remove('visible');
+  }
+
+  updateAnchorPreview(inputId, previewId, programmeContainerId);
 }
 
 function makeAnchorPreviewHTML(anchorIso, programme) {
@@ -810,7 +1001,6 @@ function makeAnchorPreviewHTML(anchorIso, programme) {
   var upcomingText = 'No collections found';
   var originalConfig = config;
 
-  // Temporarily swap in a safe subset so preview respects the chosen programme + date.
   config = Object.assign({}, config, tempConfig);
   var previewCollections = getNextCollections(1, today);
   config = originalConfig;
@@ -831,6 +1021,89 @@ function updateAnchorPreview(inputId, previewId, programmeContainerId) {
 
   var programme = programmeContainerId ? getProg(programmeContainerId) : config.schedule.programme;
   preview.innerHTML = makeAnchorPreviewHTML(input.value, programme);
+}
+
+// ─────────────────────────────────────────────────────────
+// EXPORT / IMPORT / SHARE
+// ─────────────────────────────────────────────────────────
+function openExportModal() {
+  document.getElementById('modal-export').classList.remove('hidden');
+}
+function closeExportModal() {
+  document.getElementById('modal-export').classList.add('hidden');
+}
+
+function exportConfig() {
+  var data = JSON.stringify(config, null, 2);
+  var blob = new Blob([data], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'binday-schedule.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('Schedule exported');
+}
+
+function importConfig(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var imported = JSON.parse(e.target.result);
+      if (!imported.binTypes || !imported.schedule) {
+        showToast('Invalid file format');
+        return;
+      }
+      // Ensure notes field
+      if (imported.binTypes) {
+        imported.binTypes.forEach(function(b){ if (b.notes === undefined) b.notes = ''; });
+      }
+      config = Object.assign({}, DEFAULT_CONFIG, imported);
+      config.setupDone = true;
+      saveConfig();
+      closeExportModal();
+      renderSettings();
+      scheduleNotifications();
+      showToast('Schedule imported');
+    } catch(err) {
+      showToast('Could not read file');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function copyShareText() {
+  var lines = ['Bin Day Schedule — ' + (config.area || 'My area')];
+  var prog = config.schedule.programme;
+  if (prog && prog.length) {
+    prog.forEach(function(week, wi) {
+      lines.push('Week ' + (wi+1) + ':');
+      week.slots.forEach(function(s) {
+        var bin = config.binTypes.find(function(b){ return b.id === s.binId; });
+        lines.push('  ' + DAY_NAMES_LONG[s.day] + ' → ' + (bin ? bin.name : 'Unknown'));
+      });
+    });
+  }
+  if (config.schedule.anchorMonday) {
+    lines.push('Anchor Monday: ' + config.schedule.anchorMonday);
+  }
+  var text = lines.join('\n');
+
+  if (navigator.share) {
+    navigator.share({ title: 'Bin Day Schedule', text: text }).catch(function(){});
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(function(){
+      showToast('Schedule copied to clipboard');
+    });
+  } else {
+    showToast('Sharing not available');
+  }
+  closeExportModal();
 }
 
 // ─────────────────────────────────────────────────────────
@@ -928,6 +1201,23 @@ function renderHome() {
       }).join('') + '</div>'
     : '';
 
+  // Week indicator
+  var weekLabel = getWeekLabel(next.date);
+  var weekIndicatorHtml = weekLabel ? '<div class="hero-week-indicator">' + weekLabel + '</div>' : '';
+
+  // Bin contents button
+  var allBinsToday = sameDay.map(function(c){ return c.bin; });
+  var hasNotes = allBinsToday.some(function(b){ return b.notes && b.notes.trim(); });
+  var contentsBtn = hasNotes
+    ? '<button class="bin-contents-btn" onclick="toggleContentsPopover(this)"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6.5"/><path d="M8 7v4.5M8 4.5v.5"/></svg>What goes in?</button>'
+    : '';
+  var contentsPopover = hasNotes
+    ? '<div class="bin-contents-popover" id="home-contents-popover" style="display:none;">' +
+      allBinsToday.filter(function(b){ return b.notes && b.notes.trim(); }).map(function(b){
+        return '<strong style="color:'+b.color+'">' + b.name + ':</strong> ' + escapeHtml(b.notes);
+      }).join('<br>') + '</div>'
+    : '';
+
   var afterNext = upcoming.filter(function(c){ return fmtISO(c.date) !== fmtISO(next.date); });
   var grouped = [];
   afterNext.forEach(function(c) {
@@ -955,6 +1245,9 @@ function renderHome() {
       '<div class="hero-label-text">'+next.bin.label+'</div>'+
       '<div class="hero-date-text">'+fmtLong(next.date)+'</div>'+
       extraBins+
+      contentsBtn+
+      contentsPopover+
+      weekIndicatorHtml+
     '</div>'+
     '<div class="stat-row">'+
       '<div class="stat-card"><div class="stat-label">Days away</div><div class="stat-value">'+du+'</div><div class="stat-unit">'+(du===1?'day':'days')+'</div></div>'+
@@ -963,6 +1256,24 @@ function renderHome() {
     (upcomingRows ? '<div class="section-label">Coming up</div><div class="upcoming-list">'+upcomingRows+'</div>' : '')+
     '<div class="notif-row"><span class="notif-label">Evening reminders'+(config.notifications.evening?' · '+config.notifications.eveningTime:'')+'</span><div class="toggle '+(config.notifications.evening?'on':'')+'" onclick="toggleNotifications()"></div></div>'+
   '</div>';
+}
+
+function escapeHtml(s) {
+  var div = document.createElement('div');
+  div.textContent = s;
+  return div.innerHTML;
+}
+
+function toggleContentsPopover(btn) {
+  var pop = document.getElementById('home-contents-popover');
+  if (!pop) return;
+  if (pop.style.display === 'none') {
+    pop.style.display = 'block';
+    btn.style.borderColor = 'var(--b3)';
+  } else {
+    pop.style.display = 'none';
+    btn.style.borderColor = '';
+  }
 }
 
 function renderCalendar() {
@@ -1041,7 +1352,10 @@ function calCellClick(iso) {
     '<div class="cal-detail-date">'+fmtLong(d)+'</div>'+
     note+
     detailData.bins.map(function(b){
-      return '<div class="cal-detail-row">'+svgBin(b.color,36)+'<div><div class="cal-detail-name">'+b.name+'</div><div style="font-size:11px;color:var(--t2)">'+b.label+'</div></div></div>';
+      var contentsHtml = (b.notes && b.notes.trim())
+        ? '<div class="cal-detail-contents">' + escapeHtml(b.notes) + '</div>'
+        : '';
+      return '<div class="cal-detail-row">'+svgBin(b.color,36)+'<div><div class="cal-detail-name">'+b.name+'</div><div style="font-size:11px;color:var(--t2)">'+b.label+'</div>' + contentsHtml + '</div></div>';
     }).join('');
 }
 
@@ -1050,12 +1364,13 @@ function renderSettings() {
   var sch=config.schedule, notif=config.notifications;
 
   var binList=config.binTypes.map(function(b){
+    var notesHint = (b.notes && b.notes.trim()) ? '<div style="font-size:10px;color:var(--t3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;">📝 '+escapeHtml(b.notes)+'</div>' : '';
     return '<div class="bin-type-item">'+
       binThumb(b, 32)+
-      '<div class="bin-type-info"><div class="bin-type-name">'+b.name+'</div><div class="bin-type-sublabel">'+b.label+'</div></div>'+
+      '<div class="bin-type-info"><div class="bin-type-name">'+b.name+'</div><div class="bin-type-sublabel">'+b.label+'</div>'+notesHint+'</div>'+
       '<div class="bin-type-actions">'+
         '<button class="icon-btn" onclick="openAddBinModal(\''+b.id+'\',false)">✎</button>'+
-        '<button class="icon-btn del" onclick="deleteBin(\''+b.id+'\')">✕</button>'+
+        '<button class="icon-btn del" onclick="promptDeleteBin(\''+b.id+'\',false)">✕</button>'+
       '</div></div>';
   }).join('');
 
@@ -1093,15 +1408,18 @@ function renderSettings() {
     '<div class="s-section-title">Notifications</div>'+
     '<div class="s-card">'+
       '<div class="s-row" style="cursor:default;"><span class="s-row-label">Evening reminder</span><div class="toggle '+(notif.evening?'on':'')+'" onclick="toggleSetting(\'evening\')"></div></div>'+
-      '<div class="s-row" style="cursor:default;"><span class="s-row-label">Evening time</span><input type="time" value="'+notif.eveningTime+'" onchange="config.notifications.eveningTime=this.value;saveConfig();" style="width:auto;background:none;border:none;color:var(--t2);font-family:\'Geist Mono\',monospace;font-size:12px;text-align:right;outline:none;"></div>'+
+      '<div class="s-row" style="cursor:default;"><span class="s-row-label">Evening time</span><input type="time" value="'+notif.eveningTime+'" onchange="config.notifications.eveningTime=this.value;saveConfig();scheduleNotifications();" style="width:auto;background:none;border:none;color:var(--t2);font-family:\'Geist Mono\',monospace;font-size:12px;text-align:right;outline:none;"></div>'+
       '<div class="s-row" style="cursor:default;"><span class="s-row-label">Morning reminder</span><div class="toggle '+(notif.morning?'on':'')+'" onclick="toggleSetting(\'morning\')"></div></div>'+
-      '<div class="s-row" style="cursor:default;"><span class="s-row-label">Morning time</span><input type="time" value="'+notif.morningTime+'" onchange="config.notifications.morningTime=this.value;saveConfig();" style="width:auto;background:none;border:none;color:var(--t2);font-family:\'Geist Mono\',monospace;font-size:12px;text-align:right;outline:none;"></div>'+
+      '<div class="s-row" style="cursor:default;"><span class="s-row-label">Morning time</span><input type="time" value="'+notif.morningTime+'" onchange="config.notifications.morningTime=this.value;saveConfig();scheduleNotifications();" style="width:auto;background:none;border:none;color:var(--t2);font-family:\'Geist Mono\',monospace;font-size:12px;text-align:right;outline:none;"></div>'+
     '</div>'+
     '<div class="s-section-title" style="margin-top:24px;">Data</div>'+
-    '<div class="s-card"><div class="s-row" onclick="openResetModal()"><span class="s-row-label" style="color:#f87171">Reset all data</span><span class="s-row-chevron">›</span></div></div>'+
+    '<div class="s-card">'+
+      '<div class="s-row" onclick="openExportModal()"><span class="s-row-label">Export / Import</span><span class="s-row-chevron">›</span></div>'+
+      '<div class="s-row" onclick="openResetModal()"><span class="s-row-label" style="color:#f87171">Reset all data</span><span class="s-row-chevron">›</span></div>'+
+    '</div>'+
     '<div class="s-section-title" style="margin-top:24px;">About</div>'+
     '<div class="s-card">'+
-      '<div class="s-row" style="cursor:default;"><span class="s-row-label">Bin Day</span><span class="s-row-value">v1.1</span></div>'+
+      '<div class="s-row" style="cursor:default;"><span class="s-row-label">Bin Day</span><span class="s-row-value">v1.2</span></div>'+
       '<div class="s-row" onclick="window.open(\'https://instagram.com/snazzygaz\',\'_blank\')" style="cursor:pointer;">'+
         '<span class="s-row-label">Made by snazzygaz</span>'+
         '<span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2);">'+
@@ -1154,12 +1472,12 @@ function renderObBinList() {
         '<div class="bin-type-info"><div class="bin-type-name">'+b.name+'</div><div class="bin-type-sublabel">'+b.label+'</div></div>'+
         '<div class="bin-type-actions">'+
           '<button class="icon-btn" onclick="openAddBinModal(\''+b.id+'\',true)">✎</button>'+
-          '<button class="icon-btn del" onclick="deleteBinOb(\''+b.id+'\')">✕</button>'+
+          '<button class="icon-btn del" onclick="promptDeleteBin(\''+b.id+'\',true)">✕</button>'+
         '</div></div>';
     }).join('');
 }
 
-function deleteBinOb(id) {
+function performDeleteBin(id, isOb) {
   if (config.binTypes.length <= 1) {
     showToast("Can't remove the only bin");
     return;
@@ -1176,13 +1494,43 @@ function deleteBinOb(id) {
           ? s
           : { day: s.day, binId: fallbackBinId };
       });
-
     if (!week.slots.length) week.slots = [{ day: 2, binId: fallbackBinId }];
   });
 
   config.binTypes = remainingBins;
-  renderObBinList();
-  renderProgrammeEditor('ob-programme-editor', config.schedule.programme);
+  saveConfig();
+
+  if (isOb) {
+    renderObBinList();
+    renderProgrammeEditor('ob-programme-editor', config.schedule.programme);
+  } else {
+    renderSettings();
+  }
+  showToast('Bin removed');
+}
+
+function promptDeleteBin(id, isOb) {
+  if (config.binTypes.length <= 1) {
+    showToast("Can't remove the only bin");
+    return;
+  }
+  var bin = config.binTypes.find(function(b){ return b.id === id; });
+  pendingDeleteBinId = id;
+  pendingDeleteIsOb = isOb;
+  document.getElementById('confirm-delete-msg').textContent = 'Remove "' + (bin ? bin.name : 'this bin') + '"? This will also update your schedule.';
+  document.getElementById('modal-confirm-delete').classList.remove('hidden');
+}
+
+function closeConfirmDelete() {
+  document.getElementById('modal-confirm-delete').classList.add('hidden');
+  pendingDeleteBinId = null;
+}
+
+function confirmDeleteBin() {
+  if (pendingDeleteBinId) {
+    performDeleteBin(pendingDeleteBinId, pendingDeleteIsOb);
+  }
+  closeConfirmDelete();
 }
 
 function obNext() {
@@ -1234,12 +1582,27 @@ function obBack() {
 }
 
 function obFinish() {
-  config.notifications.evening=document.getElementById('ob-notif-toggle').classList.contains('on');
-  config.notifications.eveningTime=document.getElementById('ob-notif-time').value;
-  config.notifications.morning=document.getElementById('ob-notif-morning').classList.contains('on');
-  config.notifications.morningTime=document.getElementById('ob-notif-morning-time').value;
-  config.setupDone=true;
+  var eveningOn = document.getElementById('ob-notif-toggle').classList.contains('on');
+  var morningOn = document.getElementById('ob-notif-morning').classList.contains('on');
+
+  config.notifications.evening = eveningOn;
+  config.notifications.eveningTime = document.getElementById('ob-notif-time').value;
+  config.notifications.morning = morningOn;
+  config.notifications.morningTime = document.getElementById('ob-notif-morning-time').value;
+  config.setupDone = true;
   saveConfig();
+
+  // Request notification permission if any reminders enabled
+  if (eveningOn || morningOn) {
+    requestNotifPermission(function(granted) {
+      if (!granted) {
+        config.notifications.evening = false;
+        config.notifications.morning = false;
+        saveConfig();
+      }
+      scheduleNotifications();
+    });
+  }
 
   document.getElementById('onboarding').classList.add('hidden');
 
@@ -1264,10 +1627,11 @@ function openAddBinModal(binId, isOb) {
   document.getElementById('modal-bin-title').textContent=bin?'Edit bin type':'Add bin type';
   document.getElementById('modal-bin-name').value=bin?bin.name:'';
   document.getElementById('modal-bin-label').value=bin?bin.label:'';
-  selectedModalColor=bin?bin.color:COLORS[0];
+  document.getElementById('modal-bin-notes').value=bin?(bin.notes||''):'';
+  selectedModalColor=bin?bin.color:COLOR_HEXES[0];
 
   document.getElementById('modal-color-grid').innerHTML=COLORS.map(function(c){
-    return '<div class="color-swatch '+(c===selectedModalColor?'selected':'')+'" data-color="'+c+'" style="background:'+c+'" onclick="selectColor(\''+c+'\')"></div>';
+    return '<div class="color-swatch '+(c.hex===selectedModalColor?'selected':'')+'" data-color="'+c.hex+'" style="background:'+c.hex+'" onclick="selectColor(\''+c.hex+'\')"><span class="color-swatch-label">'+c.name+'</span></div>';
   }).join('');
 
   document.getElementById('modal-bin').classList.remove('hidden');
@@ -1285,14 +1649,15 @@ function closeBinModal(){document.getElementById('modal-bin').classList.add('hid
 function saveBinModal() {
   var name=document.getElementById('modal-bin-name').value.trim();
   var label=document.getElementById('modal-bin-label').value.trim();
+  var notes=document.getElementById('modal-bin-notes').value.trim();
   if (!name){showToast('Enter a name');return;}
 
   if (modalBinEditId) {
     var b=config.binTypes.find(function(x){return x.id===modalBinEditId;});
-    if (b){b.name=name;b.label=label||name;b.color=selectedModalColor;}
+    if (b){b.name=name;b.label=label||name;b.color=selectedModalColor;b.notes=notes;}
   } else {
     var id='bin_'+Date.now();
-    config.binTypes.push({id:id,name:name,label:label||name,color:selectedModalColor});
+    config.binTypes.push({id:id,name:name,label:label||name,color:selectedModalColor,notes:notes});
   }
 
   saveConfig();
@@ -1306,35 +1671,6 @@ function saveBinModal() {
   }
 
   showToast(modalBinEditId?'Bin updated':'Bin added');
-}
-
-function deleteBin(id) {
-  if (config.binTypes.length <= 1) {
-    showToast("Can't remove the only bin");
-    return;
-  }
-
-  var remainingBins = config.binTypes.filter(function(b){ return b.id !== id; });
-  var fallbackBinId = remainingBins[0].id;
-
-  config.schedule.programme.forEach(function(week){
-    week.slots = week.slots
-      .filter(function(s){ return s.binId !== id; })
-      .map(function(s){
-        return remainingBins.some(function(b){ return b.id === s.binId; })
-          ? s
-          : { day: s.day, binId: fallbackBinId };
-      });
-
-    if (!week.slots.length) {
-      week.slots = [{ day: 2, binId: fallbackBinId }];
-    }
-  });
-
-  config.binTypes = remainingBins;
-  saveConfig();
-  renderSettings();
-  showToast('Bin removed');
 }
 
 function openNudgeModal() {
@@ -1360,6 +1696,7 @@ function saveNudge() {
   saveConfig();
   closeNudgeModal();
   renderSettings();
+  scheduleNotifications();
   showToast('Override saved');
 }
 
@@ -1371,6 +1708,7 @@ function deleteNudge(i){
 
 function openScheduleModal() {
   document.getElementById('sched-anchor-date').value=config.schedule.anchorMonday||'';
+  document.getElementById('sched-anchor-warning').classList.remove('visible');
   renderProgrammeEditor('modal-programme-editor', config.schedule.programme);
   updateAnchorPreview('sched-anchor-date','sched-anchor-preview','modal-programme-editor');
   document.getElementById('modal-schedule').classList.remove('hidden');
@@ -1388,19 +1726,56 @@ function saveSchedule() {
   saveConfig();
   closeScheduleModal();
   renderSettings();
+  scheduleNotifications();
   showToast('Schedule saved');
 }
 
 function toggleSetting(key){
-  config.notifications[key]=!config.notifications[key];
-  saveConfig();
-  renderSettings();
+  var newVal = !config.notifications[key];
+
+  if (newVal) {
+    requestNotifPermission(function(granted) {
+      if (granted) {
+        config.notifications[key] = true;
+        saveConfig();
+        renderSettings();
+        scheduleNotifications();
+      } else {
+        config.notifications[key] = false;
+        saveConfig();
+        renderSettings();
+      }
+    });
+  } else {
+    config.notifications[key] = false;
+    saveConfig();
+    renderSettings();
+    scheduleNotifications();
+  }
 }
 
 function toggleNotifications(){
-  config.notifications.evening=!config.notifications.evening;
-  saveConfig();
-  renderHome();
+  var newVal = !config.notifications.evening;
+
+  if (newVal) {
+    requestNotifPermission(function(granted) {
+      if (granted) {
+        config.notifications.evening = true;
+        saveConfig();
+        renderHome();
+        scheduleNotifications();
+      } else {
+        config.notifications.evening = false;
+        saveConfig();
+        renderHome();
+      }
+    });
+  } else {
+    config.notifications.evening = false;
+    saveConfig();
+    renderHome();
+    scheduleNotifications();
+  }
 }
 
 function openAreaModal() {
@@ -1476,6 +1851,7 @@ if (!config.setupDone) {
   document.getElementById('view-home').classList.add('active');
   document.querySelector('.nav-btn[data-view="home"]').classList.add('active');
   renderHome();
+  scheduleNotifications();
 }
 </script>
 </body>
