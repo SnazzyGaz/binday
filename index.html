@@ -1723,19 +1723,28 @@ function closeConfirmDelete(){document.getElementById('modal-confirm-delete').cl
 function confirmDeleteBin(){if(pendingDeleteBinId)performDeleteBin(pendingDeleteBinId,pendingDeleteIsOb);closeConfirmDelete();}
 
 function obNext(){
-  if(obStep===0){config.area=document.getElementById('ob-area').value.trim()||'My area';saveConfig();}
-  if(obStep===1){if(!config.binTypes.length){showToast('Add at least one bin type');return;}renderProgrammeEditor('ob-programme-editor',config.schedule.programme);}
-  if(obStep===2){
+  if(obStep===0){
+    config.area=document.getElementById('ob-area').value.trim()||'My area';
+    saveConfig();
+  } else if(obStep===1){
+    if(!config.binTypes.length){showToast('Add at least one bin type');return;}
+    renderProgrammeEditor('ob-programme-editor',config.schedule.programme);
+  } else if(obStep===2){
     var prog=getProg('ob-programme-editor');
     if(!prog.length){showToast('Add at least one week');return;}
-    config.schedule.programme=prog;saveConfig();updateAnchorLabel();updateAnchorPreview('ob-anchor-date','ob-anchor-preview');
-  }
-  if(obStep===3){
+    config.schedule.programme=prog;
+    saveConfig();
+    updateAnchorLabel();
+    updateAnchorPreview('ob-anchor-date','ob-anchor-preview');
+  } else if(obStep===3){
     var dateVal=document.getElementById('ob-anchor-date').value;
     if(!dateVal){showToast('Pick an anchor Monday');return;}
-    config.schedule.anchorMonday=fmtISO(getMondayOf(new Date(dateVal+'T00:00:00')));saveConfig();
+    config.schedule.anchorMonday=fmtISO(getMondayOf(new Date(dateVal+'T00:00:00')));
+    saveConfig();
+  } else if(obStep===4){
+    obFinish();
+    return;
   }
-  if(obStep===4){obFinish();return;}
   document.getElementById('ob-step-'+obStep).classList.remove('active');
   obStep++;
   document.getElementById('ob-step-'+obStep).classList.add('active');
@@ -1931,6 +1940,7 @@ if(!config.setupDone){
   renderHome();
   scheduleNotifications();
   pushWidgetUpdate();
+}
 </script>
 </body>
 </html>
