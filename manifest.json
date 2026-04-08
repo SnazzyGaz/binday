@@ -20,5 +20,29 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
+  ],
+  "widgets": [
+    {
+      "name": "Next collection",
+      "tag": "binday-next",
+      "template": "./widget.html",
+      "data": "./widget-data.json",
+      "type": "text/html",
+      "auth": false,
+      "update": 3600,
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ],
+      "screenshots": [
+        {
+          "src": "widget-screenshot.png",
+          "sizes": "360x155",
+          "label": "Shows your next bin collection and how many days away it is"
+        }
+      ]
+    }
   ]
 }
