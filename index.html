@@ -8,6 +8,9 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Bin Day">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Bin Day</title>
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -389,7 +392,7 @@ body.theme-slate .weekday-pill.on{background:rgba(251,146,60,0.12);border-color:
   <div class="ob-inner">
     <div class="ob-progress" id="ob-progress"></div>
     <div id="ob-step-0" class="ob-step active">
-      <div class="ob-title">Welcome to<br>Bin Day</div>
+      <div class="ob-title" id="ob-escape-title" onclick="obEscapeTap()">Welcome to<br>Bin Day</div>
       <div class="ob-sub">Never miss a collection. Takes about a minute to set up.</div>
       <div class="field">
         <label>Your area or street</label>
@@ -639,6 +642,32 @@ var pendingDeleteIsOb = false;
 var notifTimers = [];
 var cycleHelperTargetContainerId = null;
 var cycleHelperState = null;
+
+// ─── ONBOARDING ESCAPE HATCH ──────────────────────────────────────────────────
+// Triple-tap the title during onboarding to force-clear all data and reload
+var _obEscapeTaps = 0, _obEscapeTimer = null;
+function obEscapeTap(){
+  _obEscapeTaps++;
+  clearTimeout(_obEscapeTimer);
+  _obEscapeTimer = setTimeout(function(){ _obEscapeTaps = 0; }, 800);
+  if(_obEscapeTaps >= 5){
+    _obEscapeTaps = 0;
+    if(confirm('Clear all data and restart?')){
+      localStorage.removeItem('binday-config');
+      localStorage.removeItem('binday-collected');
+      // Unregister SW so cached broken version is evicted
+      if('serviceWorker' in navigator){
+        navigator.serviceWorker.getRegistrations().then(function(regs){
+          Promise.all(regs.map(function(r){ return r.unregister(); })).then(function(){
+            location.reload(true);
+          });
+        });
+      } else {
+        location.reload(true);
+      }
+    }
+  }
+}
 
 // ─── SIGN-OFF / COLLECTED STATE ───────────────────────────────────────────────
 var collectedToday = loadCollectedToday();
@@ -1931,16 +1960,26 @@ history.replaceState({view:'home'},'','');
 
 applyTheme();
 
-if(!config.setupDone){
-  initOnboarding();
-} else {
-  document.getElementById('onboarding').classList.add('hidden');
-  document.getElementById('view-home').classList.add('active');
-  document.querySelector('.nav-btn[data-view="home"]').classList.add('active');
-  renderHome();
-  scheduleNotifications();
-  pushWidgetUpdate();
-}
+// Safety: if SW cached a broken state, detect stuck onboarding and recover
+(function(){
+  var ob = document.getElementById('onboarding');
+  // If setupDone is somehow true but data looks corrupt, reset the flag
+  if(config.setupDone && (!config.binTypes || !config.binTypes.length)) {
+    config.setupDone = false;
+    saveConfig();
+  }
+  if(!config.setupDone){
+    ob.classList.remove('hidden');
+    initOnboarding();
+  } else {
+    ob.classList.add('hidden');
+    document.getElementById('view-home').classList.add('active');
+    document.querySelector('.nav-btn[data-view="home"]').classList.add('active');
+    renderHome();
+    scheduleNotifications();
+    pushWidgetUpdate();
+  }
+})();
 </script>
 </body>
 </html>
