@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0a0c14;
+    color: #e2e8ff;
+    width: 100%;
+    height: 100%;
+    min-height: 155px;
+    display: flex;
+    align-items: stretch;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .widget {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px 18px 14px;
+    border-radius: 20px;
+    background: #111320;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  /* colour wash behind the bin icon */
+  .widget-glow {
+    position: absolute;
+    top: -30px;
+    right: -20px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    opacity: 0.12;
+    filter: blur(28px);
+    pointer-events: none;
+  }
+
+  .widget-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .widget-left { flex: 1; }
+
+  .widget-eyebrow {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #7b82a8;
+    margin-bottom: 5px;
+  }
+
+  .widget-name {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.4px;
+    line-height: 1.1;
+  }
+
+  .widget-label {
+    font-size: 11px;
+    color: #7b82a8;
+    margin-top: 3px;
+  }
+
+  .widget-bin-icon {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .widget-bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: 12px;
+  }
+
+  .widget-date {
+    font-size: 11px;
+    color: #7b82a8;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.3px;
+  }
+
+  .widget-badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+
+  .widget-badge.today {
+    background: rgba(74, 222, 128, 0.15);
+    color: #4ade80;
+  }
+
+  .widget-badge.tomorrow {
+    background: rgba(250, 204, 21, 0.12);
+    color: #facc15;
+  }
+
+  .widget-badge.soon {
+    background: rgba(129, 140, 248, 0.12);
+    color: #818cf8;
+  }
+
+  .widget-badge.days {
+    background: rgba(255,255,255,0.06);
+    color: #7b82a8;
+  }
+
+  /* no-data state */
+  .widget-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    opacity: 0.4;
+    text-align: center;
+  }
+
+  .widget-empty-icon {
+    font-size: 28px;
+  }
+
+  .widget-empty-text {
+    font-size: 11px;
+    color: #7b82a8;
+  }
+</style>
+</head>
+<body>
+<div class="widget" id="widget" onclick="window.open('/', '_blank')">
+  <div class="widget-glow" id="glow"></div>
+
+  <!-- populated state -->
+  <div id="content-populated" style="display:none;flex:1;flex-direction:column;justify-content:space-between;">
+    <div class="widget-top">
+      <div class="widget-left">
+        <div class="widget-eyebrow">Next collection</div>
+        <div class="widget-name" id="bin-name">—</div>
+        <div class="widget-label" id="bin-label"></div>
+      </div>
+      <div class="widget-bin-icon" id="bin-icon"></div>
+    </div>
+    <div class="widget-bottom">
+      <div class="widget-date" id="bin-date"></div>
+      <div class="widget-badge" id="bin-badge"></div>
+    </div>
+  </div>
+
+  <!-- empty state -->
+  <div id="content-empty" class="widget-empty" style="display:none;">
+    <div class="widget-empty-icon">🗑</div>
+    <div class="widget-empty-text">Open Bin Day<br>to set up your schedule</div>
+  </div>
+</div>
+
+<script>
+  // Data injected by the Widgets API via mustache-style {{data}} or passed as URL param
+  // We support both: the SW injects JSON, or the app opens widget.html?data=...
+  function getData() {
+    // 1. Try Widgets API template injection (Chrome widget host sets window.__widgetData)
+    if (typeof window.__widgetData !== 'undefined') return window.__widgetData;
+    // 2. Try URL search param (for iframe preview inside the app)
+    try {
+      const raw = new URLSearchParams(location.search).get('data');
+      if (raw) return JSON.parse(decodeURIComponent(raw));
+    } catch(e) {}
+    return null;
+  }
+
+  function mixColor(hex, amt, toWhite) {
+    const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+    const t = toWhite ? 255 : 0;
+    return `rgb(${Math.round(r+(t-r)*amt)},${Math.round(g+(t-g)*amt)},${Math.round(b+(t-b)*amt)})`;
+  }
+
+  function svgBin(color, size) {
+    const lid = mixColor(color, 0.18, true);
+    const bodyDark = mixColor(color, 0.18, false);
+    const bodyLight = mixColor(color, 0.10, true);
+    const gradId = 'wbg_' + color.replace(/[^a-zA-Z0-9]/g,'');
+    return `<svg width="${size}" height="${size}" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="${gradId}" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="${bodyLight}"/>
+        <stop offset="100%" stop-color="${bodyDark}"/>
+      </linearGradient></defs>
+      <path d="M150 150 L362 150 L340 420 L172 420 Z" fill="url(#${gradId})"/>
+      <rect x="132" y="118" width="252" height="34" rx="8" fill="${lid}"/>
+      <rect x="255" y="154" width="22" height="262" fill="rgba(255,255,255,0.12)"/>
+      <circle cx="366" cy="365" r="38" fill="#2b2b31"/>
+      <circle cx="366" cy="365" r="23" fill="#101014"/>
+    </svg>`;
+  }
+
+  function render() {
+    const data = getData();
+    const populated = document.getElementById('content-populated');
+    const empty = document.getElementById('content-empty');
+
+    if (!data || !data.binName || data.binName === '—') {
+      empty.style.display = 'flex';
+      populated.style.display = 'none';
+      return;
+    }
+
+    empty.style.display = 'none';
+    populated.style.display = 'flex';
+    populated.style.flexDirection = 'column';
+    populated.style.justifyContent = 'space-between';
+
+    const color = data.binColor || '#818cf8';
+
+    // Glow
+    document.getElementById('glow').style.background = color;
+
+    // Widget background tint
+    const widget = document.getElementById('widget');
+    widget.style.background = `linear-gradient(135deg, ${color}0d 0%, #111320 60%)`;
+    widget.style.borderLeft = `2px solid ${color}33`;
+
+    // Content
+    document.getElementById('bin-name').textContent = data.binName;
+    document.getElementById('bin-name').style.color = color;
+    document.getElementById('bin-label').textContent = data.binLabel || '';
+    document.getElementById('bin-icon').innerHTML = svgBin(color, 52);
+    document.getElementById('bin-date').textContent = data.dateStr || '';
+
+    // Badge
+    const badge = document.getElementById('bin-badge');
+    const days = parseInt(data.daysUntil, 10);
+    if (isNaN(days)) {
+      badge.style.display = 'none';
+    } else if (days === 0) {
+      badge.textContent = 'Today';
+      badge.className = 'widget-badge today';
+      badge.style.display = '';
+    } else if (days === 1) {
+      badge.textContent = 'Tomorrow';
+      badge.className = 'widget-badge tomorrow';
+      badge.style.display = '';
+    } else if (days <= 7) {
+      badge.textContent = `In ${days} days`;
+      badge.className = 'widget-badge soon';
+      badge.style.display = '';
+    } else {
+      badge.textContent = `${days} days`;
+      badge.className = 'widget-badge days';
+      badge.style.display = '';
+    }
+  }
+
+  render();
+</script>
+</body>
+</html>
