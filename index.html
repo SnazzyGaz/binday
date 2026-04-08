@@ -17,7 +17,7 @@
   --bg:#080a0f;--s1:#0d1018;--s2:#131620;--s3:#191d2b;
   --b1:rgba(255,255,255,0.05);--b2:rgba(255,255,255,0.09);--b3:rgba(255,255,255,0.18);
   --t1:#eef0f8;--t2:#7a7f96;--t3:#3d4157;
-  --r:18px;--r-sm:11px;--r-xs:8px;
+  --r:18px;--r-sm:12px;--r-xs:8px;
   --pad:20px;
   --safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px)
 }
@@ -25,7 +25,7 @@
 html,body{height:100%;overflow:hidden}
 body{font-family:'Geist',sans-serif;background:var(--bg);color:var(--t1);-webkit-font-smoothing:antialiased;overscroll-behavior:none}
 
-/* â”€â”€ layout â”€â”€ */
+/* layout */
 #app{height:100%;display:flex;flex-direction:column;padding-top:var(--safe-t)}
 #view-wrap{flex:1;display:flex;overflow:hidden;position:relative;background:var(--bg)}
 .view{position:absolute;inset:0;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;align-items:center;background:var(--bg);transform:translateX(100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);will-change:transform;pointer-events:none;visibility:hidden}
@@ -34,16 +34,16 @@ body{font-family:'Geist',sans-serif;background:var(--bg);color:var(--t1);-webkit
 .view.sliding{visibility:visible}
 .view.slide-left{transform:translateX(-28%)}
 .view.slide-right{transform:translateX(100%)}
-.page{width:100%;max-width:480px;padding:0 var(--pad) 28px;display:flex;flex-direction:column;gap:12px}
+.page{width:100%;max-width:480px;padding:0 var(--pad) 36px;display:flex;flex-direction:column;gap:14px}
 
-/* â”€â”€ nav â”€â”€ */
+/* nav */
 #nav{display:flex;background:var(--s1);border-top:1px solid var(--b1);padding:10px 0;flex-shrink:0;padding-bottom:max(10px,calc(var(--safe-b) + 2px))}
 .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;cursor:pointer;color:var(--t3);font-family:'Geist',sans-serif;font-size:10px;letter-spacing:0.4px;padding:2px 0;transition:color 0.2s}
 .nav-btn svg{opacity:0.35;transition:opacity 0.2s}
 .nav-btn.active{color:var(--t1)}
 .nav-btn.active svg{opacity:1}
 
-/* â”€â”€ onboarding â”€â”€ */
+/* onboarding */
 #onboarding{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;overflow-y:auto}
 #onboarding.hidden{display:none}
 .ob-inner{width:100%;max-width:480px;padding:calc(var(--safe-t)+44px) var(--pad) calc(var(--safe-b)+28px);display:flex;flex-direction:column;flex:1;min-height:100%}
@@ -65,7 +65,7 @@ body{font-family:'Geist',sans-serif;background:var(--bg);color:var(--t1);-webkit
 .preview-v{font-size:13px;text-align:right;color:var(--t2)}
 .preview-v strong{color:var(--t1);font-weight:500}
 
-/* â”€â”€ inputs â”€â”€ */
+/* inputs */
 .field{margin-bottom:18px}
 .field label{display:block;font-size:11px;color:var(--t3);margin-bottom:8px;letter-spacing:0.7px;text-transform:uppercase;font-weight:500}
 input[type=text],input[type=date],select,input[type=time],textarea{
@@ -77,46 +77,98 @@ input:focus,select:focus,textarea:focus{border-color:var(--b3)}
 input[type=date]::-webkit-calendar-picker-indicator{filter:invert(1);opacity:0.25}
 select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%233d4157' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
 
-/* â”€â”€ buttons â”€â”€ */
+/* buttons */
 .btn-primary{display:block;width:100%;padding:16px;background:var(--t1);color:var(--bg);border:none;border-radius:var(--r-sm);font-family:'Geist',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:opacity 0.15s,transform 0.1s;letter-spacing:-0.1px}
 .btn-primary:active{opacity:0.8;transform:scale(0.99)}
 .btn-secondary{display:inline-flex;align-items:center;gap:6px;padding:11px 16px;background:transparent;border:1px solid var(--b2);border-radius:var(--r-sm);color:var(--t2);font-family:'Geist',sans-serif;font-size:13px;cursor:pointer;transition:border-color 0.15s,color 0.15s}
 .btn-secondary:active{border-color:var(--b3);color:var(--t1)}
 
-/* â”€â”€ home â”€â”€ */
-.home-header{padding:24px 0 4px;display:flex;justify-content:space-between;align-items:flex-end}
-.home-header h1{font-size:22px;font-weight:500;letter-spacing:-0.4px}
-.home-header .date-chip{font-size:11px;color:var(--t3);font-family:'Geist Mono',monospace}
+/* home */
+.home-header{padding:28px 0 6px;display:flex;justify-content:space-between;align-items:flex-end}
+.home-header h1{font-size:24px;font-weight:500;letter-spacing:-0.5px}
+.home-header .date-chip{font-size:11px;color:var(--t3);font-family:'Geist Mono',monospace;letter-spacing:0.2px}
 
+/* HERO CARD - beautified */
 .hero-card{
-  border-radius:var(--r);padding:32px 24px 28px;
+  border-radius:var(--r);padding:28px 24px 24px;
   display:flex;flex-direction:column;align-items:center;text-align:center;
   position:relative;overflow:hidden;
-  animation:fadeUp 0.4s cubic-bezier(0.16,1,0.3,1) both
+  animation:fadeUp 0.45s cubic-bezier(0.16,1,0.3,1) both
 }
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.hero-urgency{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;opacity:0.6;margin-bottom:20px}
-.hero-bin-centre{margin-bottom:20px;filter:drop-shadow(0 12px 32px rgba(0,0,0,0.5))}
-.hero-name{font-size:28px;font-weight:500;letter-spacing:-0.6px;line-height:1.1;margin-bottom:5px}
-.hero-label-text{font-size:14px;opacity:0.5;margin-bottom:6px}
-.hero-date-text{font-size:12px;font-family:'Geist Mono',monospace;opacity:0.4}
-.hero-extras{display:flex;gap:7px;justify-content:center;margin-top:12px;flex-wrap:wrap}
-.hero-extra-chip{font-size:11px;padding:4px 12px;border-radius:20px;font-weight:500}
-.hero-week-indicator{font-size:11px;color:var(--t2);font-family:'Geist Mono',monospace;margin-top:14px;padding:5px 14px;background:rgba(255,255,255,0.04);border-radius:20px;border:1px solid var(--b1)}
+.hero-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255,255,255,0.05) 0%, transparent 70%);
+  pointer-events:none
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.hero-urgency-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:10px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;
+  padding:5px 13px;border-radius:20px;margin-bottom:22px;
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1)
+}
+.hero-urgency-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.hero-bin-wrap{
+  margin-bottom:20px;position:relative;
+  filter:drop-shadow(0 20px 40px rgba(0,0,0,0.6))
+}
+.hero-bin-ring{
+  position:absolute;inset:-12px;border-radius:50%;
+  border:1px solid rgba(255,255,255,0.07);
+  animation:pulseRing 3s ease-in-out infinite
+}
+@keyframes pulseRing{0%,100%{transform:scale(1);opacity:0.6}50%{transform:scale(1.04);opacity:0.2}}
+.hero-name{font-size:26px;font-weight:500;letter-spacing:-0.6px;line-height:1.1;margin-bottom:4px}
+.hero-label-text{font-size:13px;opacity:0.4;margin-bottom:5px;letter-spacing:0.2px}
+.hero-date-text{font-size:11px;font-family:'Geist Mono',monospace;opacity:0.35;letter-spacing:0.5px}
+.hero-extras{display:flex;gap:7px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.hero-extra-chip{font-size:11px;padding:5px 13px;border-radius:20px;font-weight:500;letter-spacing:0.2px}
+.hero-week-indicator{font-size:10px;color:var(--t3);font-family:'Geist Mono',monospace;margin-top:14px;padding:5px 14px;background:rgba(255,255,255,0.03);border-radius:20px;border:1px solid var(--b1);letter-spacing:0.5px}
 
-/* stats */
+/* SIGN-OFF BUTTON */
+.signoff-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:18px;padding:13px 28px;
+  border-radius:var(--r-sm);border:none;cursor:pointer;
+  font-family:'Geist',sans-serif;font-size:14px;font-weight:500;
+  background:rgba(255,255,255,0.08);color:var(--t1);
+  transition:background 0.15s,transform 0.1s;letter-spacing:-0.1px
+}
+.signoff-btn:active{background:rgba(255,255,255,0.14);transform:scale(0.98)}
+.signoff-btn svg{flex-shrink:0}
+
+/* COLLECTED STATE */
+.collected-card{
+  border-radius:var(--r);padding:20px 24px;
+  display:flex;align-items:center;gap:16px;
+  background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.16);
+  animation:fadeUp 0.3s cubic-bezier(0.16,1,0.3,1) both
+}
+.collected-check{
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.25);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0
+}
+.collected-text-wrap{flex:1;text-align:left}
+.collected-label{font-size:13px;color:#4ade80;font-weight:500;margin-bottom:2px}
+.collected-sub{font-size:12px;color:var(--t3)}
+.collected-undo{font-size:11px;color:var(--t3);background:none;border:none;cursor:pointer;font-family:'Geist',sans-serif;padding:4px 0;text-decoration:underline;text-underline-offset:2px}
+.collected-undo:active{color:var(--t2)}
+
+/* stat cards */
 .stat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat-card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r-sm);padding:18px 18px 16px;text-align:center}
-.stat-label{font-size:10px;color:var(--t3);letter-spacing:0.6px;text-transform:uppercase;margin-bottom:8px;font-weight:500}
-.stat-value{font-size:26px;font-weight:500;font-family:'Geist Mono',monospace;letter-spacing:-0.8px;line-height:1}
-.stat-unit{font-size:11px;color:var(--t2);margin-top:4px}
-.stat-value-sm{font-size:14px;font-weight:500;margin-top:6px;line-height:1.3}
+.stat-card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r-sm);padding:18px 18px 16px;text-align:center;position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:rgba(255,255,255,0.05)}
+.stat-label{font-size:10px;color:var(--t3);letter-spacing:0.7px;text-transform:uppercase;margin-bottom:10px;font-weight:500}
+.stat-value{font-size:28px;font-weight:500;font-family:'Geist Mono',monospace;letter-spacing:-1px;line-height:1}
+.stat-unit{font-size:11px;color:var(--t2);margin-top:5px}
+.stat-value-sm{font-size:14px;font-weight:500;margin-top:6px;line-height:1.4}
 
 /* bh banner */
-.bh-banner{display:flex;align-items:center;gap:8px;padding:12px 16px;background:rgba(234,179,8,0.06);border:1px solid rgba(234,179,8,0.15);border-radius:var(--r-sm);font-size:12px;color:#fbbf24}
+.bh-banner{display:flex;align-items:center;gap:9px;padding:13px 16px;background:rgba(234,179,8,0.06);border:1px solid rgba(234,179,8,0.15);border-radius:var(--r-sm);font-size:12px;color:#fbbf24}
 
 /* upcoming */
-.section-label{font-size:10px;color:var(--t3);letter-spacing:0.8px;text-transform:uppercase;padding:2px 2px 10px;font-weight:500}
+.section-label{font-size:10px;color:var(--t3);letter-spacing:0.9px;text-transform:uppercase;padding:2px 2px 10px;font-weight:500}
 .upcoming-list{display:flex;flex-direction:column;gap:1px;background:var(--b1);border-radius:var(--r);overflow:hidden;border:1px solid var(--b1)}
 .upcoming-item{display:flex;align-items:center;gap:14px;padding:15px 16px;background:var(--s1);transition:background 0.1s}
 .upcoming-dots{display:flex;gap:4px;flex-shrink:0}
@@ -125,8 +177,8 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .upcoming-date{font-size:11px;color:var(--t2);font-family:'Geist Mono',monospace}
 .upcoming-pill{font-size:10px;color:var(--t3);background:var(--s3);padding:3px 9px;border-radius:20px;white-space:nowrap}
 
-/* bin contents info */
-.bin-contents-btn{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:11px;cursor:pointer;background:rgba(255,255,255,0.04);border:1px solid var(--b1);color:var(--t2);font-family:'Geist',sans-serif;margin-top:8px;transition:color 0.15s,border-color 0.15s}
+/* bin contents */
+.bin-contents-btn{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:11px;cursor:pointer;background:rgba(255,255,255,0.04);border:1px solid var(--b1);color:var(--t2);font-family:'Geist',sans-serif;margin-top:10px;transition:color 0.15s,border-color 0.15s}
 .bin-contents-btn:active{color:var(--t1);border-color:var(--b3)}
 .bin-contents-popover{margin-top:10px;padding:14px 18px;background:var(--s1);border:1px solid var(--b2);border-radius:var(--r-sm);font-size:13px;color:var(--t2);line-height:1.65;white-space:pre-wrap;animation:fadeUp 0.2s ease both}
 
@@ -138,16 +190,16 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .toggle::after{content:'';position:absolute;width:17px;height:17px;border-radius:50%;background:var(--t1);top:2px;left:2px;transition:transform 0.18s;box-shadow:0 1px 4px rgba(0,0,0,0.4)}
 .toggle.on::after{transform:translateX(17px)}
 
-/* â”€â”€ calendar â”€â”€ */
-.cal-header-row{padding:24px 0 18px;display:flex;justify-content:space-between;align-items:center}
+/* calendar */
+.cal-header-row{padding:28px 0 18px;display:flex;justify-content:space-between;align-items:center}
 .cal-header-row h2{font-size:20px;font-weight:500;letter-spacing:-0.3px}
 .cal-nav-btns{display:flex;gap:7px}
 .cal-nav-btn{width:32px;height:32px;border-radius:var(--r-xs);background:transparent;border:1px solid var(--b2);color:var(--t2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color 0.15s;font-family:inherit}
 .cal-nav-btn:active{border-color:var(--b3);color:var(--t1)}
-.cal-days-row{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:4px}
+.cal-days-row{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:5px}
 .cal-day-lbl{text-align:center;font-size:10px;color:var(--t3);padding:4px 0;font-family:'Geist Mono',monospace;font-weight:500;letter-spacing:0.3px}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-.cal-cell{aspect-ratio:1;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;color:var(--t2);position:relative;cursor:pointer;font-family:'Geist Mono',monospace;transition:background 0.1s}
+.cal-cell{aspect-ratio:1;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;color:var(--t2);position:relative;cursor:pointer;font-family:'Geist Mono',monospace;transition:background 0.1s}
 .cal-cell.other-month{color:var(--t3)}
 .cal-cell.today{background:var(--s2);color:var(--t1);font-weight:600}
 .cal-cell.bin-day{color:var(--t1)}
@@ -166,8 +218,8 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .cal-detail-name{font-size:14px;font-weight:500}
 .cal-detail-contents{font-size:11px;color:var(--t3);margin-top:2px;white-space:pre-wrap}
 
-/* â”€â”€ settings â”€â”€ */
-.settings-header{padding:24px 0 20px}
+/* settings */
+.settings-header{padding:28px 0 20px}
 .settings-header h2{font-size:22px;font-weight:500;letter-spacing:-0.4px}
 .settings-header p{font-size:13px;color:var(--t2);margin-top:5px}
 .s-section{display:flex;flex-direction:column;gap:0}
@@ -192,7 +244,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .nudge-item{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r-sm);font-size:12px}
 .nudge-dates{color:var(--t2);font-family:'Geist Mono',monospace}
 
-/* â”€â”€ week programme editor â”€â”€ */
+/* programme editor */
 .prog-cycle-info{font-size:13px;color:var(--t2);margin-bottom:16px;line-height:1.65}
 .prog-cycle-tip{margin-top:10px;padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:var(--r-xs);font-size:12px;color:var(--t2);line-height:1.65}
 .prog-cycle-tip strong{color:var(--t1);font-weight:500}
@@ -223,11 +275,9 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .helper-week-row select{flex:1}
 .helper-summary{margin-top:6px}
 
-@media (max-width:420px){
-  .helper-grid{grid-template-columns:1fr}
-}
+@media (max-width:420px){.helper-grid{grid-template-columns:1fr}}
 
-/* â”€â”€ modal â”€â”€ */
+/* modal */
 .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.65);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center}
 .modal-overlay.hidden{display:none}
 .modal-sheet{background:var(--s1);border-radius:20px 20px 0 0;border-top:1px solid var(--b2);padding:22px var(--pad) calc(28px + var(--safe-b));width:100%;max-width:500px;animation:sheetUp 0.3s cubic-bezier(0.16,1,0.3,1) both;max-height:90vh;overflow-y:auto}
@@ -243,18 +293,12 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .color-swatch.selected{border-color:rgba(255,255,255,0.85)}
 .color-swatch-label{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);font-size:8px;color:var(--t3);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity 0.15s}
 .color-swatch:hover .color-swatch-label,.color-swatch.selected .color-swatch-label{opacity:1}
-
-/* anchor warning */
 .anchor-warning{font-size:11px;color:#fbbf24;margin-top:6px;padding:8px 12px;background:rgba(234,179,8,0.06);border:1px solid rgba(234,179,8,0.15);border-radius:var(--r-xs);display:none}
 .anchor-warning.visible{display:block}
 
 .empty-state{padding:64px 24px;text-align:center;color:var(--t3);font-size:14px;line-height:1.8;width:100%}
 #toast{position:fixed;bottom:calc(76px + var(--safe-b));left:50%;transform:translateX(-50%) translateY(14px);background:var(--t1);color:var(--bg);padding:10px 20px;border-radius:22px;font-size:12px;font-weight:500;opacity:0;transition:opacity 0.2s,transform 0.2s;pointer-events:none;z-index:300;white-space:nowrap;box-shadow:0 4px 24px rgba(0,0,0,0.4)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* share schedule badge */
-.share-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--t3);cursor:pointer;padding:5px 12px;border-radius:20px;background:rgba(255,255,255,0.03);border:1px solid var(--b1);transition:color 0.15s}
-.share-badge:active{color:var(--t2)}
 </style>
 </head>
 <body>
@@ -284,7 +328,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 <div id="onboarding">
   <div class="ob-inner">
     <div class="ob-progress" id="ob-progress"></div>
-
     <div id="ob-step-0" class="ob-step active">
       <div class="ob-title">Welcome to<br>Bin Day</div>
       <div class="ob-sub">Never miss a collection. Takes about a minute to set up.</div>
@@ -294,7 +337,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
       <div class="ob-buttons"><button class="btn-primary" onclick="obNext()">Continue</button></div>
     </div>
-
     <div id="ob-step-1" class="ob-step">
       <div class="ob-title">Bin types</div>
       <div class="ob-sub">Add each bin your council collects. You can change these any time.</div>
@@ -302,20 +344,18 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <button class="btn-secondary" onclick="openAddBinModal(null,true)" style="margin-bottom:18px;width:100%;justify-content:center;">+ Add bin type</button>
       <div class="ob-buttons">
         <button class="btn-primary" onclick="obNext()">Continue</button>
-        <button class="ob-back" onclick="obBack()">< Back</button>
+        <button class="ob-back" onclick="obBack()">&#8592; Back</button>
       </div>
     </div>
-
     <div id="ob-step-2" class="ob-step">
       <div class="ob-title">Your schedule</div>
       <div class="ob-sub">Define your collection programme. Each week in the cycle can have different days and bins.</div>
       <div id="ob-programme-editor"></div>
       <div class="ob-buttons">
         <button class="btn-primary" onclick="obNext()">Continue</button>
-        <button class="ob-back" onclick="obBack()">< Back</button>
+        <button class="ob-back" onclick="obBack()">&#8592; Back</button>
       </div>
     </div>
-
     <div id="ob-step-3" class="ob-step">
       <div class="ob-title">Anchor date</div>
       <div class="ob-sub" id="ob-step3-sub">Pick a date you know was Week 1 of your cycle.</div>
@@ -327,10 +367,9 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div class="preview-card" id="ob-anchor-preview"></div>
       <div class="ob-buttons">
         <button class="btn-primary" onclick="obNext()">Continue</button>
-        <button class="ob-back" onclick="obBack()">< Back</button>
+        <button class="ob-back" onclick="obBack()">&#8592; Back</button>
       </div>
     </div>
-
     <div id="ob-step-4" class="ob-step">
       <div class="ob-title">Reminders</div>
       <div class="ob-sub">Optional - get nudged the night before so you never forget.</div>
@@ -350,7 +389,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
       <div class="ob-buttons">
         <button class="btn-primary" onclick="obFinish()">Done</button>
-        <button class="ob-back" onclick="obBack()">< Back</button>
+        <button class="ob-back" onclick="obBack()">&#8592; Back</button>
       </div>
     </div>
   </div>
@@ -387,7 +426,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </div>
 </div>
 
-<!-- MODAL: Schedule / Programme -->
+<!-- MODAL: Schedule -->
 <div class="modal-overlay hidden" id="modal-schedule">
   <div class="modal-sheet">
     <div class="sheet-handle"></div>
@@ -412,7 +451,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="modal-sheet">
     <div class="sheet-handle"></div>
     <div class="modal-title">Cycle helper</div>
-    <div class="modal-sub">Build one full programme from separate repeating patterns. Useful when different collections repeat on different days or different week lengths.</div>
+    <div class="modal-sub">Build one full programme from separate repeating patterns.</div>
     <div id="cycle-helper-editor"></div>
     <div class="preview-card helper-summary" id="cycle-helper-preview"></div>
     <div class="modal-actions">
@@ -462,7 +501,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </div>
 </div>
 
-<!-- MODAL: Share / Export -->
+<!-- MODAL: Export -->
 <div class="modal-overlay hidden" id="modal-export">
   <div class="modal-sheet">
     <div class="sheet-handle"></div>
@@ -483,46 +522,36 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 <div id="toast"></div>
 
 <script>
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // COLOURS & DEFAULTS
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 var COLORS = [
-  {hex:'#22c55e',name:'Green'},
-  {hex:'#16a34a',name:'Dark green'},
-  {hex:'#3b82f6',name:'Blue'},
-  {hex:'#1d4ed8',name:'Dark blue'},
-  {hex:'#f59e0b',name:'Amber'},
-  {hex:'#ef4444',name:'Red'},
-  {hex:'#8b5cf6',name:'Purple'},
-  {hex:'#ec4899',name:'Pink'},
-  {hex:'#06b6d4',name:'Cyan'},
-  {hex:'#f97316',name:'Orange'},
-  {hex:'#64748b',name:'Grey'},
-  {hex:'#84cc16',name:'Lime'},
-  {hex:'#6b3a1f',name:'Brown'},
-  {hex:'#2d2d2d',name:'Black'}
+  {hex:'#22c55e',name:'Green'},{hex:'#16a34a',name:'Dark green'},
+  {hex:'#3b82f6',name:'Blue'},{hex:'#1d4ed8',name:'Dark blue'},
+  {hex:'#f59e0b',name:'Amber'},{hex:'#ef4444',name:'Red'},
+  {hex:'#8b5cf6',name:'Purple'},{hex:'#ec4899',name:'Pink'},
+  {hex:'#06b6d4',name:'Cyan'},{hex:'#f97316',name:'Orange'},
+  {hex:'#64748b',name:'Grey'},{hex:'#84cc16',name:'Lime'},
+  {hex:'#6b3a1f',name:'Brown'},{hex:'#2d2d2d',name:'Black'}
 ];
 var COLOR_HEXES = COLORS.map(function(c){return c.hex;});
-
 var DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 var DAY_NAMES_LONG = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
 var DEFAULT_CONFIG = {
-  area: '',
-  binTypes: [
-    { id: 'general',   name: 'General waste', label: 'Green bin',  color: '#22c55e', notes: '' },
-    { id: 'recycling', name: 'Recycling',      label: 'Blue bin',   color: '#3b82f6', notes: '' }
+  area:'',
+  binTypes:[
+    {id:'general',name:'General waste',label:'Green bin',color:'#22c55e',notes:''},
+    {id:'recycling',name:'Recycling',label:'Blue bin',color:'#3b82f6',notes:''}
   ],
-  schedule: {
-    programme: [
-      { slots: [{ day: 2, binId: 'general'   }] },
-      { slots: [{ day: 2, binId: 'recycling' }] }
+  schedule:{
+    programme:[
+      {slots:[{day:2,binId:'general'}]},
+      {slots:[{day:2,binId:'recycling'}]}
     ],
-    anchorMonday: null
+    anchorMonday:null
   },
-  notifications: { evening: false, eveningTime: '18:00', morning: false, morningTime: '07:00' },
-  nudges: [],
-  setupDone: false
+  notifications:{evening:false,eveningTime:'18:00',morning:false,morningTime:'07:00'},
+  nudges:[],
+  setupDone:false
 };
 
 var config = loadConfig();
@@ -540,6 +569,50 @@ var notifTimers = [];
 var cycleHelperTargetContainerId = null;
 var cycleHelperState = null;
 
+// SIGN-OFF SYSTEM
+// Stores {binId, dateIso} for bins marked as collected today
+// Resets automatically when the date changes
+var collectedToday = loadCollectedToday();
+
+function loadCollectedToday() {
+  try {
+    var s = localStorage.getItem('binday-collected');
+    if (s) {
+      var data = JSON.parse(s);
+      var todayIso = fmtISODirect(new Date());
+      if (data.date === todayIso) return data.collected || [];
+    }
+  } catch(e) {}
+  return [];
+}
+
+function saveCollectedToday() {
+  var todayIso = fmtISODirect(new Date());
+  localStorage.setItem('binday-collected', JSON.stringify({date:todayIso, collected:collectedToday}));
+}
+
+function fmtISODirect(d) {
+  return d.getFullYear() + '-' +
+    String(d.getMonth()+1).padStart(2,'0') + '-' +
+    String(d.getDate()).padStart(2,'0');
+}
+
+function isBinCollectedToday(binId) {
+  return collectedToday.indexOf(binId) >= 0;
+}
+
+function markBinCollected(binId) {
+  if (!isBinCollectedToday(binId)) collectedToday.push(binId);
+  saveCollectedToday();
+  renderHome();
+}
+
+function unmarkBinCollected(binId) {
+  collectedToday = collectedToday.filter(function(id){ return id !== binId; });
+  saveCollectedToday();
+  renderHome();
+}
+
 function loadConfig() {
   try {
     var s = localStorage.getItem('binday-config');
@@ -549,9 +622,8 @@ function loadConfig() {
         parsed.schedule.programme = DEFAULT_CONFIG.schedule.programme;
         parsed.schedule.anchorMonday = parsed.schedule.anchorDate || null;
       }
-      // Ensure notes field exists on all bin types
       if (parsed.binTypes) {
-        parsed.binTypes.forEach(function(b){ if (b.notes === undefined) b.notes = ''; });
+        parsed.binTypes.forEach(function(b){ if (b.notes===undefined) b.notes=''; });
       }
       return Object.assign({}, DEFAULT_CONFIG, parsed);
     }
@@ -563,83 +635,47 @@ function saveConfig() {
   localStorage.setItem('binday-config', JSON.stringify(config));
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // NOTIFICATION SYSTEM
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function requestNotifPermission(callback) {
-  if (!('Notification' in window)) {
-    showToast('Notifications not supported on this browser');
-    if (callback) callback(false);
-    return;
-  }
-  if (Notification.permission === 'granted') {
-    if (callback) callback(true);
-    return;
-  }
-  if (Notification.permission === 'denied') {
-    showToast('Notifications blocked - check browser settings');
-    if (callback) callback(false);
-    return;
-  }
-  Notification.requestPermission().then(function(perm) {
-    if (perm === 'granted') {
-      if (callback) callback(true);
-    } else {
-      showToast('Notification permission denied');
-      if (callback) callback(false);
-    }
+  if (!('Notification' in window)) { showToast('Notifications not supported'); if(callback) callback(false); return; }
+  if (Notification.permission==='granted') { if(callback) callback(true); return; }
+  if (Notification.permission==='denied') { showToast('Notifications blocked'); if(callback) callback(false); return; }
+  Notification.requestPermission().then(function(perm){
+    if (perm==='granted') { if(callback) callback(true); }
+    else { showToast('Permission denied'); if(callback) callback(false); }
   });
 }
 
 function scheduleNotifications() {
-  // Clear existing timers
   notifTimers.forEach(function(t){ clearTimeout(t); });
   notifTimers = [];
-
   if (!config.notifications.evening && !config.notifications.morning) return;
-  if (!('Notification' in window) || Notification.permission !== 'granted') return;
-
+  if (!('Notification' in window) || Notification.permission!=='granted') return;
   var now = new Date();
   var upcoming = getNextCollections(6, now);
-
   upcoming.forEach(function(collection) {
-    var collDate = new Date(collection.date);
-    collDate.setHours(0,0,0,0);
-
-    // Evening reminder â€” night before
+    var collDate = new Date(collection.date); collDate.setHours(0,0,0,0);
     if (config.notifications.evening) {
       var eveParts = config.notifications.eveningTime.split(':');
       var eveDate = new Date(collDate);
-      eveDate.setDate(eveDate.getDate() - 1);
-      eveDate.setHours(parseInt(eveParts[0],10), parseInt(eveParts[1],10), 0, 0);
-
-      var eveDelay = eveDate.getTime() - now.getTime();
-      if (eveDelay > 0 && eveDelay < 7 * 86400000) {
-        var t1 = setTimeout(function() {
-          fireNotification(
-            'Put the ' + collection.bin.label + ' out tonight',
-            collection.bin.name + ' collection tomorrow (' + fmtDisplay(collection.date) + ')'
-          );
-        }, eveDelay);
-        notifTimers.push(t1);
+      eveDate.setDate(eveDate.getDate()-1);
+      eveDate.setHours(parseInt(eveParts[0],10),parseInt(eveParts[1],10),0,0);
+      var eveDelay = eveDate.getTime()-now.getTime();
+      if (eveDelay>0 && eveDelay<7*86400000) {
+        notifTimers.push(setTimeout(function(){
+          fireNotification('Put the '+collection.bin.label+' out tonight',collection.bin.name+' collection tomorrow ('+fmtDisplay(collection.date)+')');
+        },eveDelay));
       }
     }
-
-    // Morning reminder â€” day of
     if (config.notifications.morning) {
       var mornParts = config.notifications.morningTime.split(':');
       var mornDate = new Date(collDate);
-      mornDate.setHours(parseInt(mornParts[0],10), parseInt(mornParts[1],10), 0, 0);
-
-      var mornDelay = mornDate.getTime() - now.getTime();
-      if (mornDelay > 0 && mornDelay < 7 * 86400000) {
-        var t2 = setTimeout(function() {
-          fireNotification(
-            collection.bin.name + ' collection today',
-            'Make sure the ' + collection.bin.label + ' is out'
-          );
-        }, mornDelay);
-        notifTimers.push(t2);
+      mornDate.setHours(parseInt(mornParts[0],10),parseInt(mornParts[1],10),0,0);
+      var mornDelay = mornDate.getTime()-now.getTime();
+      if (mornDelay>0 && mornDelay<7*86400000) {
+        notifTimers.push(setTimeout(function(){
+          fireNotification(collection.bin.name+' collection today','Make sure the '+collection.bin.label+' is out');
+        },mornDelay));
       }
     }
   });
@@ -647,72 +683,49 @@ function scheduleNotifications() {
 
 function fireNotification(title, body) {
   if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-    navigator.serviceWorker.ready.then(function(reg) {
-      reg.showNotification(title, {
-        body: body,
-        icon: './icon-192.png',
-        badge: './icon-192.png',
-        tag: 'binday-' + Date.now(),
-        renotify: true,
-        vibrate: [200, 100, 200]
-      });
+    navigator.serviceWorker.ready.then(function(reg){
+      reg.showNotification(title,{body:body,icon:'./icon-192.png',badge:'./icon-192.png',tag:'binday-'+Date.now(),renotify:true,vibrate:[200,100,200]});
     });
-  } else if ('Notification' in window) {
-    new Notification(title, { body: body });
-  }
+  } else if ('Notification' in window) { new Notification(title,{body:body}); }
 }
 
-// Re-schedule every 6 hours to cover long-running tabs
-setInterval(scheduleNotifications, 6 * 3600000);
+setInterval(scheduleNotifications, 6*3600000);
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // SCHEDULE ENGINE
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function getMondayOf(d) {
   var day = d.getDay();
-  var diff = (day === 0) ? -6 : 1 - day;
-  var m = new Date(d);
-  m.setDate(d.getDate() + diff);
-  m.setHours(0,0,0,0);
+  var diff = (day===0) ? -6 : 1-day;
+  var m = new Date(d); m.setDate(d.getDate()+diff); m.setHours(0,0,0,0);
   return m;
 }
 
 function getWeekIndex(d) {
   var prog = config.schedule.programme;
   if (!prog || !prog.length || !config.schedule.anchorMonday) return 0;
-  var anchor = new Date(config.schedule.anchorMonday + 'T00:00:00');
+  var anchor = new Date(config.schedule.anchorMonday+'T00:00:00');
   var monday = getMondayOf(d);
-  var weeksSinceAnchor = Math.round((monday - anchor) / (7 * 86400000));
-  var idx = ((weeksSinceAnchor % prog.length) + prog.length) % prog.length;
-  return idx;
+  var weeksSinceAnchor = Math.round((monday-anchor)/(7*86400000));
+  return ((weeksSinceAnchor%prog.length)+prog.length)%prog.length;
 }
 
 function getWeekLabel(d) {
   var prog = config.schedule.programme;
-  if (!prog || prog.length <= 1 || !config.schedule.anchorMonday) return '';
-  var idx = getWeekIndex(d);
-  return 'Week ' + (idx + 1) + ' of ' + prog.length;
+  if (!prog || prog.length<=1 || !config.schedule.anchorMonday) return '';
+  return 'Week '+(getWeekIndex(d)+1)+' of '+prog.length;
 }
 
-function getNudgeByOriginal(iso) {
-  return config.nudges.find(function(n) { return n.original === iso; }) || null;
-}
-
-function getNudgeByActual(iso) {
-  return config.nudges.find(function(n) { return n.actual === iso; }) || null;
-}
+function getNudgeByOriginal(iso) { return config.nudges.find(function(n){return n.original===iso;})||null; }
+function getNudgeByActual(iso) { return config.nudges.find(function(n){return n.actual===iso;})||null; }
 
 function getScheduledBinsOnDate(d) {
   var prog = config.schedule.programme;
   if (!prog || !prog.length || !config.schedule.anchorMonday) return [];
-  var weekIdx = getWeekIndex(d);
-  var week = prog[weekIdx];
+  var week = prog[getWeekIndex(d)];
   if (!week) return [];
   var dow = d.getDay();
-
   return week.slots
-    .filter(function(s) { return s.day === dow; })
-    .map(function(s) { return config.binTypes.find(function(b) { return b.id === s.binId; }); })
+    .filter(function(s){return s.day===dow;})
+    .map(function(s){return config.binTypes.find(function(b){return b.id===s.binId;});})
     .filter(Boolean);
 }
 
@@ -720,9 +733,7 @@ function getCollectionsOnDate(d) {
   var iso = fmtISO(d);
   if (getNudgeByOriginal(iso)) return [];
   var incoming = getNudgeByActual(iso);
-  if (incoming) {
-    return getScheduledBinsOnDate(new Date(incoming.original + 'T00:00:00'));
-  }
+  if (incoming) return getScheduledBinsOnDate(new Date(incoming.original+'T00:00:00'));
   return getScheduledBinsOnDate(d);
 }
 
@@ -730,876 +741,440 @@ function getCollectionDetailForDate(d) {
   var iso = fmtISO(d);
   var origNudge = getNudgeByOriginal(iso);
   var actualNudge = getNudgeByActual(iso);
-
-  if (origNudge) {
-    return {
-      kind: 'original-moved',
-      date: d,
-      originalDate: d,
-      actualDate: new Date(origNudge.actual + 'T00:00:00'),
-      bins: getScheduledBinsOnDate(d)
-    };
-  }
-
-  if (actualNudge) {
-    var originalDate = new Date(actualNudge.original + 'T00:00:00');
-    return {
-      kind: 'actual-moved',
-      date: d,
-      originalDate: originalDate,
-      actualDate: d,
-      bins: getScheduledBinsOnDate(originalDate)
-    };
-  }
-
-  return {
-    kind: 'normal',
-    date: d,
-    originalDate: d,
-    actualDate: d,
-    bins: getScheduledBinsOnDate(d)
-  };
+  if (origNudge) return {kind:'original-moved',date:d,originalDate:d,actualDate:new Date(origNudge.actual+'T00:00:00'),bins:getScheduledBinsOnDate(d)};
+  if (actualNudge) { var od=new Date(actualNudge.original+'T00:00:00'); return {kind:'actual-moved',date:d,originalDate:od,actualDate:d,bins:getScheduledBinsOnDate(od)}; }
+  return {kind:'normal',date:d,originalDate:d,actualDate:d,bins:getScheduledBinsOnDate(d)};
 }
 
 function getNextCollections(count, fromDate) {
   count = count || 10;
   fromDate = fromDate || new Date();
-
   var results = [];
-  var d = new Date(fromDate);
-  d.setHours(0,0,0,0);
-  var maxDays = 366 * 3;
+  var d = new Date(fromDate); d.setHours(0,0,0,0);
+  var today = new Date(); today.setHours(0,0,0,0);
+  var todayIso = fmtISODirect(today);
 
-  for (var i = 0; i < maxDays && results.length < count; i++) {
-    var candidate = new Date(d);
-    candidate.setDate(d.getDate() + i);
-
+  for (var i=0; i<366*3 && results.length<count; i++) {
+    var candidate = new Date(d); candidate.setDate(d.getDate()+i);
+    var candidateIso = fmtISO(candidate);
     var bins = getCollectionsOnDate(candidate);
     if (!bins.length) continue;
 
+    // If this is today, filter out already-collected bins
+    if (candidateIso === todayIso) {
+      bins = bins.filter(function(b){ return !isBinCollectedToday(b.id); });
+      if (!bins.length) continue;
+    }
+
     var detail = getCollectionDetailForDate(candidate);
-    bins.forEach(function(bin) {
-      results.push({
-        date: new Date(detail.actualDate),
-        originalDate: new Date(detail.originalDate),
-        bin: bin,
-        isNudged: detail.kind === 'actual-moved'
-      });
+    bins.forEach(function(bin){
+      results.push({date:new Date(detail.actualDate),originalDate:new Date(detail.originalDate),bin:bin,isNudged:detail.kind==='actual-moved'});
     });
   }
-
-  results.sort(function(a,b) { return a.date - b.date; });
-  return results.slice(0, count);
+  results.sort(function(a,b){return a.date-b.date;});
+  return results.slice(0,count);
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// PROGRAMME EDITOR (now with all 7 days)
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Also get the raw (uncollected-aware) collections for today sign-off display
+function getTodaysRawBins() {
+  var today = new Date(); today.setHours(0,0,0,0);
+  return getCollectionsOnDate(today);
+}
+
+// PROGRAMME EDITOR
 function renderProgrammeEditor(containerId, programme) {
   var container = document.getElementById(containerId);
   if (!container) return;
   var prog = programme || config.schedule.programme;
   var html = '';
-
-  html += '<div class="prog-cycle-info">Your cycle repeats every <strong>' + prog.length + ' week' + (prog.length > 1 ? 's' : '') + '</strong>. Each week can have collections on any day(s) with any bin(s).';
-  html += '<div class="prog-cycle-tip"><strong>Mixing different repeats?</strong> Use the shortest full repeat for the whole plan. Example: a 3-week Thursday rota plus a 2-week Wednesday rota becomes a <strong>6-week cycle</strong>.</div>';
-  html += '</div>';
-
-  prog.forEach(function(week, wi) {
-    html += '<div class="week-block" id="week-block-' + containerId + '-' + wi + '">';
-    html += '<div class="week-block-header"><span class="week-block-title">Week ' + (wi + 1) + '</span>';
-    if (prog.length > 1) {
-      html += '<button class="icon-btn del" onclick="removeWeek(' + wi + ',\'' + containerId + '\')">&times;</button>';
-    }
+  html += '<div class="prog-cycle-info">Your cycle repeats every <strong>'+prog.length+' week'+(prog.length>1?'s':'')+'</strong>. Each week can have collections on any day(s) with any bin(s).';
+  html += '<div class="prog-cycle-tip"><strong>Mixing different repeats?</strong> Use the shortest full repeat for the whole plan. Example: a 3-week Thursday rota plus a 2-week Wednesday rota becomes a <strong>6-week cycle</strong>.</div></div>';
+  prog.forEach(function(week,wi){
+    html += '<div class="week-block" id="week-block-'+containerId+'-'+wi+'">';
+    html += '<div class="week-block-header"><span class="week-block-title">Week '+(wi+1)+'</span>';
+    if (prog.length>1) html += '<button class="icon-btn del" onclick="removeWeek('+wi+',\''+containerId+'\')">&#215;</button>';
     html += '</div>';
-
     if (!week.slots.length) {
       html += '<div class="week-empty">No collections this week</div>';
     } else {
-      week.slots.forEach(function(slot, si) {
-        html += '<div class="week-slot">';
-        html += '<span class="week-slot-day">' + (DAY_NAMES[slot.day] || '?') + '</span>';
-        html += buildDaySelect(slot.day, 'slot-day-' + containerId + '-' + wi + '-' + si, 'onSlotChange(\'' + containerId + '\',' + wi + ',' + si + ',\'day\',this.value)');
-        html += buildBinSelect(slot.binId, 'slot-bin-' + containerId + '-' + wi + '-' + si, 'onSlotChange(\'' + containerId + '\',' + wi + ',' + si + ',\'bin\',this.value)');
-        html += '<button class="icon-btn del" onclick="removeSlot(\'' + containerId + '\',' + wi + ',' + si + ')">&times;</button>';
-        html += '</div>';
+      week.slots.forEach(function(slot,si){
+        html += '<div class="week-slot"><span class="week-slot-day">'+(DAY_NAMES[slot.day]||'?')+'</span>';
+        html += buildDaySelect(slot.day,'slot-day-'+containerId+'-'+wi+'-'+si,'onSlotChange(\''+containerId+'\','+wi+','+si+',\'day\',this.value)');
+        html += buildBinSelect(slot.binId,'slot-bin-'+containerId+'-'+wi+'-'+si,'onSlotChange(\''+containerId+'\','+wi+','+si+',\'bin\',this.value)');
+        html += '<button class="icon-btn del" onclick="removeSlot(\''+containerId+'\','+wi+','+si+')">&#215;</button></div>';
       });
     }
-
-    html += '<button class="add-day-btn" onclick="addSlot(\'' + containerId + '\',' + wi + ')">+ Add collection day</button>';
-    html += '</div>';
+    html += '<button class="add-day-btn" onclick="addSlot(\''+containerId+'\','+wi+')">+ Add collection day</button></div>';
   });
-
-  html += '<div class="prog-week-actions">';
-  html += '<button class="btn-secondary" onclick="openCycleHelper(\'' + containerId + '\')" style="flex:1;justify-content:center;">Cycle helper</button>';
-  html += '<button class="btn-secondary" onclick="addWeek(\'' + containerId + '\')" style="flex:1;justify-content:center;">+ Add week to cycle</button>';
-  html += '</div>';
-
+  html += '<div class="prog-week-actions"><button class="btn-secondary" onclick="openCycleHelper(\''+containerId+'\')" style="flex:1;justify-content:center;">Cycle helper</button><button class="btn-secondary" onclick="addWeek(\''+containerId+'\')" style="flex:1;justify-content:center;">+ Add week to cycle</button></div>';
   container.innerHTML = html;
   container._prog = JSON.parse(JSON.stringify(prog));
 }
-function buildDaySelect(selectedDay, id, onchange) {
-  var html = '<select id="' + id + '" onchange="' + onchange + '">';
-  // All 7 days now available
-  [1,2,3,4,5,6,0].forEach(function(d) {
-    html += '<option value="' + d + '"' + (d === selectedDay ? ' selected' : '') + '>' + DAY_NAMES_LONG[d] + '</option>';
+
+function buildDaySelect(selectedDay,id,onchange){
+  var html='<select id="'+id+'" onchange="'+onchange+'">';
+  [1,2,3,4,5,6,0].forEach(function(d){html+='<option value="'+d+'"'+(d===selectedDay?' selected':'')+'>'+DAY_NAMES_LONG[d]+'</option>';});
+  return html+'</select>';
+}
+
+function buildBinSelect(selectedBinId,id,onchange){
+  var html='<select id="'+id+'" onchange="'+onchange+'">';
+  config.binTypes.forEach(function(b){html+='<option value="'+b.id+'"'+(b.id===selectedBinId?' selected':'')+'>'+b.name+'</option>';});
+  return html+'</select>';
+}
+
+function getProg(containerId){var c=document.getElementById(containerId);return c&&c._prog?c._prog:JSON.parse(JSON.stringify(config.schedule.programme));}
+
+function onSlotChange(containerId,wi,si,field,val){
+  var prog=getProg(containerId);
+  if(field==='day') prog[wi].slots[si].day=parseInt(val,10);
+  if(field==='bin') prog[wi].slots[si].binId=val;
+  document.getElementById(containerId)._prog=prog;
+  var span=document.querySelector('#week-block-'+containerId+'-'+wi+' .week-slot:nth-child('+(si+2)+') .week-slot-day');
+  if(span&&field==='day') span.textContent=DAY_NAMES[parseInt(val,10)]||'';
+}
+
+function addSlot(containerId,wi){var prog=getProg(containerId);prog[wi].slots.push({day:2,binId:config.binTypes[0]?config.binTypes[0].id:''});document.getElementById(containerId)._prog=prog;renderProgrammeEditor(containerId,prog);}
+function removeSlot(containerId,wi,si){var prog=getProg(containerId);prog[wi].slots.splice(si,1);document.getElementById(containerId)._prog=prog;renderProgrammeEditor(containerId,prog);}
+function addWeek(containerId){var prog=getProg(containerId);prog.push({slots:[{day:2,binId:config.binTypes[0]?config.binTypes[0].id:''}]});document.getElementById(containerId)._prog=prog;renderProgrammeEditor(containerId,prog);}
+function removeWeek(wi,containerId){var prog=getProg(containerId);if(prog.length<=1){showToast("Need at least one week");return;}prog.splice(wi,1);document.getElementById(containerId)._prog=prog;renderProgrammeEditor(containerId,prog);}
+
+// CYCLE HELPER
+function makeCycleHelperPattern(enabled,length,day,phase,sequence){return{enabled:!!enabled,length:Math.max(1,parseInt(length,10)||1),day:parseInt(day,10)||1,phase:Math.max(1,parseInt(phase,10)||1),sequence:Array.isArray(sequence)?sequence.slice():[]};}
+function makeDefaultCycleHelperState(){var f=config.binTypes[0]?config.binTypes[0].id:'',s=config.binTypes[1]?config.binTypes[1].id:f;return{patterns:[makeCycleHelperPattern(true,2,2,1,[f,s]),makeCycleHelperPattern(false,2,3,1,[f,''])]};}
+function openCycleHelper(containerId){if(!config.binTypes.length){showToast('Add a bin type first');return;}cycleHelperTargetContainerId=containerId;cycleHelperState=makeDefaultCycleHelperState();renderCycleHelper();document.getElementById('modal-cycle-helper').classList.remove('hidden');}
+function closeCycleHelper(){document.getElementById('modal-cycle-helper').classList.add('hidden');cycleHelperTargetContainerId=null;cycleHelperState=null;}
+function clampCycleLength(v){return Math.max(1,Math.min(12,parseInt(v,10)||1));}
+function clampCyclePhase(v,l){return Math.max(1,Math.min(l,parseInt(v,10)||1));}
+function ensureCyclePatternShape(p){p.length=clampCycleLength(p.length);p.day=parseInt(p.day,10);if(isNaN(p.day))p.day=1;p.phase=clampCyclePhase(p.phase,p.length);while(p.sequence.length<p.length)p.sequence.push('');p.sequence=p.sequence.slice(0,p.length);}
+function buildBinSelectWithNone(selectedBinId,id,onchange,noneLabel){var html='<select id="'+id+'" onchange="'+onchange+'"><option value="">'+(noneLabel||'No collection')+'</option>';config.binTypes.forEach(function(b){html+='<option value="'+b.id+'"'+(b.id===selectedBinId?' selected':'')+'>'+b.name+'</option>';});return html+'</select>';}
+
+function renderCycleHelper(){
+  if(!cycleHelperState) return;
+  var editor=document.getElementById('cycle-helper-editor'),preview=document.getElementById('cycle-helper-preview');
+  if(!editor||!preview) return;
+  cycleHelperState.patterns.forEach(function(p){ensureCyclePatternShape(p);});
+  var html='';
+  cycleHelperState.patterns.forEach(function(pattern,pi){
+    html+='<div class="helper-card'+(pattern.enabled?'':' off')+'"><div class="helper-card-head"><div class="helper-card-title">Pattern '+(pi+1)+'</div><label class="helper-enabled"><input type="checkbox"'+(pattern.enabled?' checked':'')+' onchange="toggleCyclePattern('+pi+',this.checked)">Use pattern</label></div>';
+    html+='<div class="helper-grid"><div class="field"><label>Collection day</label>'+buildDaySelect(pattern.day,'helper-day-'+pi,'onCyclePatternFieldChange('+pi+',\'day\',this.value)')+'</div>';
+    html+='<div class="field"><label>Cycle length (weeks)</label><input type="number" min="1" max="12" value="'+pattern.length+'" onchange="onCyclePatternLengthChange('+pi+',this.value)"></div>';
+    html+='<div class="field"><label>Starts on week</label><input type="number" min="1" max="'+pattern.length+'" value="'+pattern.phase+'" onchange="onCyclePatternFieldChange('+pi+',\'phase\',this.value)"></div>';
+    html+='<div class="field"><label>Note</label><div class="preview-card" style="margin-top:0;padding:12px 14px;">Use <strong>No collection</strong> on weeks this pattern skips.</div></div></div>';
+    html+='<div class="helper-seq">';
+    for(var si=0;si<pattern.length;si++){html+='<div class="helper-week-row"><div class="helper-week-label">Week '+(si+1)+'</div>'+buildBinSelectWithNone(pattern.sequence[si],'helper-bin-'+pi+'-'+si,'onCyclePatternSequenceChange('+pi+','+si+',this.value)')+'</div>';}
+    html+='</div></div>';
   });
-  html += '</select>';
-  return html;
+  editor.innerHTML=html;
+  preview.innerHTML=makeCycleHelperPreviewHTML();
 }
 
-function buildBinSelect(selectedBinId, id, onchange) {
-  var html = '<select id="' + id + '" onchange="' + onchange + '">';
-  config.binTypes.forEach(function(b) {
-    html += '<option value="' + b.id + '"' + (b.id === selectedBinId ? ' selected' : '') + '>' + b.name + '</option>';
-  });
-  html += '</select>';
-  return html;
-}
+function toggleCyclePattern(i,e){if(!cycleHelperState||!cycleHelperState.patterns[i])return;cycleHelperState.patterns[i].enabled=!!e;renderCycleHelper();}
+function onCyclePatternFieldChange(i,field,val){if(!cycleHelperState||!cycleHelperState.patterns[i])return;var p=cycleHelperState.patterns[i];if(field==='day')p.day=parseInt(val,10);if(field==='phase')p.phase=clampCyclePhase(val,p.length);renderCycleHelper();}
+function onCyclePatternLengthChange(i,val){if(!cycleHelperState||!cycleHelperState.patterns[i])return;var p=cycleHelperState.patterns[i],old=p.sequence.slice();p.length=clampCycleLength(val);p.phase=clampCyclePhase(p.phase,p.length);p.sequence=[];for(var j=0;j<p.length;j++)p.sequence.push(j<old.length?old[j]:'');renderCycleHelper();}
+function onCyclePatternSequenceChange(i,si,val){if(!cycleHelperState||!cycleHelperState.patterns[i])return;cycleHelperState.patterns[i].sequence[si]=val;renderCycleHelper();}
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=b;b=a%b;a=t;}return a||1;}
+function lcm(a,b){return Math.abs(a*b)/gcd(a,b);}
 
-function getProg(containerId) {
-  var c = document.getElementById(containerId);
-  return c && c._prog ? c._prog : JSON.parse(JSON.stringify(config.schedule.programme));
-}
-
-function onSlotChange(containerId, wi, si, field, val) {
-  var prog = getProg(containerId);
-  if (field === 'day') prog[wi].slots[si].day = parseInt(val, 10);
-  if (field === 'bin') prog[wi].slots[si].binId = val;
-  document.getElementById(containerId)._prog = prog;
-
-  var span = document.querySelector('#week-block-' + containerId + '-' + wi + ' .week-slot:nth-child(' + (si + 2) + ') .week-slot-day');
-  if (span && field === 'day') span.textContent = DAY_NAMES[parseInt(val, 10)] || '';
-}
-
-function addSlot(containerId, wi) {
-  var prog = getProg(containerId);
-  var defaultBin = config.binTypes[0] ? config.binTypes[0].id : '';
-  prog[wi].slots.push({ day: 2, binId: defaultBin });
-  document.getElementById(containerId)._prog = prog;
-  renderProgrammeEditor(containerId, prog);
-}
-
-function removeSlot(containerId, wi, si) {
-  var prog = getProg(containerId);
-  prog[wi].slots.splice(si, 1);
-  document.getElementById(containerId)._prog = prog;
-  renderProgrammeEditor(containerId, prog);
-}
-
-function addWeek(containerId) {
-  var prog = getProg(containerId);
-  var defaultBin = config.binTypes[0] ? config.binTypes[0].id : '';
-  prog.push({ slots: [{ day: 2, binId: defaultBin }] });
-  document.getElementById(containerId)._prog = prog;
-  renderProgrammeEditor(containerId, prog);
-}
-
-function removeWeek(wi, containerId) {
-  var prog = getProg(containerId);
-  if (prog.length <= 1) { showToast("Need at least one week in the cycle"); return; }
-  prog.splice(wi, 1);
-  document.getElementById(containerId)._prog = prog;
-  renderProgrammeEditor(containerId, prog);
-}
-
-function makeCycleHelperPattern(enabled, length, day, phase, sequence) {
-  return {
-    enabled: !!enabled,
-    length: Math.max(1, parseInt(length, 10) || 1),
-    day: parseInt(day, 10) || 1,
-    phase: Math.max(1, parseInt(phase, 10) || 1),
-    sequence: Array.isArray(sequence) ? sequence.slice() : []
-  };
-}
-
-function makeDefaultCycleHelperState() {
-  var firstBin = config.binTypes[0] ? config.binTypes[0].id : '';
-  var secondBin = config.binTypes[1] ? config.binTypes[1].id : firstBin;
-  return {
-    patterns: [
-      makeCycleHelperPattern(true, 2, 2, 1, [firstBin, secondBin]),
-      makeCycleHelperPattern(false, 2, 3, 1, [firstBin, ''])
-    ]
-  };
-}
-
-function openCycleHelper(containerId) {
-  if (!config.binTypes.length) {
-    showToast('Add a bin type first');
-    return;
-  }
-  cycleHelperTargetContainerId = containerId;
-  cycleHelperState = makeDefaultCycleHelperState();
-  renderCycleHelper();
-  document.getElementById('modal-cycle-helper').classList.remove('hidden');
-}
-
-function closeCycleHelper() {
-  document.getElementById('modal-cycle-helper').classList.add('hidden');
-  cycleHelperTargetContainerId = null;
-  cycleHelperState = null;
-}
-
-function clampCycleLength(value) {
-  return Math.max(1, Math.min(12, parseInt(value, 10) || 1));
-}
-
-function clampCyclePhase(value, length) {
-  return Math.max(1, Math.min(length, parseInt(value, 10) || 1));
-}
-
-function ensureCyclePatternShape(pattern) {
-  pattern.length = clampCycleLength(pattern.length);
-  pattern.day = parseInt(pattern.day, 10);
-  if (isNaN(pattern.day)) pattern.day = 1;
-  pattern.phase = clampCyclePhase(pattern.phase, pattern.length);
-  while (pattern.sequence.length < pattern.length) {
-    pattern.sequence.push('');
-  }
-  pattern.sequence = pattern.sequence.slice(0, pattern.length);
-}
-
-function buildBinSelectWithNone(selectedBinId, id, onchange, noneLabel) {
-  var html = '<select id="' + id + '" onchange="' + onchange + '">';
-  html += '<option value="">' + (noneLabel || 'No collection') + '</option>';
-  config.binTypes.forEach(function(b) {
-    html += '<option value="' + b.id + '"' + (b.id === selectedBinId ? ' selected' : '') + '>' + b.name + '</option>';
-  });
-  html += '</select>';
-  return html;
-}
-
-function renderCycleHelper() {
-  if (!cycleHelperState) return;
-  var editor = document.getElementById('cycle-helper-editor');
-  var preview = document.getElementById('cycle-helper-preview');
-  if (!editor || !preview) return;
-
-  cycleHelperState.patterns.forEach(function(pattern) {
-    ensureCyclePatternShape(pattern);
-  });
-
-  var html = '';
-  cycleHelperState.patterns.forEach(function(pattern, pi) {
-    html += '<div class="helper-card' + (pattern.enabled ? '' : ' off') + '">';
-    html += '<div class="helper-card-head">';
-    html += '<div class="helper-card-title">Pattern ' + (pi + 1) + '</div>';
-    html += '<label class="helper-enabled"><input type="checkbox"' + (pattern.enabled ? ' checked' : '') + ' onchange="toggleCyclePattern(' + pi + ',this.checked)">Use pattern</label>';
-    html += '</div>';
-    html += '<div class="helper-grid">';
-    html += '<div class="field"><label>Collection day</label>' + buildDaySelect(pattern.day, 'helper-day-' + pi, 'onCyclePatternFieldChange(' + pi + ',\'day\',this.value)') + '</div>';
-    html += '<div class="field"><label>Cycle length (weeks)</label><input type="number" min="1" max="12" value="' + pattern.length + '" onchange="onCyclePatternLengthChange(' + pi + ',this.value)"></div>';
-    html += '<div class="field"><label>Starts on week</label><input type="number" min="1" max="' + pattern.length + '" value="' + pattern.phase + '" onchange="onCyclePatternFieldChange(' + pi + ',\'phase\',this.value)"></div>';
-    html += '<div class="field"><label>Pattern note</label><div class="preview-card" style="margin-top:0;padding:12px 14px;">Use <strong>No collection</strong> on weeks this pattern skips.</div></div>';
-    html += '</div>';
-    html += '<div class="helper-seq">';
-    for (var si = 0; si < pattern.length; si++) {
-      html += '<div class="helper-week-row">';
-      html += '<div class="helper-week-label">Week ' + (si + 1) + '</div>';
-      html += buildBinSelectWithNone(pattern.sequence[si], 'helper-bin-' + pi + '-' + si, 'onCyclePatternSequenceChange(' + pi + ',' + si + ',this.value)');
-      html += '</div>';
-    }
-    html += '</div>';
-    html += '</div>';
-  });
-
-  editor.innerHTML = html;
-  preview.innerHTML = makeCycleHelperPreviewHTML();
-}
-
-function toggleCyclePattern(index, enabled) {
-  if (!cycleHelperState || !cycleHelperState.patterns[index]) return;
-  cycleHelperState.patterns[index].enabled = !!enabled;
-  renderCycleHelper();
-}
-
-function onCyclePatternFieldChange(index, field, value) {
-  if (!cycleHelperState || !cycleHelperState.patterns[index]) return;
-  var pattern = cycleHelperState.patterns[index];
-  if (field === 'day') pattern.day = parseInt(value, 10);
-  if (field === 'phase') pattern.phase = clampCyclePhase(value, pattern.length);
-  renderCycleHelper();
-}
-
-function onCyclePatternLengthChange(index, value) {
-  if (!cycleHelperState || !cycleHelperState.patterns[index]) return;
-  var pattern = cycleHelperState.patterns[index];
-  var oldSequence = pattern.sequence.slice();
-  pattern.length = clampCycleLength(value);
-  pattern.phase = clampCyclePhase(pattern.phase, pattern.length);
-  pattern.sequence = [];
-  for (var i = 0; i < pattern.length; i++) {
-    pattern.sequence.push(i < oldSequence.length ? oldSequence[i] : '');
-  }
-  renderCycleHelper();
-}
-
-function onCyclePatternSequenceChange(index, sequenceIndex, value) {
-  if (!cycleHelperState || !cycleHelperState.patterns[index]) return;
-  cycleHelperState.patterns[index].sequence[sequenceIndex] = value;
-  renderCycleHelper();
-}
-
-function gcd(a, b) {
-  a = Math.abs(a);
-  b = Math.abs(b);
-  while (b) {
-    var temp = b;
-    b = a % b;
-    a = temp;
-  }
-  return a || 1;
-}
-
-function lcm(a, b) {
-  return Math.abs(a * b) / gcd(a, b);
-}
-
-function getCycleHelperProgramme() {
-  if (!cycleHelperState) return [];
-  var activePatterns = cycleHelperState.patterns.filter(function(pattern) {
-    return pattern.enabled;
-  });
-  if (!activePatterns.length) return [];
-
-  var fullLength = activePatterns.reduce(function(total, pattern) {
-    return lcm(total, pattern.length);
-  }, 1);
-
-  var programme = [];
-  for (var wi = 0; wi < fullLength; wi++) {
-    var slots = [];
-    activePatterns.forEach(function(pattern) {
-      var seqIndex = ((wi - (pattern.phase - 1)) % pattern.length + pattern.length) % pattern.length;
-      var binId = pattern.sequence[seqIndex];
-      if (binId) slots.push({ day: pattern.day, binId: binId });
-    });
-    slots.sort(function(a, b) { return a.day - b.day; });
-    programme.push({ slots: slots });
+function getCycleHelperProgramme(){
+  if(!cycleHelperState) return [];
+  var active=cycleHelperState.patterns.filter(function(p){return p.enabled;});
+  if(!active.length) return [];
+  var fullLength=active.reduce(function(t,p){return lcm(t,p.length);},1);
+  var programme=[];
+  for(var wi=0;wi<fullLength;wi++){
+    var slots=[];
+    active.forEach(function(p){var si=((wi-(p.phase-1))%p.length+p.length)%p.length;var binId=p.sequence[si];if(binId)slots.push({day:p.day,binId:binId});});
+    slots.sort(function(a,b){return a.day-b.day;});
+    programme.push({slots:slots});
   }
   return programme;
 }
 
-function makeCycleHelperPreviewHTML() {
-  if (!cycleHelperState) return '';
-  var activePatterns = cycleHelperState.patterns.filter(function(pattern) { return pattern.enabled; });
-  if (!activePatterns.length) {
-    return '<div class="preview-row"><span class="preview-k">Programme</span><span class="preview-v">Enable at least one pattern</span></div>';
-  }
-
-  var programme = getCycleHelperProgramme();
-  var nextWeekSummary = programme[0] && programme[0].slots.length
-    ? programme[0].slots.map(function(slot) {
-        var bin = config.binTypes.find(function(b) { return b.id === slot.binId; });
-        return DAY_NAMES[slot.day] + ' · ' + (bin ? bin.name : 'Unknown');
-      }).join(', ')
-    : 'No collections';
-
-  return '' +
-    '<div class="preview-row"><span class="preview-k">Generated cycle</span><span class="preview-v"><strong>' + programme.length + ' week' + (programme.length !== 1 ? 's' : '') + '</strong></span></div>' +
-    '<div class="preview-row"><span class="preview-k">Week 1 preview</span><span class="preview-v">' + nextWeekSummary + '</span></div>';
+function makeCycleHelperPreviewHTML(){
+  if(!cycleHelperState) return '';
+  var active=cycleHelperState.patterns.filter(function(p){return p.enabled;});
+  if(!active.length) return '<div class="preview-row"><span class="preview-k">Programme</span><span class="preview-v">Enable at least one pattern</span></div>';
+  var programme=getCycleHelperProgramme();
+  var s=programme[0]&&programme[0].slots.length?programme[0].slots.map(function(slot){var bin=config.binTypes.find(function(b){return b.id===slot.binId;});return DAY_NAMES[slot.day]+'&#183;'+(bin?bin.name:'Unknown');}).join(', '):'No collections';
+  return '<div class="preview-row"><span class="preview-k">Generated cycle</span><span class="preview-v"><strong>'+programme.length+' week'+(programme.length!==1?'s':'')+'</strong></span></div><div class="preview-row"><span class="preview-k">Week 1 preview</span><span class="preview-v">'+s+'</span></div>';
 }
 
-function applyCycleHelper() {
-  if (!cycleHelperState || !cycleHelperTargetContainerId) return;
-  var activePatterns = cycleHelperState.patterns.filter(function(pattern) { return pattern.enabled; });
-  if (!activePatterns.length) {
-    showToast('Enable at least one pattern');
-    return;
-  }
-
-  var invalidPattern = activePatterns.some(function(pattern) {
-    ensureCyclePatternShape(pattern);
-    return !pattern.sequence.some(function(binId) { return !!binId; });
-  });
-  if (invalidPattern) {
-    showToast('Each active pattern needs at least one collection');
-    return;
-  }
-
-  var programme = getCycleHelperProgramme();
-  document.getElementById(cycleHelperTargetContainerId)._prog = programme;
-  renderProgrammeEditor(cycleHelperTargetContainerId, programme);
-
-  if (cycleHelperTargetContainerId === 'ob-programme-editor') {
-    updateAnchorLabel();
-    updateAnchorPreview('ob-anchor-date', 'ob-anchor-preview', 'ob-programme-editor');
-  }
-  if (cycleHelperTargetContainerId === 'modal-programme-editor') {
-    updateAnchorPreview('sched-anchor-date', 'sched-anchor-preview', 'modal-programme-editor');
-  }
-
-  closeCycleHelper();
-  showToast('Programme generated');
+function applyCycleHelper(){
+  if(!cycleHelperState||!cycleHelperTargetContainerId) return;
+  var active=cycleHelperState.patterns.filter(function(p){return p.enabled;});
+  if(!active.length){showToast('Enable at least one pattern');return;}
+  var invalid=active.some(function(p){ensureCyclePatternShape(p);return!p.sequence.some(function(b){return!!b;});});
+  if(invalid){showToast('Each active pattern needs at least one collection');return;}
+  var programme=getCycleHelperProgramme();
+  document.getElementById(cycleHelperTargetContainerId)._prog=programme;
+  renderProgrammeEditor(cycleHelperTargetContainerId,programme);
+  if(cycleHelperTargetContainerId==='ob-programme-editor'){updateAnchorLabel();updateAnchorPreview('ob-anchor-date','ob-anchor-preview','ob-programme-editor');}
+  if(cycleHelperTargetContainerId==='modal-programme-editor'){updateAnchorPreview('sched-anchor-date','sched-anchor-preview','modal-programme-editor');}
+  closeCycleHelper();showToast('Programme generated');
 }
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
 // UTILS
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-function fmtISO(d) {
-  return d.getFullYear() + '-' +
-    String(d.getMonth()+1).padStart(2,'0') + '-' +
-    String(d.getDate()).padStart(2,'0');
-}
+function fmtISO(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function fmtDisplay(d){return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});}
+function fmtLong(d){return d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});}
+function daysUntil(d){var t=new Date();t.setHours(0,0,0,0);var tgt=new Date(d);tgt.setHours(0,0,0,0);return Math.round((tgt-t)/86400000);}
+function colorBg(hex,a){var r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return 'rgba('+r+','+g+','+b+','+a+')';}
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2200);}
+function programmeSummary(){var prog=config.schedule.programme;if(!prog||!prog.length)return'Not set';if(prog.length===1){return prog[0].slots.map(function(s){var b=config.binTypes.find(function(x){return x.id===s.binId;});return DAY_NAMES[s.day]+(b?' - '+b.name:'');}).join(', ');}return prog.length+'-week cycle';}
+function hexToRgb(hex){hex=(hex||'').replace('#','');if(hex.length===3)hex=hex.split('').map(function(c){return c+c;}).join('');return{r:parseInt(hex.slice(0,2),16),g:parseInt(hex.slice(2,4),16),b:parseInt(hex.slice(4,6),16)};}
+function mix(hex,amt,target){var c=hexToRgb(hex),t=target==='white'?255:0;return'rgb('+Math.round(c.r+(t-c.r)*amt)+','+Math.round(c.g+(t-c.g)*amt)+','+Math.round(c.b+(t-c.b)*amt)+')';}
+function makeSvgSafeId(prefix,color,size){svgUidCounter+=1;return prefix+'-'+String(color||'').replace(/[^a-zA-Z0-9]/g,'')+'-'+size+'-'+svgUidCounter;}
 
-function fmtDisplay(d) {
-  return d.toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' });
-}
-
-function fmtLong(d) {
-  return d.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-}
-
-function daysUntil(d) {
-  var today = new Date(); today.setHours(0,0,0,0);
-  var target = new Date(d); target.setHours(0,0,0,0);
-  return Math.round((target - today) / 86400000);
-}
-
-function colorBg(hex, a) {
-  var r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
-  return 'rgba('+r+','+g+','+b+','+a+')';
-}
-
-function showToast(msg) {
-  var t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(function(){t.classList.remove('show');}, 2200);
-}
-
-function programmeSummary() {
-  var prog = config.schedule.programme;
-  if (!prog || !prog.length) return 'Not set';
-  if (prog.length === 1) {
-    return prog[0].slots.map(function(s) {
-      var b = config.binTypes.find(function(x){return x.id===s.binId;});
-return DAY_NAMES[s.day] + (b ? ' - ' + b.name : '');
-    }).join(', ');
-  }
-  return prog.length + '-week cycle';
-}
-
-function hexToRgb(hex) {
-  hex = (hex || '').replace('#', '');
-  if (hex.length === 3) hex = hex.split('').map(function(c){ return c + c; }).join('');
-  return {
-    r: parseInt(hex.slice(0,2), 16),
-    g: parseInt(hex.slice(2,4), 16),
-    b: parseInt(hex.slice(4,6), 16)
-  };
-}
-
-function mix(hex, amt, target) {
-  var c = hexToRgb(hex);
-  var t = target === 'white' ? 255 : 0;
-  var r = Math.round(c.r + (t - c.r) * amt);
-  var g = Math.round(c.g + (t - c.g) * amt);
-  var b = Math.round(c.b + (t - c.b) * amt);
-  return 'rgb(' + r + ',' + g + ',' + b + ')';
-}
-
-function makeSvgSafeId(prefix, color, size) {
-  svgUidCounter += 1;
-  return prefix + '-' + String(color || '').replace(/[^a-zA-Z0-9]/g, '') + '-' + size + '-' + svgUidCounter;
-}
-
-function svgBin(color, size) {
-  size = size || 72;
-
-  var lid = mix(color, 0.18, 'white');
-  var bodyDark = mix(color, 0.18, 'black');
-  var bodyLight = mix(color, 0.10, 'white');
-  var highlight = 'rgba(255,255,255,0.14)';
-  var gradId = makeSvgSafeId('binBody', color, size);
-
+function svgBin(color,size){
+  size=size||72;
+  var lid=mix(color,0.18,'white'),bodyDark=mix(color,0.18,'black'),bodyLight=mix(color,0.10,'white'),highlight='rgba(255,255,255,0.14)',gradId=makeSvgSafeId('binBody',color,size);
   return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'+
-      '<defs>'+
-        '<linearGradient id="'+gradId+'" x1="0" y1="0" x2="1" y2="1">'+
-          '<stop offset="0%" stop-color="'+bodyLight+'"/>'+
-          '<stop offset="100%" stop-color="'+bodyDark+'"/>'+
-        '</linearGradient>'+
-      '</defs>'+
-      '<path d="M150 150 L362 150 L340 420 L172 420 Z" fill="url(#'+gradId+')"/>'+
-      '<rect x="132" y="118" width="252" height="34" rx="8" fill="'+lid+'"/>'+
-      '<path d="M380 118 q10 0 10 10 v3 q0 10 -10 10" fill="'+lid+'"/>'+
-      '<rect x="190" y="98" width="52" height="16" rx="4" fill="'+lid+'"/>'+
-      '<rect x="286" y="98" width="44" height="16" rx="4" fill="'+lid+'"/>'+
-      '<rect x="255" y="154" width="22" height="262" fill="'+highlight+'"/>'+
-      '<circle cx="366" cy="365" r="38" fill="#2b2b31"/>'+
-      '<circle cx="366" cy="365" r="23" fill="#101014"/>'+
-      '<circle cx="366" cy="365" r="14" fill="#23232a" opacity="0.55"/>'+
-    '</svg>';
+    '<defs><linearGradient id="'+gradId+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="'+bodyLight+'"/><stop offset="100%" stop-color="'+bodyDark+'"/></linearGradient></defs>'+
+    '<path d="M150 150 L362 150 L340 420 L172 420 Z" fill="url(#'+gradId+')"/>'+
+    '<rect x="132" y="118" width="252" height="34" rx="8" fill="'+lid+'"/>'+
+    '<path d="M380 118 q10 0 10 10 v3 q0 10 -10 10" fill="'+lid+'"/>'+
+    '<rect x="190" y="98" width="52" height="16" rx="4" fill="'+lid+'"/>'+
+    '<rect x="286" y="98" width="44" height="16" rx="4" fill="'+lid+'"/>'+
+    '<rect x="255" y="154" width="22" height="262" fill="'+highlight+'"/>'+
+    '<circle cx="366" cy="365" r="38" fill="#2b2b31"/>'+
+    '<circle cx="366" cy="365" r="23" fill="#101014"/>'+
+    '<circle cx="366" cy="365" r="14" fill="#23232a" opacity="0.55"/>'+
+  '</svg>';
 }
 
-function binThumb(bin, size) {
-  size = size || 32;
-  return '<div style="width:'+size+'px;height:'+size+'px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+svgBin(bin.color, size)+'</div>';
+function binThumb(bin,size){size=size||32;return'<div style="width:'+size+'px;height:'+size+'px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+svgBin(bin.color,size)+'</div>';}
+function isMonday(dateStr){return new Date(dateStr+'T00:00:00').getDay()===1;}
+
+function onAnchorDateChange(inputId,previewId,warningId,programmeContainerId){
+  var input=document.getElementById(inputId),warning=document.getElementById(warningId);
+  if(!input) return;
+  if(input.value&&!isMonday(input.value)){if(warning)warning.classList.add('visible');}else{if(warning)warning.classList.remove('visible');}
+  updateAnchorPreview(inputId,previewId,programmeContainerId);
 }
 
-function isMonday(dateStr) {
-  var d = new Date(dateStr + 'T00:00:00');
-  return d.getDay() === 1;
+function makeAnchorPreviewHTML(anchorIso,programme){
+  if(!anchorIso) return '<div class="preview-row"><span class="preview-k">Preview</span><span class="preview-v">Select a Monday</span></div>';
+  var monday=getMondayOf(new Date(anchorIso+'T00:00:00')),today=new Date();today.setHours(0,0,0,0);
+  var previewProg=programme||config.schedule.programme,tempConfig={schedule:{programme:previewProg,anchorMonday:fmtISO(monday)},binTypes:config.binTypes,nudges:config.nudges};
+  var originalConfig=config;
+  config=Object.assign({},config,tempConfig);
+  var previewCollections=getNextCollections(1,today);
+  config=originalConfig;
+  var upcomingText=previewCollections[0]?'<strong>'+previewCollections[0].bin.name+'</strong> - '+fmtDisplay(previewCollections[0].date):'No collections found';
+  return '<div class="preview-row"><span class="preview-k">Week 1 Monday</span><span class="preview-v"><strong>'+fmtLong(monday)+'</strong></span></div><div class="preview-row"><span class="preview-k">Next prediction</span><span class="preview-v">'+upcomingText+'</span></div>';
 }
 
-function onAnchorDateChange(inputId, previewId, warningId, programmeContainerId) {
-  var input = document.getElementById(inputId);
-  var warning = document.getElementById(warningId);
-  if (!input) return;
-
-  // Show warning if not a Monday
-  if (input.value && !isMonday(input.value)) {
-    if (warning) warning.classList.add('visible');
-  } else {
-    if (warning) warning.classList.remove('visible');
-  }
-
-  updateAnchorPreview(inputId, previewId, programmeContainerId);
+function updateAnchorPreview(inputId,previewId,programmeContainerId){
+  var input=document.getElementById(inputId),preview=document.getElementById(previewId);
+  if(!input||!preview) return;
+  preview.innerHTML=makeAnchorPreviewHTML(input.value,programmeContainerId?getProg(programmeContainerId):config.schedule.programme);
 }
 
-function makeAnchorPreviewHTML(anchorIso, programme) {
-  if (!anchorIso) {
-    return '<div class="preview-row"><span class="preview-k">Preview</span><span class="preview-v">Select a Monday</span></div>';
-  }
+// EXPORT / IMPORT
+function openExportModal(){document.getElementById('modal-export').classList.remove('hidden');}
+function closeExportModal(){document.getElementById('modal-export').classList.add('hidden');}
+function exportConfig(){var data=JSON.stringify(config,null,2),blob=new Blob([data],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='binday-schedule.json';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);showToast('Schedule exported');}
+function importConfig(event){var file=event.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(e){try{var imported=JSON.parse(e.target.result);if(!imported.binTypes||!imported.schedule){showToast('Invalid file format');return;}if(imported.binTypes)imported.binTypes.forEach(function(b){if(b.notes===undefined)b.notes='';});config=Object.assign({},DEFAULT_CONFIG,imported);config.setupDone=true;saveConfig();closeExportModal();renderSettings();scheduleNotifications();showToast('Schedule imported');}catch(err){showToast('Could not read file');}};reader.readAsText(file);event.target.value='';}
+function copyShareText(){var lines=['Bin Day Schedule - '+(config.area||'My area')],prog=config.schedule.programme;if(prog&&prog.length){prog.forEach(function(week,wi){lines.push('Week '+(wi+1)+':');if(!week.slots.length){lines.push('  No collections');return;}week.slots.forEach(function(s){var bin=config.binTypes.find(function(b){return b.id===s.binId;});lines.push('  '+DAY_NAMES_LONG[s.day]+' -> '+(bin?bin.name:'Unknown'));});});}if(config.schedule.anchorMonday)lines.push('Anchor Monday: '+config.schedule.anchorMonday);var text=lines.join('\n');if(navigator.share){navigator.share({title:'Bin Day Schedule',text:text}).catch(function(){});}else if(navigator.clipboard){navigator.clipboard.writeText(text).then(function(){showToast('Copied to clipboard');});}else{showToast('Sharing not available');}closeExportModal();}
 
-  var monday = getMondayOf(new Date(anchorIso + 'T00:00:00'));
-  var today = new Date();
-  today.setHours(0,0,0,0);
-
-  var previewProg = programme || config.schedule.programme;
-  var tempConfig = {
-    schedule: { programme: previewProg, anchorMonday: fmtISO(monday) },
-    binTypes: config.binTypes,
-    nudges: config.nudges
-  };
-
-  var upcomingText = 'No collections found';
-  var originalConfig = config;
-
-  config = Object.assign({}, config, tempConfig);
-  var previewCollections = getNextCollections(1, today);
-  config = originalConfig;
-
-  if (previewCollections[0]) {
-    upcomingText = '<strong>' + previewCollections[0].bin.name + '</strong> - ' + fmtDisplay(previewCollections[0].date);
-  }
-
-  return '' +
-    '<div class="preview-row"><span class="preview-k">Week 1 Monday</span><span class="preview-v"><strong>' + fmtLong(monday) + '</strong></span></div>' +
-    '<div class="preview-row"><span class="preview-k">Next prediction</span><span class="preview-v">' + upcomingText + '</span></div>';
-}
-
-function updateAnchorPreview(inputId, previewId, programmeContainerId) {
-  var input = document.getElementById(inputId);
-  var preview = document.getElementById(previewId);
-  if (!input || !preview) return;
-
-  var programme = programmeContainerId ? getProg(programmeContainerId) : config.schedule.programme;
-  preview.innerHTML = makeAnchorPreviewHTML(input.value, programme);
-}
-
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// EXPORT / IMPORT / SHARE
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-function openExportModal() {
-  document.getElementById('modal-export').classList.remove('hidden');
-}
-function closeExportModal() {
-  document.getElementById('modal-export').classList.add('hidden');
-}
-
-function exportConfig() {
-  var data = JSON.stringify(config, null, 2);
-  var blob = new Blob([data], { type: 'application/json' });
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url;
-  a.download = 'binday-schedule.json';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  showToast('Schedule exported');
-}
-
-function importConfig(event) {
-  var file = event.target.files[0];
-  if (!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      var imported = JSON.parse(e.target.result);
-      if (!imported.binTypes || !imported.schedule) {
-        showToast('Invalid file format');
-        return;
-      }
-      // Ensure notes field
-      if (imported.binTypes) {
-        imported.binTypes.forEach(function(b){ if (b.notes === undefined) b.notes = ''; });
-      }
-      config = Object.assign({}, DEFAULT_CONFIG, imported);
-      config.setupDone = true;
-      saveConfig();
-      closeExportModal();
-      renderSettings();
-      scheduleNotifications();
-      showToast('Schedule imported');
-    } catch(err) {
-      showToast('Could not read file');
-    }
-  };
-  reader.readAsText(file);
-  event.target.value = '';
-}
-
-function copyShareText() {
-  var lines = ['Bin Day Schedule - ' + (config.area || 'My area')];
-  var prog = config.schedule.programme;
-  if (prog && prog.length) {
-    prog.forEach(function(week, wi) {
-      lines.push('Week ' + (wi+1) + ':');
-      if (!week.slots.length) {
-        lines.push('  No collections');
-        return;
-      }
-      week.slots.forEach(function(s) {
-        var bin = config.binTypes.find(function(b){ return b.id === s.binId; });
-        lines.push('  ' + DAY_NAMES_LONG[s.day] + ' -> ' + (bin ? bin.name : 'Unknown'));
-      });
-    });
-  }
-  if (config.schedule.anchorMonday) {
-    lines.push('Anchor Monday: ' + config.schedule.anchorMonday);
-  }
-  var text = lines.join('\n');
-
-  if (navigator.share) {
-    navigator.share({ title: 'Bin Day Schedule', text: text }).catch(function(){});
-  } else if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(function(){
-      showToast('Schedule copied to clipboard');
-    });
-  } else {
-    showToast('Sharing not available');
-  }
-  closeExportModal();
-}
-
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // VIEWS
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-var TABS = ['home','calendar','settings'];
+var TABS=['home','calendar','settings'];
 
-function switchView(v, noHistory, fromSwipe) {
-  if (v === currentView) return;
-  var fromIdx = TABS.indexOf(currentView);
-  var toIdx   = TABS.indexOf(v);
-  var goingRight = toIdx > fromIdx;
-  var prevView = currentView;
-  currentView = v;
-
+function switchView(v,noHistory,fromSwipe){
+  if(v===currentView) return;
+  var fromIdx=TABS.indexOf(currentView),toIdx=TABS.indexOf(v),goingRight=toIdx>fromIdx,prevView=currentView;
+  currentView=v;
   document.querySelectorAll('.nav-btn').forEach(function(el){el.classList.remove('active');});
   document.querySelector('.nav-btn[data-view="'+v+'"]').classList.add('active');
-
-  if (v==='home') renderHome();
-  if (v==='calendar') renderCalendar();
-  if (v==='settings') renderSettings();
-
-  var inEl  = document.getElementById('view-'+v);
-  var outEl = document.getElementById('view-'+prevView);
-
-  inEl.classList.add('sliding');
-  outEl.classList.add('sliding');
-
-  inEl.classList.remove('active','slide-left','slide-right');
-  inEl.style.transition = 'none';
-  inEl.classList.add(goingRight ? 'slide-right' : 'slide-left');
-
-  inEl.getBoundingClientRect();
-
-  inEl.style.transition = '';
-  inEl.classList.remove('slide-right','slide-left');
-  inEl.classList.add('active');
-
-  outEl.classList.remove('active');
-  outEl.classList.add(goingRight ? 'slide-left' : 'slide-right');
-
-  var done = false;
-  function cleanup() {
-    if (done) return; done = true;
-    outEl.classList.remove('sliding','slide-left','slide-right');
-    inEl.classList.remove('sliding');
-  }
-  inEl.addEventListener('transitionend', cleanup, { once: true });
-  setTimeout(cleanup, 400);
-
-  if (!noHistory) {
-    if (v === 'home') {
-      history.replaceState({ view: 'home' }, '', '');
-    } else if (fromSwipe) {
-      history.pushState({ view: v }, '', '');
-    } else {
-      history.replaceState({ view: v }, '', '');
-    }
-  }
+  if(v==='home') renderHome();
+  if(v==='calendar') renderCalendar();
+  if(v==='settings') renderSettings();
+  var inEl=document.getElementById('view-'+v),outEl=document.getElementById('view-'+prevView);
+  inEl.classList.add('sliding');outEl.classList.add('sliding');
+  inEl.classList.remove('active','slide-left','slide-right');inEl.style.transition='none';inEl.classList.add(goingRight?'slide-right':'slide-left');inEl.getBoundingClientRect();inEl.style.transition='';inEl.classList.remove('slide-right','slide-left');inEl.classList.add('active');
+  outEl.classList.remove('active');outEl.classList.add(goingRight?'slide-left':'slide-right');
+  var done=false;function cleanup(){if(done)return;done=true;outEl.classList.remove('sliding','slide-left','slide-right');inEl.classList.remove('sliding');}
+  inEl.addEventListener('transitionend',cleanup,{once:true});setTimeout(cleanup,400);
+  if(!noHistory){if(v==='home'){history.replaceState({view:'home'},'','');}else if(fromSwipe){history.pushState({view:v},'','');}else{history.replaceState({view:v},'','');}}
 }
 
-window.addEventListener('popstate', function() {
-  var modals = document.querySelectorAll('.modal-overlay:not(.hidden)');
-  if (modals.length) {
-    modals.forEach(function(m){ m.classList.add('hidden'); });
-    if (currentView !== 'home') history.pushState({ view: currentView }, '', '');
-    return;
-  }
-  if (currentView !== 'home') {
-    switchView('home', true);
-  }
+window.addEventListener('popstate',function(){
+  var modals=document.querySelectorAll('.modal-overlay:not(.hidden)');
+  if(modals.length){modals.forEach(function(m){m.classList.add('hidden');});if(currentView!=='home')history.pushState({view:currentView},'','');return;}
+  if(currentView!=='home') switchView('home',true);
 });
 
-function renderHome() {
-  var el = document.getElementById('view-home');
-  var today = new Date(); today.setHours(0,0,0,0);
-  var upcoming = getNextCollections(8, today);
-  var next = upcoming[0];
+function escapeHtml(s){var div=document.createElement('div');div.textContent=s;return div.innerHTML;}
 
-  if (!config.setupDone || !next) {
-    el.innerHTML = '<div class="empty-state">Set up your schedule in<br>Settings to get started.</div>';
+function renderHome(){
+  var el=document.getElementById('view-home');
+  var today=new Date();today.setHours(0,0,0,0);
+  var todayIso=fmtISODirect(today);
+
+  // Get today's raw bins for sign-off display
+  var todaysBins=getTodaysRawBins();
+  var isTodayCollection=todaysBins.length>0;
+  var allCollectedToday=isTodayCollection && todaysBins.every(function(b){return isBinCollectedToday(b.id);});
+
+  // Upcoming (skips collected today bins)
+  var upcoming=getNextCollections(8,today);
+  var next=upcoming[0];
+
+  if(!config.setupDone||(!next && !isTodayCollection)){
+    el.innerHTML='<div class="empty-state">Set up your schedule in<br>Settings to get started.</div>';
     return;
   }
 
-  var du = daysUntil(next.date);
-  var urgency = du===0 ? 'Today' : du===1 ? 'Tomorrow' : 'In '+du+' days';
-  var bg = colorBg(next.bin.color, 0.12);
-  var border = colorBg(next.bin.color, 0.22);
-  var bhBanner = next.isNudged ? '<div class="bh-banner"><svg width="13" height="13" viewBox="0 0 13 13" fill="#fbbf24"><path d="M6.5 1L8 5h4.5L9 7.5 10.5 12 6.5 9.5 2.5 12 4 7.5.5 5H5z"/></svg>Collection moved - bank holiday</div>' : '';
+  var html='<div class="page">';
+  html+='<div class="home-header"><h1>'+(config.area||'Bin Day')+'</h1><span class="date-chip">'+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})+'</span></div>';
 
-  var sameDay = upcoming.filter(function(c){ return fmtISO(c.date)===fmtISO(next.date); });
-  var extraBins = sameDay.length > 1
-    ? '<div class="hero-extras">' + sameDay.slice(1).map(function(c){
-        return '<span class="hero-extra-chip" style="background:'+colorBg(c.bin.color,0.18)+';color:'+c.bin.color+'">+'+c.bin.name+'</span>';
-      }).join('') + '</div>'
-    : '';
+  // If it's collection day, show sign-off cards for each bin
+  if(isTodayCollection){
+    html+='<div class="section-label">Today\'s collections</div>';
+    todaysBins.forEach(function(bin){
+      var collected=isBinCollectedToday(bin.id);
+      if(collected){
+        html+='<div class="collected-card">';
+        html+='<div class="collected-check"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10.5l4.5 4.5 8-8" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>';
+        html+='<div class="collected-text-wrap">';
+        html+='<div class="collected-label">'+bin.name+' collected</div>';
+        html+='<div class="collected-sub">'+bin.label+'</div>';
+        html+='</div>';
+        html+='<button class="collected-undo" onclick="unmarkBinCollected(\''+bin.id+'\')">Undo</button>';
+        html+='</div>';
+      } else {
+        var bg=colorBg(bin.color,0.1),border=colorBg(bin.color,0.2);
+        html+='<div class="hero-card" style="background:'+bg+';border:1px solid '+border+';">';
+        html+='<div class="hero-urgency-pill"><span class="hero-urgency-dot" style="background:'+bin.color+'"></span>Today</div>';
+        html+='<div class="hero-bin-wrap"><div class="hero-bin-ring" style="border-color:'+colorBg(bin.color,0.15)+'"></div>'+svgBin(bin.color,96)+'</div>';
+        html+='<div class="hero-name" style="color:'+bin.color+'">'+bin.name+'</div>';
+        html+='<div class="hero-label-text">'+bin.label+'</div>';
+        html+='<div class="hero-date-text">'+fmtLong(today)+'</div>';
+        html+='<button class="signoff-btn" onclick="markBinCollected(\''+bin.id+'\')">';
+        html+='<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.5 3.5 6.5-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        html+='Mark as collected</button>';
+        html+='</div>';
+      }
+    });
 
-  // Week indicator
-  var weekLabel = getWeekLabel(next.date);
-  var weekIndicatorHtml = weekLabel ? '<div class="hero-week-indicator">' + weekLabel + '</div>' : '';
-
-  // Bin contents button
-  var allBinsToday = sameDay.map(function(c){ return c.bin; });
-  var hasNotes = allBinsToday.some(function(b){ return b.notes && b.notes.trim(); });
-  var contentsBtn = hasNotes
-    ? '<button class="bin-contents-btn" onclick="toggleContentsPopover(this)"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6.5"/><path d="M8 7v4.5M8 4.5v.5"/></svg>What goes in?</button>'
-    : '';
-  var contentsPopover = hasNotes
-    ? '<div class="bin-contents-popover" id="home-contents-popover" style="display:none;">' +
-      allBinsToday.filter(function(b){ return b.notes && b.notes.trim(); }).map(function(b){
-        return '<strong style="color:'+b.color+'">' + b.name + ':</strong> ' + escapeHtml(b.notes);
-      }).join('<br>') + '</div>'
-    : '';
-
-  var afterNext = upcoming.filter(function(c){ return fmtISO(c.date) !== fmtISO(next.date); });
-  var grouped = [];
-  afterNext.forEach(function(c) {
-    var ex = grouped.find(function(g){ return fmtISO(g.date)===fmtISO(c.date); });
-    if (ex) { ex.bins.push(c.bin); } else { grouped.push({ date: c.date, bins: [c.bin], isNudged: c.isNudged }); }
-  });
-
-  var upcomingRows = grouped.slice(0,4).map(function(g) {
-    var du2 = daysUntil(g.date);
-    var pill = du2 <= 7 ? '<span class="upcoming-pill">This week</span>' : '';
-    var dots = g.bins.map(function(b){ return '<div class="upcoming-dot" style="background:'+b.color+'"></div>'; }).join('');
-    var names = g.bins.map(function(b){ return b.name; }).join(' + ');
-    return '<div class="upcoming-item"><div class="upcoming-dots">'+dots+'</div><span class="upcoming-name">'+names+'</span><span class="upcoming-date">'+fmtDisplay(g.date)+'</span>'+pill+'</div>';
-  }).join('');
-
-  var nextAfter = grouped[0];
-
-  el.innerHTML = '<div class="page">' +
-    '<div class="home-header"><h1>'+(config.area||'Bin Day')+'</h1><span class="date-chip">'+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})+'</span></div>'+
-    bhBanner+
-    '<div class="hero-card" style="background:'+bg+';border:1px solid '+border+';">'+
-      '<div class="hero-urgency">'+urgency+'</div>'+
-      '<div class="hero-bin-centre">'+svgBin(next.bin.color, 108)+'</div>'+
-      '<div class="hero-name" style="color:'+next.bin.color+'">'+next.bin.name+'</div>'+
-      '<div class="hero-label-text">'+next.bin.label+'</div>'+
-      '<div class="hero-date-text">'+fmtLong(next.date)+'</div>'+
-      extraBins+
-      contentsBtn+
-      contentsPopover+
-      weekIndicatorHtml+
-    '</div>'+
-    '<div class="stat-row">'+
-      '<div class="stat-card"><div class="stat-label">Days away</div><div class="stat-value">'+du+'</div><div class="stat-unit">'+(du===1?'day':'days')+'</div></div>'+
-      '<div class="stat-card"><div class="stat-label">Next after</div><div class="stat-value-sm">'+(nextAfter ? nextAfter.bins.map(function(b){return b.name;}).join(' + ') : '-')+'</div><div class="stat-unit">'+(nextAfter ? fmtDisplay(nextAfter.date) : '')+'</div></div>'+
-    '</div>'+
-    (upcomingRows ? '<div class="section-label">Coming up</div><div class="upcoming-list">'+upcomingRows+'</div>' : '')+
-    '<div class="notif-row"><span class="notif-label">Evening reminders'+(config.notifications.evening?' - '+config.notifications.eveningTime:'')+'</span><div class="toggle '+(config.notifications.evening?'on':'')+'" onclick="toggleNotifications()"></div></div>'+
-  '</div>';
-}
-
-function escapeHtml(s) {
-  var div = document.createElement('div');
-  div.textContent = s;
-  return div.innerHTML;
-}
-
-function toggleContentsPopover(btn) {
-  var pop = document.getElementById('home-contents-popover');
-  if (!pop) return;
-  if (pop.style.display === 'none') {
-    pop.style.display = 'block';
-    btn.style.borderColor = 'var(--b3)';
-  } else {
-    pop.style.display = 'none';
-    btn.style.borderColor = '';
+    if(!allCollectedToday){
+      html+='<div style="font-size:11px;color:var(--t3);text-align:center;margin-top:-4px;">Tap to sign off each bin once it\'s been emptied</div>';
+    }
   }
+
+  // Hero for next upcoming collection (after today / after collected ones)
+  if(next && !allCollectedToday){
+    // Only show next-up hero if today is not a collection day, or if today's are all done
+    if(!isTodayCollection){
+      var du=daysUntil(next.date);
+      var urgencyLabel=du===0?'Today':du===1?'Tomorrow':'In '+du+' days';
+      var heroBg=colorBg(next.bin.color,0.10),heroBorder=colorBg(next.bin.color,0.18);
+      var bhBanner=next.isNudged?'<div class="bh-banner"><svg width="13" height="13" viewBox="0 0 13 13" fill="#fbbf24"><path d="M6.5 1L8 5h4.5L9 7.5 10.5 12 6.5 9.5 2.5 12 4 7.5.5 5H5z"/></svg>Collection moved - bank holiday</div>':'';
+      html+=bhBanner;
+      html+='<div class="hero-card" style="background:'+heroBg+';border:1px solid '+heroBorder+';">';
+      html+='<div class="hero-urgency-pill"><span class="hero-urgency-dot" style="background:'+next.bin.color+'"></span>'+urgencyLabel+'</div>';
+      html+='<div class="hero-bin-wrap"><div class="hero-bin-ring" style="border-color:'+colorBg(next.bin.color,0.15)+'"></div>'+svgBin(next.bin.color,96)+'</div>';
+      html+='<div class="hero-name" style="color:'+next.bin.color+'">'+next.bin.name+'</div>';
+      html+='<div class="hero-label-text">'+next.bin.label+'</div>';
+      html+='<div class="hero-date-text">'+fmtLong(next.date)+'</div>';
+
+      var sameDay=upcoming.filter(function(c){return fmtISO(c.date)===fmtISO(next.date);});
+      if(sameDay.length>1){
+        html+='<div class="hero-extras">'+sameDay.slice(1).map(function(c){return'<span class="hero-extra-chip" style="background:'+colorBg(c.bin.color,0.18)+';color:'+c.bin.color+'">+'+c.bin.name+'</span>';}).join('')+'</div>';
+      }
+
+      var weekLabel=getWeekLabel(next.date);
+      if(weekLabel) html+='<div class="hero-week-indicator">'+weekLabel+'</div>';
+
+      var allBinsToday=sameDay.map(function(c){return c.bin;});
+      var hasNotes=allBinsToday.some(function(b){return b.notes&&b.notes.trim();});
+      if(hasNotes){
+        html+='<button class="bin-contents-btn" onclick="toggleContentsPopover(this)"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6.5"/><path d="M8 7v4.5M8 4.5v.5"/></svg>What goes in?</button>';
+        html+='<div class="bin-contents-popover" id="home-contents-popover" style="display:none;">'+allBinsToday.filter(function(b){return b.notes&&b.notes.trim();}).map(function(b){return'<strong style="color:'+b.color+'">'+b.name+':</strong> '+escapeHtml(b.notes);}).join('<br>')+'</div>';
+      }
+      html+='</div>';
+    }
+  } else if(allCollectedToday && next){
+    // All today's bins done - show a nice up-next teaser
+    var bg2=colorBg(next.bin.color,0.08),border2=colorBg(next.bin.color,0.14);
+    var du2=daysUntil(next.date);
+    html+='<div style="border-radius:var(--r);padding:20px 24px;background:'+bg2+';border:1px solid '+border2+';display:flex;align-items:center;gap:16px;">';
+    html+=binThumb(next.bin,40);
+    html+='<div style="flex:1"><div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:0.8px;font-weight:500;margin-bottom:4px">Up next</div>';
+    html+='<div style="font-size:16px;font-weight:500;color:'+next.bin.color+'">'+next.bin.name+'</div>';
+    html+='<div style="font-size:11px;color:var(--t2);margin-top:2px;font-family:\'Geist Mono\',monospace">'+fmtDisplay(next.date)+(du2===1?' · Tomorrow':du2>1?' · In '+du2+' days':'')+'</div></div></div>';
+  }
+
+  // Stats
+  if(next){
+    var du3=daysUntil(next.date);
+    var afterNext=upcoming.filter(function(c){return fmtISO(c.date)!==fmtISO(next.date);});
+    var grouped=[];
+    afterNext.forEach(function(c){var ex=grouped.find(function(g){return fmtISO(g.date)===fmtISO(c.date);});if(ex){ex.bins.push(c.bin);}else{grouped.push({date:c.date,bins:[c.bin],isNudged:c.isNudged});}});
+
+    html+='<div class="stat-row">';
+    html+='<div class="stat-card"><div class="stat-label">Days away</div><div class="stat-value">'+du3+'</div><div class="stat-unit">'+(du3===1?'day':'days')+'</div></div>';
+    var nxt=grouped[0];
+    html+='<div class="stat-card"><div class="stat-label">Next after</div><div class="stat-value-sm">'+(nxt?nxt.bins.map(function(b){return b.name;}).join(' + '):'-')+'</div><div class="stat-unit">'+(nxt?fmtDisplay(nxt.date):'')+'</div></div>';
+    html+='</div>';
+
+    var upcomingRows=grouped.slice(0,4).map(function(g){
+      var d=daysUntil(g.date),pill=d<=7?'<span class="upcoming-pill">This week</span>':'';
+      var dots=g.bins.map(function(b){return'<div class="upcoming-dot" style="background:'+b.color+'"></div>';}).join('');
+      return'<div class="upcoming-item"><div class="upcoming-dots">'+dots+'</div><span class="upcoming-name">'+g.bins.map(function(b){return b.name;}).join(' + ')+'</span><span class="upcoming-date">'+fmtDisplay(g.date)+'</span>'+pill+'</div>';
+    }).join('');
+    if(upcomingRows) html+='<div class="section-label">Coming up</div><div class="upcoming-list">'+upcomingRows+'</div>';
+  }
+
+  html+='<div class="notif-row"><span class="notif-label">Evening reminders'+(config.notifications.evening?' · '+config.notifications.eveningTime:'')+'</span><div class="toggle '+(config.notifications.evening?'on':'')+'" onclick="toggleNotifications()"></div></div>';
+  html+='</div>';
+  el.innerHTML=html;
 }
 
-function renderCalendar() {
-  var el = document.getElementById('view-calendar');
-  var y=calendarDate.getFullYear(), m=calendarDate.getMonth();
+function toggleContentsPopover(btn){
+  var pop=document.getElementById('home-contents-popover');
+  if(!pop) return;
+  if(pop.style.display==='none'){pop.style.display='block';btn.style.borderColor='var(--b3)';}
+  else{pop.style.display='none';btn.style.borderColor='';}
+}
+
+function renderCalendar(){
+  var el=document.getElementById('view-calendar');
+  var y=calendarDate.getFullYear(),m=calendarDate.getMonth();
   var monthName=calendarDate.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
-  var firstDay=new Date(y,m,1), lastDay=new Date(y,m+1,0);
-  var startDow=firstDay.getDay(); startDow=startDow===0?6:startDow-1;
-  var today=new Date(); today.setHours(0,0,0,0);
+  var firstDay=new Date(y,m,1),lastDay=new Date(y,m+1,0);
+  var startDow=firstDay.getDay();startDow=startDow===0?6:startDow-1;
+  var today=new Date();today.setHours(0,0,0,0);
+  var todayIso=fmtISODirect(today);
 
   var cells='';
-  for (var i=0;i<startDow;i++){
-    var pd=new Date(y,m,-startDow+1+i);
-    cells+='<div class="cal-cell other-month"><span class="cal-date-num">'+pd.getDate()+'</span></div>';
-  }
-
-  for (var d=1;d<=lastDay.getDate();d++){
-    var date=new Date(y,m,d);
-    var iso=fmtISO(date);
-    var isToday=date.getTime()===today.getTime();
+  for(var i=0;i<startDow;i++){var pd=new Date(y,m,-startDow+1+i);cells+='<div class="cal-cell other-month"><span class="cal-date-num">'+pd.getDate()+'</span></div>';}
+  for(var d=1;d<=lastDay.getDate();d++){
+    var date=new Date(y,m,d),iso=fmtISO(date),isToday=date.getTime()===today.getTime();
     var bins=getCollectionsOnDate(date);
     var isNudgeOrig=!!getNudgeByOriginal(iso);
     var cls='cal-cell'+(isToday?' today':'')+(bins.length?' bin-day':'')+(isNudgeOrig?' nudged':'');
-    var bg2=(bins.length)?'background:'+colorBg(bins[0].color,0.14)+';':'';
-    var dotsHtml='';
+    var bg=(bins.length)?'background:'+colorBg(bins[0].color,0.14)+';':'';
+    var dotsHtml=bins.length?'<div class="cal-dots">'+bins.map(function(b){return'<div class="cal-dot" style="background:'+b.color+'"></div>';}).join('')+'</div>':'';
+    var nm=isNudgeOrig?'<span class="nudge-mark">^</span>':'';
 
-    if (bins.length) {
-      dotsHtml='<div class="cal-dots">'+bins.map(function(b){return '<div class="cal-dot" style="background:'+b.color+'"></div>';}).join('')+'</div>';
+    // Show tick if all bins collected on that day (today only)
+    var collectedMark='';
+    if(isToday&&bins.length&&bins.every(function(b){return isBinCollectedToday(b.id);})){
+      collectedMark='<span style="position:absolute;top:2px;left:3px;font-size:8px;color:#4ade80;">&#10003;</span>';
     }
-
-  var nm=isNudgeOrig?'<span class="nudge-mark">^</span>':'';
-    cells+='<div class="'+cls+'" style="'+bg2+'" onclick="calCellClick(\''+iso+'\')"><span class="cal-date-num">'+d+'</span>'+dotsHtml+nm+'</div>';
+    cells+='<div class="'+cls+'" style="'+bg+'" onclick="calCellClick(\''+iso+'\')">'+collectedMark+'<span class="cal-date-num">'+d+'</span>'+dotsHtml+nm+'</div>';
   }
-
   var rem=(startDow+lastDay.getDate())%7;
-  for (var j=1;j<=(rem?7-rem:0);j++){
-    cells+='<div class="cal-cell other-month"><span class="cal-date-num">'+j+'</span></div>';
-  }
+  for(var j=1;j<=(rem?7-rem:0);j++) cells+='<div class="cal-cell other-month"><span class="cal-date-num">'+j+'</span></div>';
 
-  var legend=config.binTypes.map(function(b){
-    return '<div class="cal-legend-item"><div class="cal-legend-swatch" style="background:'+colorBg(b.color,0.35)+';border:1px solid '+b.color+'"></div>'+b.name+'</div>';
-  }).join('');
+  var legend=config.binTypes.map(function(b){return'<div class="cal-legend-item"><div class="cal-legend-swatch" style="background:'+colorBg(b.color,0.35)+';border:1px solid '+b.color+'"></div>'+b.name+'</div>';}).join('');
 
   el.innerHTML='<div class="page">'+
     '<div class="cal-header-row"><h2>'+monthName+'</h2>'+
-    '<div class="cal-nav-btns"><button class="cal-nav-btn" onclick="calNav(-1)"><</button><button class="cal-nav-btn" onclick="calNav(1)">></button></div>'+
-    '</div>'+
-    '<div class="cal-days-row">'+['M','T','W','T','F','S','S'].map(function(d){return '<div class="cal-day-lbl">'+d+'</div>';}).join('')+'</div>'+
+    '<div class="cal-nav-btns"><button class="cal-nav-btn" onclick="calNav(-1)">&#8249;</button><button class="cal-nav-btn" onclick="calNav(1)">&#8250;</button></div></div>'+
+    '<div class="cal-days-row">'+['M','T','W','T','F','S','S'].map(function(d){return'<div class="cal-day-lbl">'+d+'</div>';}).join('')+'</div>'+
     '<div class="cal-grid">'+cells+'</div>'+
     '<div class="cal-legend">'+legend+'</div>'+
     '<div class="cal-detail" id="cal-detail"></div>'+
@@ -1608,55 +1183,31 @@ function renderCalendar() {
 
 function calNav(dir){calendarDate.setMonth(calendarDate.getMonth()+dir);renderCalendar();}
 
-function calCellClick(iso) {
-  var d=new Date(iso+'T00:00:00');
-  var detailData=getCollectionDetailForDate(d);
-  var detail=document.getElementById('cal-detail');
-
-  if (!detailData.bins.length) {
-    detail.className='cal-detail';
-    return;
-  }
-
-  var note = '';
-  if (detailData.kind === 'original-moved') {
-    note = '<div class="cal-detail-note">Moved to ' + fmtLong(detailData.actualDate) + '</div>';
-  } else if (detailData.kind === 'actual-moved') {
-    note = '<div class="cal-detail-note">Moved from ' + fmtLong(detailData.originalDate) + '</div>';
-  }
-
+function calCellClick(iso){
+  var d=new Date(iso+'T00:00:00'),detailData=getCollectionDetailForDate(d),detail=document.getElementById('cal-detail');
+  if(!detailData.bins.length){detail.className='cal-detail';return;}
+  var note='';
+  if(detailData.kind==='original-moved') note='<div class="cal-detail-note">Moved to '+fmtLong(detailData.actualDate)+'</div>';
+  else if(detailData.kind==='actual-moved') note='<div class="cal-detail-note">Moved from '+fmtLong(detailData.originalDate)+'</div>';
   detail.className='cal-detail visible';
-  detail.innerHTML =
-    '<div class="cal-detail-date">'+fmtLong(d)+'</div>'+
-    note+
+  detail.innerHTML='<div class="cal-detail-date">'+fmtLong(d)+'</div>'+note+
     detailData.bins.map(function(b){
-      var contentsHtml = (b.notes && b.notes.trim())
-        ? '<div class="cal-detail-contents">' + escapeHtml(b.notes) + '</div>'
-        : '';
-      return '<div class="cal-detail-row">'+svgBin(b.color,36)+'<div><div class="cal-detail-name">'+b.name+'</div><div style="font-size:11px;color:var(--t2)">'+b.label+'</div>' + contentsHtml + '</div></div>';
+      var c=(b.notes&&b.notes.trim())?'<div class="cal-detail-contents">'+escapeHtml(b.notes)+'</div>':'';
+      return'<div class="cal-detail-row">'+svgBin(b.color,36)+'<div><div class="cal-detail-name">'+b.name+'</div><div style="font-size:11px;color:var(--t2)">'+b.label+'</div>'+c+'</div></div>';
     }).join('');
 }
 
-function renderSettings() {
+function renderSettings(){
   var el=document.getElementById('view-settings');
-  var sch=config.schedule, notif=config.notifications;
-
+  var sch=config.schedule,notif=config.notifications;
   var binList=config.binTypes.map(function(b){
-var notesHint = (b.notes && b.notes.trim()) ? '<div style="font-size:10px;color:var(--t3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;">Notes: '+escapeHtml(b.notes)+'</div>' : '';
-    return '<div class="bin-type-item">'+
-      binThumb(b, 32)+
-      '<div class="bin-type-info"><div class="bin-type-name">'+b.name+'</div><div class="bin-type-sublabel">'+b.label+'</div>'+notesHint+'</div>'+
-      '<div class="bin-type-actions">'+        '<button class="icon-btn" onclick="openAddBinModal(\''+b.id+'\',false)">Edit</button>'+        '<button class="icon-btn del" onclick="promptDeleteBin(\''+b.id+'\',false)">X</button>'+
-      '</div></div>';
+    var nh=(b.notes&&b.notes.trim())?'<div style="font-size:10px;color:var(--t3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;">'+escapeHtml(b.notes)+'</div>':'';
+    return'<div class="bin-type-item">'+binThumb(b,32)+'<div class="bin-type-info"><div class="bin-type-name">'+b.name+'</div><div class="bin-type-sublabel">'+b.label+'</div>'+nh+'</div>'+
+    '<div class="bin-type-actions"><button class="icon-btn" onclick="openAddBinModal(\''+b.id+'\',false)">Edit</button><button class="icon-btn del" onclick="promptDeleteBin(\''+b.id+'\',false)">&#215;</button></div></div>';
   }).join('');
 
-  var nudgeList=config.nudges.length===0
-    ?'<div style="font-size:12px;color:var(--t3);padding:2px 0">No overrides set</div>'
-    :config.nudges.map(function(n,i){
-      return '<div class="nudge-item">'+
-        '<span>'+new Date(n.original+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})+'</span>'+        '<span class="nudge-dates">-> '+new Date(n.actual+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})+'</span>'+        '<button class="icon-btn del" onclick="deleteNudge('+i+')">X</button>'+
-      '</div>';
-    }).join('');
+  var nudgeList=config.nudges.length===0?'<div style="font-size:12px;color:var(--t3);padding:2px 0">No overrides set</div>':
+    config.nudges.map(function(n,i){return'<div class="nudge-item"><span>'+new Date(n.original+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})+'</span><span class="nudge-dates">&#8594; '+new Date(n.actual+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})+'</span><button class="icon-btn del" onclick="deleteNudge('+i+')">&#215;</button></div>';}).join('');
 
   var anchorDisplay=sch.anchorMonday?new Date(sch.anchorMonday+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'Not set';
   var cycleLen=(sch.programme||[]).length;
@@ -1664,9 +1215,7 @@ var notesHint = (b.notes && b.notes.trim()) ? '<div style="font-size:10px;color:
   el.innerHTML='<div class="page">'+
     '<div class="settings-header"><h2>Settings</h2><p>Configure your collection</p></div>'+
     '<div class="s-section-title">Location</div>'+
-    '<div class="s-card">'+
-      '<div class="s-row" onclick="openAreaModal()"><span class="s-row-label">Area / street</span><span class="s-row-value">'+(config.area||'Not set')+'</span></div>'+
-    '</div>'+
+    '<div class="s-card"><div class="s-row" onclick="openAreaModal()"><span class="s-row-label">Area / street</span><span class="s-row-value">'+(config.area||'Not set')+'</span></div></div>'+
     '<div class="s-section-title">Bin types</div>'+
     '<div class="bin-type-list">'+binList+'</div>'+
     '<button class="btn-secondary" onclick="openAddBinModal(null,false)" style="width:100%;justify-content:center;margin-bottom:24px;">+ Add bin type</button>'+
@@ -1688,435 +1237,191 @@ var notesHint = (b.notes && b.notes.trim()) ? '<div style="font-size:10px;color:
     '</div>'+
     '<div class="s-section-title" style="margin-top:24px;">Data</div>'+
     '<div class="s-card">'+
-      '<div class="s-row" onclick="openExportModal()"><span class="s-row-label">Export / Import</span><span class="s-row-chevron">></span></div>'+
-      '<div class="s-row" onclick="openResetModal()"><span class="s-row-label" style="color:#f87171">Reset all data</span><span class="s-row-chevron">></span></div>'+
+      '<div class="s-row" onclick="openExportModal()"><span class="s-row-label">Export / Import</span><span class="s-row-chevron">&#8250;</span></div>'+
+      '<div class="s-row" onclick="openResetModal()"><span class="s-row-label" style="color:#f87171">Reset all data</span><span class="s-row-chevron">&#8250;</span></div>'+
     '</div>'+
     '<div class="s-section-title" style="margin-top:24px;">About</div>'+
     '<div class="s-card">'+
-      '<div class="s-row" style="cursor:default;"><span class="s-row-label">Bin Day</span><span class="s-row-value">v1.2</span></div>'+
-      '<div class="s-row" onclick="window.open(\'https://instagram.com/snazzygaz\',\'_blank\')" style="cursor:pointer;">'+
-        '<span class="s-row-label">Made by snazzygaz</span>'+
-        '<span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2);">'+
-          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>'+
-          '@snazzygaz'+
-        '</span>'+
-      '</div>'+
+      '<div class="s-row" style="cursor:default;"><span class="s-row-label">Bin Day</span><span class="s-row-value">v1.3</span></div>'+
+      '<div class="s-row" onclick="window.open(\'https://instagram.com/snazzygaz\',\'_blank\')" style="cursor:pointer;"><span class="s-row-label">Made by snazzygaz</span><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@snazzygaz</span></div>'+
     '</div>'+
   '</div>';
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // ONBOARDING
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-function initOnboarding() {
-  obStep = 0;
-  renderObProgress();
-  renderObBinList();
-  renderProgrammeEditor('ob-programme-editor', config.schedule.programme);
-
-  var monday = getMondayOf(new Date());
-  document.getElementById('ob-anchor-date').value = fmtISO(monday);
-
-  updateAnchorLabel();
-  updateAnchorPreview('ob-anchor-date', 'ob-anchor-preview');
+function initOnboarding(){
+  obStep=0;renderObProgress();renderObBinList();renderProgrammeEditor('ob-programme-editor',config.schedule.programme);
+  document.getElementById('ob-anchor-date').value=fmtISO(getMondayOf(new Date()));
+  updateAnchorLabel();updateAnchorPreview('ob-anchor-date','ob-anchor-preview');
 }
 
-function updateAnchorLabel() {
-  var prog = getProg('ob-programme-editor');
-  var n = prog ? prog.length : 1;
-  var sub = document.getElementById('ob-step3-sub');
-  if (sub) sub.textContent = 'Pick any Monday that was the start of Week 1 in your ' + n + '-week cycle. Check a recent bin calendar or letter from your council.';
-  var lbl = document.getElementById('ob-anchor-date-label');
-  if (lbl) lbl.textContent = 'A Monday that started Week 1';
+function updateAnchorLabel(){
+  var prog=getProg('ob-programme-editor'),n=prog?prog.length:1;
+  var sub=document.getElementById('ob-step3-sub');
+  if(sub)sub.textContent='Pick any Monday that was the start of Week 1 in your '+n+'-week cycle. Check a recent bin calendar or letter from your council.';
+  var lbl=document.getElementById('ob-anchor-date-label');
+  if(lbl)lbl.textContent='A Monday that started Week 1';
 }
 
-function renderObProgress() {
-  document.getElementById('ob-progress').innerHTML =
-    Array.from({length:OB_TOTAL},function(_,i){
-      var cls=i<obStep?'done':i===obStep?'current':'';
-      return '<div class="ob-dot '+cls+'"></div>';
-    }).join('');
+function renderObProgress(){
+  document.getElementById('ob-progress').innerHTML=Array.from({length:OB_TOTAL},function(_,i){
+    return'<div class="ob-dot '+(i<obStep?'done':i===obStep?'current':'')+'"></div>';
+  }).join('');
 }
 
-function renderObBinList() {
-  document.getElementById('ob-bin-list').innerHTML =
-    config.binTypes.map(function(b){
-      return '<div class="bin-type-item">'+
-        binThumb(b, 32)+
-        '<div class="bin-type-info"><div class="bin-type-name">'+b.name+'</div><div class="bin-type-sublabel">'+b.label+'</div></div>'+
-        '<div class="bin-type-actions">'+          '<button class="icon-btn" onclick="openAddBinModal(\''+b.id+'\',true)">Edit</button>'+          '<button class="icon-btn del" onclick="promptDeleteBin(\''+b.id+'\',true)">X</button>'+
-        '</div></div>';
-    }).join('');
+function renderObBinList(){
+  document.getElementById('ob-bin-list').innerHTML=config.binTypes.map(function(b){
+    return'<div class="bin-type-item">'+binThumb(b,32)+'<div class="bin-type-info"><div class="bin-type-name">'+b.name+'</div><div class="bin-type-sublabel">'+b.label+'</div></div>'+
+    '<div class="bin-type-actions"><button class="icon-btn" onclick="openAddBinModal(\''+b.id+'\',true)">Edit</button><button class="icon-btn del" onclick="promptDeleteBin(\''+b.id+'\',true)">&#215;</button></div></div>';
+  }).join('');
 }
 
-function performDeleteBin(id, isOb) {
-  if (config.binTypes.length <= 1) {
-    showToast("Can't remove the only bin");
-    return;
-  }
-
-  var remainingBins = config.binTypes.filter(function(b){ return b.id !== id; });
-  var fallbackBinId = remainingBins[0].id;
-
+function performDeleteBin(id,isOb){
+  if(config.binTypes.length<=1){showToast("Can't remove the only bin");return;}
+  var remaining=config.binTypes.filter(function(b){return b.id!==id;}),fallback=remaining[0].id;
   config.schedule.programme.forEach(function(week){
-    week.slots = week.slots
-      .filter(function(s){ return s.binId !== id; })
-      .map(function(s){
-        return remainingBins.some(function(b){ return b.id === s.binId; })
-          ? s
-          : { day: s.day, binId: fallbackBinId };
-      });
-    if (!week.slots.length) week.slots = [{ day: 2, binId: fallbackBinId }];
+    week.slots=week.slots.filter(function(s){return s.binId!==id;}).map(function(s){return remaining.some(function(b){return b.id===s.binId;})?s:{day:s.day,binId:fallback};});
+    if(!week.slots.length)week.slots=[{day:2,binId:fallback}];
   });
-
-  config.binTypes = remainingBins;
-  saveConfig();
-
-  if (isOb) {
-    renderObBinList();
-    renderProgrammeEditor('ob-programme-editor', config.schedule.programme);
-  } else {
-    renderSettings();
-  }
+  config.binTypes=remaining;saveConfig();
+  if(isOb){renderObBinList();renderProgrammeEditor('ob-programme-editor',config.schedule.programme);}else renderSettings();
   showToast('Bin removed');
 }
 
-function promptDeleteBin(id, isOb) {
-  if (config.binTypes.length <= 1) {
-    showToast("Can't remove the only bin");
-    return;
-  }
-  var bin = config.binTypes.find(function(b){ return b.id === id; });
-  pendingDeleteBinId = id;
-  pendingDeleteIsOb = isOb;
-  document.getElementById('confirm-delete-msg').textContent = 'Remove "' + (bin ? bin.name : 'this bin') + '"? This will also update your schedule.';
+function promptDeleteBin(id,isOb){
+  if(config.binTypes.length<=1){showToast("Can't remove the only bin");return;}
+  var bin=config.binTypes.find(function(b){return b.id===id;});
+  pendingDeleteBinId=id;pendingDeleteIsOb=isOb;
+  document.getElementById('confirm-delete-msg').textContent='Remove "'+(bin?bin.name:'this bin')+'"? This will also update your schedule.';
   document.getElementById('modal-confirm-delete').classList.remove('hidden');
 }
 
-function closeConfirmDelete() {
-  document.getElementById('modal-confirm-delete').classList.add('hidden');
-  pendingDeleteBinId = null;
+function closeConfirmDelete(){document.getElementById('modal-confirm-delete').classList.add('hidden');pendingDeleteBinId=null;}
+function confirmDeleteBin(){if(pendingDeleteBinId)performDeleteBin(pendingDeleteBinId,pendingDeleteIsOb);closeConfirmDelete();}
+
+function obNext(){
+  if(obStep===0){config.area=document.getElementById('ob-area').value.trim()||'My area';saveConfig();}
+  if(obStep===1){if(!config.binTypes.length){showToast('Add at least one bin type');return;}renderProgrammeEditor('ob-programme-editor',config.schedule.programme);}
+  if(obStep===2){var prog=getProg('ob-programme-editor');if(!prog.length){showToast('Add at least one week');return;}config.schedule.programme=prog;saveConfig();updateAnchorLabel();updateAnchorPreview('ob-anchor-date','ob-anchor-preview');}
+  if(obStep===3){var dateVal=document.getElementById('ob-anchor-date').value;if(!dateVal){showToast('Pick an anchor Monday');return;}config.schedule.anchorMonday=fmtISO(getMondayOf(new Date(dateVal+'T00:00:00')));saveConfig();}
+  if(obStep===4){obFinish();return;}
+  document.getElementById('ob-step-'+obStep).classList.remove('active');obStep++;document.getElementById('ob-step-'+obStep).classList.add('active');renderObProgress();
 }
 
-function confirmDeleteBin() {
-  if (pendingDeleteBinId) {
-    performDeleteBin(pendingDeleteBinId, pendingDeleteIsOb);
-  }
-  closeConfirmDelete();
+function obBack(){
+  if(obStep===0) return;
+  document.getElementById('ob-step-'+obStep).classList.remove('active');obStep--;document.getElementById('ob-step-'+obStep).classList.add('active');renderObProgress();
+  if(obStep===0)document.getElementById('ob-area').value=config.area||'';
+  if(obStep===1)renderObBinList();
+  if(obStep===2)renderProgrammeEditor('ob-programme-editor',config.schedule.programme);
+  if(obStep===3){document.getElementById('ob-anchor-date').value=config.schedule.anchorMonday||fmtISO(getMondayOf(new Date()));updateAnchorLabel();updateAnchorPreview('ob-anchor-date','ob-anchor-preview');}
 }
 
-function obNext() {
-  if (obStep===0) {
-    config.area=document.getElementById('ob-area').value.trim()||'My area';
-    saveConfig();
-  }
-  if (obStep===1) {
-    if (!config.binTypes.length) { showToast('Add at least one bin type'); return; }
-    renderProgrammeEditor('ob-programme-editor', config.schedule.programme);
-  }
-  if (obStep===2) {
-    var prog = getProg('ob-programme-editor');
-    if (!prog.length) { showToast('Add at least one week'); return; }
-    config.schedule.programme = prog;
-    saveConfig();
-    updateAnchorLabel();
-    updateAnchorPreview('ob-anchor-date', 'ob-anchor-preview');
-  }
-  if (obStep===3) {
-    var dateVal=document.getElementById('ob-anchor-date').value;
-    if (!dateVal) { showToast('Pick an anchor Monday'); return; }
-    var d=new Date(dateVal+'T00:00:00');
-    var monday=getMondayOf(d);
-    config.schedule.anchorMonday=fmtISO(monday);
-    saveConfig();
-  }
-  if (obStep===4) { obFinish(); return; }
-  document.getElementById('ob-step-'+obStep).classList.remove('active');
-  obStep++;
-  document.getElementById('ob-step-'+obStep).classList.add('active');
-  renderObProgress();
-}
-
-function obBack() {
-  if (obStep===0) return;
-  document.getElementById('ob-step-'+obStep).classList.remove('active');
-  obStep--;
-  document.getElementById('ob-step-'+obStep).classList.add('active');
-  renderObProgress();
-  if (obStep===0) document.getElementById('ob-area').value=config.area||'';
-  if (obStep===1) renderObBinList();
-  if (obStep===2) renderProgrammeEditor('ob-programme-editor', config.schedule.programme);
-  if (obStep===3) {
-    document.getElementById('ob-anchor-date').value=config.schedule.anchorMonday||fmtISO(getMondayOf(new Date()));
-    updateAnchorLabel();
-    updateAnchorPreview('ob-anchor-date', 'ob-anchor-preview');
-  }
-}
-
-function obFinish() {
-  var eveningOn = document.getElementById('ob-notif-toggle').classList.contains('on');
-  var morningOn = document.getElementById('ob-notif-morning').classList.contains('on');
-
-  config.notifications.evening = eveningOn;
-  config.notifications.eveningTime = document.getElementById('ob-notif-time').value;
-  config.notifications.morning = morningOn;
-  config.notifications.morningTime = document.getElementById('ob-notif-morning-time').value;
-  config.setupDone = true;
-  saveConfig();
-
-  // Request notification permission if any reminders enabled
-  if (eveningOn || morningOn) {
-    requestNotifPermission(function(granted) {
-      if (!granted) {
-        config.notifications.evening = false;
-        config.notifications.morning = false;
-        saveConfig();
-      }
-      scheduleNotifications();
-    });
-  }
-
+function obFinish(){
+  var eveningOn=document.getElementById('ob-notif-toggle').classList.contains('on');
+  var morningOn=document.getElementById('ob-notif-morning').classList.contains('on');
+  config.notifications.evening=eveningOn;config.notifications.eveningTime=document.getElementById('ob-notif-time').value;
+  config.notifications.morning=morningOn;config.notifications.morningTime=document.getElementById('ob-notif-morning-time').value;
+  config.setupDone=true;saveConfig();
+  if(eveningOn||morningOn){requestNotifPermission(function(granted){if(!granted){config.notifications.evening=false;config.notifications.morning=false;saveConfig();}scheduleNotifications();});}
   document.getElementById('onboarding').classList.add('hidden');
-
-  currentView = 'home';
-  document.getElementById('view-home').classList.add('active');
+  currentView='home';document.getElementById('view-home').classList.add('active');
   document.getElementById('view-calendar').classList.remove('active','sliding','slide-left','slide-right');
   document.getElementById('view-settings').classList.remove('active','sliding','slide-left','slide-right');
-  document.querySelectorAll('.nav-btn').forEach(function(el){ el.classList.remove('active'); });
+  document.querySelectorAll('.nav-btn').forEach(function(el){el.classList.remove('active');});
   document.querySelector('.nav-btn[data-view="home"]').classList.add('active');
-
-  renderHome();
-  history.replaceState({ view: 'home' }, '', '');
+  renderHome();history.replaceState({view:'home'},'','');
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // MODALS
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-function openAddBinModal(binId, isOb) {
-  modalBinEditId=binId;
-  modalBinIsOb=isOb;
+function openAddBinModal(binId,isOb){
+  modalBinEditId=binId;modalBinIsOb=isOb;
   var bin=binId?config.binTypes.find(function(b){return b.id===binId;}):null;
   document.getElementById('modal-bin-title').textContent=bin?'Edit bin type':'Add bin type';
   document.getElementById('modal-bin-name').value=bin?bin.name:'';
   document.getElementById('modal-bin-label').value=bin?bin.label:'';
   document.getElementById('modal-bin-notes').value=bin?(bin.notes||''):'';
   selectedModalColor=bin?bin.color:COLOR_HEXES[0];
-
-  document.getElementById('modal-color-grid').innerHTML=COLORS.map(function(c){
-    return '<div class="color-swatch '+(c.hex===selectedModalColor?'selected':'')+'" data-color="'+c.hex+'" style="background:'+c.hex+'" onclick="selectColor(\''+c.hex+'\')"><span class="color-swatch-label">'+c.name+'</span></div>';
-  }).join('');
-
+  document.getElementById('modal-color-grid').innerHTML=COLORS.map(function(c){return'<div class="color-swatch '+(c.hex===selectedModalColor?'selected':'')+'" data-color="'+c.hex+'" style="background:'+c.hex+'" onclick="selectColor(\''+c.hex+'\')"><span class="color-swatch-label">'+c.name+'</span></div>';}).join('');
   document.getElementById('modal-bin').classList.remove('hidden');
 }
 
-function selectColor(c) {
-  selectedModalColor = c;
-  document.querySelectorAll('.color-swatch').forEach(function(s){
-    s.classList.toggle('selected', s.getAttribute('data-color') === c);
-  });
-}
-
+function selectColor(c){selectedModalColor=c;document.querySelectorAll('.color-swatch').forEach(function(s){s.classList.toggle('selected',s.getAttribute('data-color')===c);});}
 function closeBinModal(){document.getElementById('modal-bin').classList.add('hidden');}
-
-function saveBinModal() {
-  var name=document.getElementById('modal-bin-name').value.trim();
-  var label=document.getElementById('modal-bin-label').value.trim();
-  var notes=document.getElementById('modal-bin-notes').value.trim();
-  if (!name){showToast('Enter a name');return;}
-
-  if (modalBinEditId) {
-    var b=config.binTypes.find(function(x){return x.id===modalBinEditId;});
-    if (b){b.name=name;b.label=label||name;b.color=selectedModalColor;b.notes=notes;}
-  } else {
-    var id='bin_'+Date.now();
-    config.binTypes.push({id:id,name:name,label:label||name,color:selectedModalColor,notes:notes});
-  }
-
-  saveConfig();
-  closeBinModal();
-
-  if (modalBinIsOb){
-    renderObBinList();
-    renderProgrammeEditor('ob-programme-editor',config.schedule.programme);
-  } else {
-    renderSettings();
-  }
-
+function saveBinModal(){
+  var name=document.getElementById('modal-bin-name').value.trim(),label=document.getElementById('modal-bin-label').value.trim(),notes=document.getElementById('modal-bin-notes').value.trim();
+  if(!name){showToast('Enter a name');return;}
+  if(modalBinEditId){var b=config.binTypes.find(function(x){return x.id===modalBinEditId;});if(b){b.name=name;b.label=label||name;b.color=selectedModalColor;b.notes=notes;}}
+  else{config.binTypes.push({id:'bin_'+Date.now(),name:name,label:label||name,color:selectedModalColor,notes:notes});}
+  saveConfig();closeBinModal();
+  if(modalBinIsOb){renderObBinList();renderProgrammeEditor('ob-programme-editor',config.schedule.programme);}else renderSettings();
   showToast(modalBinEditId?'Bin updated':'Bin added');
 }
 
-function openNudgeModal() {
-  document.getElementById('nudge-original').value='';
-  document.getElementById('nudge-actual').value='';
-  document.getElementById('modal-nudge').classList.remove('hidden');
-}
+function openNudgeModal(){document.getElementById('nudge-original').value='';document.getElementById('nudge-actual').value='';document.getElementById('modal-nudge').classList.remove('hidden');}
 function closeNudgeModal(){document.getElementById('modal-nudge').classList.add('hidden');}
-
-function saveNudge() {
-  var orig=document.getElementById('nudge-original').value;
-  var actual=document.getElementById('nudge-actual').value;
-  if (!orig||!actual){showToast('Fill in both dates');return;}
-  if (actual === orig){showToast('Choose a different actual date');return;}
-
-  var existingIdx = config.nudges.findIndex(function(n){ return n.original === orig; });
-  if (existingIdx >= 0) {
-    config.nudges[existingIdx] = {original:orig,actual:actual};
-  } else {
-    config.nudges.push({original:orig,actual:actual});
-  }
-
-  saveConfig();
-  closeNudgeModal();
-  renderSettings();
-  scheduleNotifications();
-  showToast('Override saved');
+function saveNudge(){
+  var orig=document.getElementById('nudge-original').value,actual=document.getElementById('nudge-actual').value;
+  if(!orig||!actual){showToast('Fill in both dates');return;}if(actual===orig){showToast('Choose a different actual date');return;}
+  var idx=config.nudges.findIndex(function(n){return n.original===orig;});
+  if(idx>=0)config.nudges[idx]={original:orig,actual:actual};else config.nudges.push({original:orig,actual:actual});
+  saveConfig();closeNudgeModal();renderSettings();scheduleNotifications();showToast('Override saved');
 }
 
-function deleteNudge(i){
-  config.nudges.splice(i,1);
-  saveConfig();
-  renderSettings();
-}
+function deleteNudge(i){config.nudges.splice(i,1);saveConfig();renderSettings();}
 
-function openScheduleModal() {
+function openScheduleModal(){
   document.getElementById('sched-anchor-date').value=config.schedule.anchorMonday||'';
   document.getElementById('sched-anchor-warning').classList.remove('visible');
-  renderProgrammeEditor('modal-programme-editor', config.schedule.programme);
+  renderProgrammeEditor('modal-programme-editor',config.schedule.programme);
   updateAnchorPreview('sched-anchor-date','sched-anchor-preview','modal-programme-editor');
   document.getElementById('modal-schedule').classList.remove('hidden');
 }
 function closeScheduleModal(){document.getElementById('modal-schedule').classList.add('hidden');}
-
-function saveSchedule() {
-  var prog=getProg('modal-programme-editor');
-  if (!prog.length){showToast('Add at least one week');return;}
-  var anchor=document.getElementById('sched-anchor-date').value;
-  if (!anchor){showToast('Set an anchor Monday');return;}
-  var d=new Date(anchor+'T00:00:00');
-  config.schedule.anchorMonday=fmtISO(getMondayOf(d));
-  config.schedule.programme=prog;
-  saveConfig();
-  closeScheduleModal();
-  renderSettings();
-  scheduleNotifications();
-  showToast('Schedule saved');
+function saveSchedule(){
+  var prog=getProg('modal-programme-editor');if(!prog.length){showToast('Add at least one week');return;}
+  var anchor=document.getElementById('sched-anchor-date').value;if(!anchor){showToast('Set an anchor Monday');return;}
+  config.schedule.anchorMonday=fmtISO(getMondayOf(new Date(anchor+'T00:00:00')));config.schedule.programme=prog;
+  saveConfig();closeScheduleModal();renderSettings();scheduleNotifications();showToast('Schedule saved');
 }
 
 function toggleSetting(key){
-  var newVal = !config.notifications[key];
-
-  if (newVal) {
-    requestNotifPermission(function(granted) {
-      if (granted) {
-        config.notifications[key] = true;
-        saveConfig();
-        renderSettings();
-        scheduleNotifications();
-      } else {
-        config.notifications[key] = false;
-        saveConfig();
-        renderSettings();
-      }
-    });
-  } else {
-    config.notifications[key] = false;
-    saveConfig();
-    renderSettings();
-    scheduleNotifications();
-  }
+  var newVal=!config.notifications[key];
+  if(newVal){requestNotifPermission(function(granted){config.notifications[key]=!!granted;saveConfig();renderSettings();if(granted)scheduleNotifications();});}
+  else{config.notifications[key]=false;saveConfig();renderSettings();scheduleNotifications();}
 }
 
 function toggleNotifications(){
-  var newVal = !config.notifications.evening;
-
-  if (newVal) {
-    requestNotifPermission(function(granted) {
-      if (granted) {
-        config.notifications.evening = true;
-        saveConfig();
-        renderHome();
-        scheduleNotifications();
-      } else {
-        config.notifications.evening = false;
-        saveConfig();
-        renderHome();
-      }
-    });
-  } else {
-    config.notifications.evening = false;
-    saveConfig();
-    renderHome();
-    scheduleNotifications();
-  }
+  var newVal=!config.notifications.evening;
+  if(newVal){requestNotifPermission(function(granted){config.notifications.evening=!!granted;saveConfig();renderHome();if(granted)scheduleNotifications();});}
+  else{config.notifications.evening=false;saveConfig();renderHome();scheduleNotifications();}
 }
 
-function openAreaModal() {
-  document.getElementById('modal-area-input').value = config.area || '';
-  document.getElementById('modal-area').classList.remove('hidden');
-}
+function openAreaModal(){document.getElementById('modal-area-input').value=config.area||'';document.getElementById('modal-area').classList.remove('hidden');}
 function closeAreaModal(){document.getElementById('modal-area').classList.add('hidden');}
-
-function saveAreaModal() {
-  config.area = document.getElementById('modal-area-input').value.trim();
-  saveConfig();
-  closeAreaModal();
-  renderSettings();
-  showToast('Area updated');
-}
-
+function saveAreaModal(){config.area=document.getElementById('modal-area-input').value.trim();saveConfig();closeAreaModal();renderSettings();showToast('Area updated');}
 function openResetModal(){document.getElementById('modal-reset').classList.remove('hidden');}
 function closeResetModal(){document.getElementById('modal-reset').classList.add('hidden');}
+function confirmReset(){localStorage.removeItem('binday-config');localStorage.removeItem('binday-collected');location.reload();}
 
-function confirmReset(){
-  localStorage.removeItem('binday-config');
-  location.reload();
-}
-
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // INIT
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js').catch(function(err){
-    console.error('SW registration failed:', err);
-  });
-}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(function(err){console.error('SW failed:',err);});}
+history.replaceState({view:'home'},'','');
 
-history.replaceState({ view: 'home' }, '', '');
-
-(function() {
-  var startX = 0, startY = 0, startTime = 0;
-  var SWIPE_MIN = 48;
-  var SWIPE_MAX_Y = 80;
-  var SWIPE_MAX_T = 400;
-
-  document.getElementById('view-wrap').addEventListener('touchstart', function(e) {
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    startTime = Date.now();
-  }, { passive: true });
-
-  document.getElementById('view-wrap').addEventListener('touchend', function(e) {
-    if (document.querySelector('.modal-overlay:not(.hidden)')) return;
-
-    var dx = e.changedTouches[0].clientX - startX;
-    var dy = e.changedTouches[0].clientY - startY;
-    var dt = Date.now() - startTime;
-
-    if (dt > SWIPE_MAX_T) return;
-    if (Math.abs(dx) < SWIPE_MIN) return;
-    if (Math.abs(dy) > SWIPE_MAX_Y) return;
-    if (Math.abs(dy) > Math.abs(dx) * 0.8) return;
-
-    var idx = TABS.indexOf(currentView);
-    if (dx < 0 && idx < TABS.length - 1) {
-      switchView(TABS[idx + 1], false, true);
-    } else if (dx > 0 && idx > 0) {
-      switchView(TABS[idx - 1], false, true);
-    }
-  }, { passive: true });
+(function(){
+  var startX=0,startY=0,startTime=0,SWIPE_MIN=48,SWIPE_MAX_Y=80,SWIPE_MAX_T=400;
+  document.getElementById('view-wrap').addEventListener('touchstart',function(e){startX=e.touches[0].clientX;startY=e.touches[0].clientY;startTime=Date.now();},{passive:true});
+  document.getElementById('view-wrap').addEventListener('touchend',function(e){
+    if(document.querySelector('.modal-overlay:not(.hidden)')) return;
+    var dx=e.changedTouches[0].clientX-startX,dy=e.changedTouches[0].clientY-startY,dt=Date.now()-startTime;
+    if(dt>SWIPE_MAX_T||Math.abs(dx)<SWIPE_MIN||Math.abs(dy)>SWIPE_MAX_Y||Math.abs(dy)>Math.abs(dx)*0.8) return;
+    var idx=TABS.indexOf(currentView);
+    if(dx<0&&idx<TABS.length-1)switchView(TABS[idx+1],false,true);
+    else if(dx>0&&idx>0)switchView(TABS[idx-1],false,true);
+  },{passive:true});
 })();
 
-if (!config.setupDone) {
+if(!config.setupDone){
   initOnboarding();
 } else {
   document.getElementById('onboarding').classList.add('hidden');
@@ -2128,4 +1433,3 @@ if (!config.setupDone) {
 </script>
 </body>
 </html>
-
