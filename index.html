@@ -8,9 +8,6 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Bin Day">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <title>Bin Day</title>
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -355,11 +352,6 @@ body.theme-slate .weekday-pill.on{background:rgba(251,146,60,0.12);border-color:
 
 .empty-state{padding:64px 24px;text-align:center;color:var(--t3);font-size:14px;line-height:1.8;width:100%}
 
-/* widget preview */
-.widget-preview-wrap{margin-bottom:24px;display:flex;flex-direction:column;gap:8px}
-.widget-preview-label{font-size:10px;color:var(--t3);letter-spacing:0.8px;text-transform:uppercase;font-weight:500;padding:0 2px}
-.widget-preview-frame{border-radius:16px;overflow:hidden;background:#111320;border:1px solid var(--b1);height:155px}
-.widget-preview-hint{font-size:11px;color:var(--t3);line-height:1.6;padding:0 2px}
 #toast{position:fixed;bottom:calc(76px + var(--safe-b));left:50%;transform:translateX(-50%) translateY(14px);background:var(--t1);color:var(--bg);padding:10px 20px;border-radius:22px;font-size:12px;font-weight:500;opacity:0;transition:opacity 0.2s,transform 0.2s;pointer-events:none;z-index:300;white-space:nowrap;box-shadow:0 4px 24px rgba(0,0,0,0.4)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
@@ -1628,16 +1620,7 @@ function renderSettings(){
   el.innerHTML='<div class="page">'+
     '<div class="settings-header"><h2>Settings</h2><p>Configure your collection</p></div>'+
 
-    '<div class="s-section-title">Home screen widget</div>'+
-    '<div class="widget-preview-wrap">'+
-      '<div class="widget-preview-label">Preview</div>'+
-      '<div class="widget-preview-frame">'+
-        '<iframe id="widget-preview-iframe" src="" frameborder="0" scrolling="no" style="width:100%;height:155px;border-radius:16px;border:none;"></iframe>'+
-      '</div>'+
-      '<div class="widget-preview-hint">Add Bin Day to your home screen, then long-press to add the widget. It updates automatically when your schedule changes.</div>'+
-    '</div>'+
-
-    '<div class="s-section-title">Appearance</div>'+
+'<div class="s-section-title">Appearance</div>'+
     '<div class="s-card">'+
       '<div class="s-row" onclick="cycleTheme()"><span class="s-row-label">Theme</span><span class="s-row-value">'+theme.name+'</span></div>'+
       '<div class="s-row" style="cursor:default;">'+
@@ -1689,7 +1672,6 @@ function renderSettings(){
       '<div class="s-row" onclick="window.open(\'https://instagram.com/snazzygaz\',\'_blank\')" style="cursor:pointer;"><span class="s-row-label">Made by snazzygaz</span><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@snazzygaz</span></div>'+
     '</div>'+
   '</div>';
-  renderWidgetPreview();
 }
 
 // ─── ONBOARDING ────────────────────────────────────────────────────────────────
@@ -1821,7 +1803,6 @@ function obFinish(){
   document.querySelector('.nav-btn[data-view="home"]').classList.add('active');
   renderHome();
   history.replaceState({view:'home'},'','');
-  pushWidgetUpdate();
 }
 
 // ─── MODALS ────────────────────────────────────────────────────────────────────
@@ -1884,7 +1865,6 @@ function saveSchedule(){
   if(currentView==='home') renderHome();
   if(currentView==='calendar') renderCalendar();
   scheduleNotifications();showToast('Schedule saved');
-  pushWidgetUpdate();
 }
 
 function openAreaModal(){document.getElementById('modal-area-input').value=config.area||'';document.getElementById('modal-area').classList.remove('hidden');}
@@ -1894,49 +1874,9 @@ function openResetModal(){document.getElementById('modal-reset').classList.remov
 function closeResetModal(){document.getElementById('modal-reset').classList.add('hidden');}
 function confirmReset(){localStorage.removeItem('binday-config');localStorage.removeItem('binday-collected');location.reload();}
 
-// ─── WIDGET ────────────────────────────────────────────────────────────────────
-function buildWidgetPayload() {
-  var today = new Date(); today.setHours(0,0,0,0);
-  var upcoming = getNextCollections(1, today);
-  if (!upcoming.length) return {binName:'',binColor:'#818cf8',binLabel:'',daysUntil:null,dateStr:''};
-  var next = upcoming[0];
-  var du = daysUntil(next.date);
-  return {
-    binName: next.bin.name,
-    binColor: next.bin.color,
-    binLabel: next.bin.label,
-    daysUntil: du,
-    dateStr: fmtDisplay(next.date)
-  };
-}
-
-function pushWidgetUpdate() {
-  if (!('serviceWorker' in navigator) || !navigator.serviceWorker.controller) return;
-  navigator.serviceWorker.controller.postMessage({
-    type: 'WIDGET_UPDATE',
-    payload: buildWidgetPayload()
-  });
-}
-
-function getWidgetPreviewURL() {
-  var payload = buildWidgetPayload();
-  return 'widget.html?data=' + encodeURIComponent(JSON.stringify(payload));
-}
-
-function renderWidgetPreview() {
-  var el = document.getElementById('widget-preview-iframe');
-  if (!el) return;
-  el.src = getWidgetPreviewURL();
-}
-
 // ─── INIT ──────────────────────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js').then(function(){
-    // Push widget data once SW is active
-    if (navigator.serviceWorker.controller) pushWidgetUpdate();
-    // Also push after a brief delay to catch the activation cycle
-    setTimeout(pushWidgetUpdate, 1500);
-  }).catch(function(err){console.warn('SW registration failed:',err);});
+  navigator.serviceWorker.register('./sw.js').catch(function(err){console.warn('SW registration failed:',err);});
 }
 
 history.replaceState({view:'home'},'','');
@@ -1977,7 +1917,6 @@ applyTheme();
     document.querySelector('.nav-btn[data-view="home"]').classList.add('active');
     renderHome();
     scheduleNotifications();
-    pushWidgetUpdate();
   }
 })();
 </script>
