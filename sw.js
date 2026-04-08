@@ -1,9 +1,8 @@
-const CACHE = 'binday-v11';
+const CACHE = 'binday-v10';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
-  './widget.html',
   './icon-192.png',
   './icon-512.png'
 ];
@@ -58,57 +57,3 @@ self.addEventListener('notificationclick', e => {
     })
   );
 });
-
-// ── Widget API (Chrome on Android) ────────────────────────────────────────────
-// The app pushes a fresh payload via postMessage whenever the schedule changes.
-// The SW updates all installed widget instances with the new data.
-
-self.addEventListener('widgetinstall', e => {
-  e.waitUntil(refreshWidget(e.widget));
-});
-
-self.addEventListener('widgetresume', e => {
-  e.waitUntil(refreshWidget(e.widget));
-});
-
-self.addEventListener('widgetclick', e => {
-  e.waitUntil(clients.openWindow('./'));
-});
-
-self.addEventListener('widgetuninstall', () => {});
-
-// Message from the app: { type: 'WIDGET_UPDATE', payload: { ... } }
-self.addEventListener('message', e => {
-  if (e.data && e.data.type === 'WIDGET_UPDATE') {
-    e.waitUntil(updateAllWidgets(e.data.payload));
-  }
-});
-
-async function refreshWidget(widget) {
-  if (!self.widgets) return;
-  const template = await getTemplate();
-  const data = JSON.stringify(getFallbackPayload());
-  await self.widgets.updateByTag(widget.definition.tag, { template, data, settings: {} });
-}
-
-async function updateAllWidgets(payload) {
-  if (!self.widgets) return;
-  const template = await getTemplate();
-  const data = JSON.stringify(payload);
-  const instances = await self.widgets.getByTag('binday-next');
-  for (const widget of (instances || [])) {
-    await self.widgets.updateByInstanceId(widget.id, { template, data, settings: {} });
-  }
-}
-
-async function getTemplate() {
-  // Try cache first (widget.html is pre-cached on install)
-  const cached = await caches.match('./widget.html');
-  if (cached) return cached.text();
-  const res = await fetch('./widget.html');
-  return res.text();
-}
-
-function getFallbackPayload() {
-  return { binName: '', binColor: '#818cf8', binLabel: '', daysUntil: null, dateStr: '' };
-}
