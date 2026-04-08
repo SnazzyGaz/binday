@@ -1,4 +1,4 @@
-const CACHE = 'binday-v7';
+const CACHE = 'binday-v8';
 const ASSETS = [
   './',
   './index.html',
